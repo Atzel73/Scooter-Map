@@ -7,10 +7,12 @@ export default function CustomInput({
   onChangeText,
   placeholder,
   style,
+  keyboardType,
 }) {
   return (
     <View>
       <TextInput
+        keyboardType={keyboardType}
         placeholder={placeholder}
         value={value}
         onChangeText={onChangeText}
