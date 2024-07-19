@@ -8,16 +8,24 @@ import {
   Platform,
   ScrollView,
   TouchableOpacity,
+  Image,
 } from "react-native";
 import CustomInput from "../../../components/TextInput/textInput";
 import { LinearGradient } from "expo-linear-gradient";
 import { FontAwesome } from "@expo/vector-icons";
-
+import { useNavigation } from "@react-navigation/native";
+import pickImage from "../../../functions/cameraPîcker/imagePicker";
+import styles from "../StylesLoginRegister/styles";
 const { width, height } = Dimensions.get("window");
 
-export default function MainScreen() {
+export default function Register() {
+  const navigation = useNavigation();
   const [userData, setUserData] = useState({});
-  
+
+  const getImage = async () => {
+    const image = await pickImage();
+    setUserData({ ...userData, image });
+  };
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -28,6 +36,21 @@ export default function MainScreen() {
           colors={["#E2F0EE", "#91B2DC", "#4772A9"]}
           style={styles.formContainer}
         >
+          {userData.image && (
+            <View style={styles.inputContainer}>
+              <View style={styles.imageContainer}>
+                <Image source={{ uri: userData.image }} style={styles.image} />
+              </View>
+            </View>
+          )}
+          <View style={styles.inputContainer}>
+            <TouchableOpacity
+              style={{ alignItems: "center" }}
+              onPress={getImage}
+            >
+              <Text>Por favor, seleccione una imagen para su perfil</Text>
+            </TouchableOpacity>
+          </View>
           <View style={styles.inputContainer}>
             <Text style={styles.label}>Nombre:</Text>
             <CustomInput
@@ -100,89 +123,31 @@ export default function MainScreen() {
               </TouchableOpacity>
             </View>
           )}
+        <View style={{ alignItems: "center" }}>
+          <View style={styles.inputContainer}>
+            <TouchableOpacity
+              style={{ alignItems: "center" }}
+              onPress={() => {
+                navigation.navigate("Login");
+              }}
+            >
+              <Text>¿Ya tienes cuenta? Inicia sesion</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.inputContainer}>
+            <TouchableOpacity style={{ alignItems: "center" }}>
+              <Text>Iniciar sesion con Google</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        {Platform.OS === "ios" && (
+          <View style={styles.inputContainer}>
+            <TouchableOpacity>
+              <Text>Iniciar sesion con Apple</Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </ScrollView>
     </KeyboardAvoidingView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#f5f5f5",
-  },
-  scrollContainer: {
-    flexGrow: 1,
-    justifyContent: "center",
-    width: "100%",
-    paddingHorizontal: 20,
-  },
-  formContainer: {
-    width: width * 0.9,
-    paddingVertical: 30,
-    paddingHorizontal: 20,
-    borderRadius: 15,
-    alignItems: "center",
-    justifyContent: "center",
-    elevation: 5,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-  },
-  inputContainer: {
-    marginBottom: 20,
-    width: "100%",
-  },
-  label: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 5,
-    color: "#333",
-  },
-  input: {
-    height: 45,
-    borderColor: "#ccc",
-    borderWidth: 1,
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    width: "100%",
-    backgroundColor: "#fff",
-  },
-  errorContainer: {
-    marginBottom: 20,
-    width: "100%",
-    backgroundColor: "#fdd",
-    padding: 10,
-    borderRadius: 5,
-  },
-  errorText: {
-    color: "#d00",
-    fontSize: 14,
-  },
-  buttonContainer: {
-    marginTop: 20,
-    alignItems: "center",
-  },
-  buttonSend: {
-    width: "90%",
-    height: 45,
-    backgroundColor: "#4CAF50",
-    borderRadius: 5,
-    alignItems: "center",
-    justifyContent: "center",
-    flexDirection: "row",
-    elevation: 2,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-  },
-  buttonText: {
-    fontSize: 16,
-    fontStyle: "italic",
-    color: "white",
-    marginRight: 10,
-  },
-});

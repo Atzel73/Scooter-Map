@@ -16,9 +16,9 @@ export default function CustomModal({ modalVisible, toggleModal }) {
               <Text>Cerrar</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.buttonClose}>
+            {/* <TouchableOpacity style={styles.buttonClose}>
               <Text>Ver imagen</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </View>
       </Modal>
