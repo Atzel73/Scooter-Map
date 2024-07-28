@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import CustomModal from "../../../components/Modal/Modal";
-import { FontAwesome6 } from "@expo/vector-icons";
+import { FontAwesome6, MaterialIcons } from "@expo/vector-icons";
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
@@ -46,35 +46,57 @@ function DrawerScreen(props) {
           </TouchableOpacity>
           <View style={styles.contView}>
             <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>Pago</Text>
               <FontAwesome6
                 name="money-check-dollar"
                 size={24}
                 color="black"
-                style={{ marginLeft: 10 }}
+                style={styles.Icon}
               />
+              <Text style={styles.buttonText}>Pago</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.contView}>
             <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>Viajes</Text>
               <FontAwesome6
                 name="person-running"
                 size={24}
                 color="black"
-                style={{ marginLeft: 10 }}
+                style={styles.Icon}
               />
+              <Text style={styles.buttonText}>Viajes</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.contView}>
             <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>Reportes</Text>
-              <FontAwesome6
-                name="newspaper"
+              <MaterialIcons
+                name="warning-amber"
                 size={24}
                 color="black"
-                style={{ marginLeft: 10 }}
+                style={styles.Icon}
               />
+              <Text style={styles.buttonText}>Reportes</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.contView}>
+            <TouchableOpacity style={styles.button}>
+              <MaterialIcons
+                name="support-agent"
+                size={24}
+                color="black"
+                style={styles.Icon}
+              />
+              <Text style={styles.buttonText}>Soporte</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.contView}>
+            <TouchableOpacity style={styles.button}>
+              <MaterialIcons
+                name="warning-amber"
+                size={24}
+                color="black"
+                style={styles.Icon}
+              />
+              <Text style={styles.buttonText}>Acerca de</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -117,12 +139,16 @@ export default function HomeScreen() {
       drawerContent={(props) => <DrawerScreen {...props} />}
       initialRouteName="Perfil"
     >
-      <Drawer.Screen name="Comenzar" component={HomeScreenSecond} />
+      <Drawer.Screen name="Inicio" component={HomeScreenSecond} />
     </Drawer.Navigator>
   );
 }
 
 const styles = StyleSheet.create({
+  Icon: {
+    marginLeft: 10,
+    marginRight: 10,
+  },
   buttonText: {
     fontSize: 16,
     marginLeft: 10,

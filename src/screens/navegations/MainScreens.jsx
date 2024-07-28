@@ -38,12 +38,12 @@ function UserConfig() {
       <Stack.Screen
         name="Config"
         component={Configuration}
-        options={{ headerShown: false }}
+        //options={{ headerShown: false }}
       />
       <Stack.Screen
         name="EditProfile"
         component={EditProfile}
-        options={{ headerShown: false }}
+        //options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );
@@ -59,11 +59,15 @@ function DrawerScreen() {
 
 function LoginScreens() {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Principal" component={HomeScreen} />
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Principal"
+        component={HomeScreen}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen
         name="Configurar Perfil"
-        component={DrawerScreen}
+        component={UserConfig}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
@@ -78,7 +82,7 @@ export default function Screens() {
         {/* <Tab.Screen name="Configuracion de usuario" component={UserConfig} />
         <Tab.Screen name="Inicio" component={LoginScreens} /> */}
 
-        {isLogged ? (
+        {!isLogged ? (
           <>
             <Stack.Screen
               name="Inicio"

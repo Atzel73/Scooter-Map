@@ -8,10 +8,14 @@ export default function CustomInput({
   placeholder,
   style,
   keyboardType,
+  placeholderTextColor,
+  autoFocus,
 }) {
   return (
     <View>
       <TextInput
+        autoFocus={autoFocus}
+        placeholderTextColor={placeholderTextColor}
         keyboardType={keyboardType}
         placeholder={placeholder}
         value={value}
