@@ -18,7 +18,9 @@ import {
   DrawerItemList,
   DrawerItem,
 } from "@react-navigation/drawer";
-
+import { db } from "../../../db/conection";
+import { getAuth, signOut } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 const Drawer = createDrawerNavigator();
 const { width, height } = Dimensions.get("window");
 
@@ -63,9 +65,12 @@ function DrawerScreen(props) {
   );
 }
 
-export default function Configuration() {
+export default function Configuration({ route }) {
+  console.log("Route: ", route);
   const navigation = useNavigation();
+  const auth = getAuth();
   const [isLogged, setIsLogged] = useState(true);
+
   useEffect(() => {
     navigation.setOptions({
       headerTitle: "Configuración de la cuenta",
@@ -86,6 +91,18 @@ export default function Configuration() {
       ),
     });
   }, [navigation]);
+
+  const handleLogOut = () => {
+    signOut(auth)
+      .then(() => {
+        console.log("Sesion cerrada.");
+        alert("¡Sesion cerrada!")
+        navigation.navigate("Principal")
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -96,7 +113,7 @@ export default function Configuration() {
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={styles.scrollContainer}
       >
-        {isLogged ? (
+        {auth && auth.currentUser && auth.currentUser.uid ? (
           <View style={styles.subContainer}>
             {/* <View style={styles.sectionHead}>
               <Text style={styles.sectionTitle}>
@@ -164,7 +181,7 @@ export default function Configuration() {
             </View>
             <View style={styles.viewLogout}>
               <View style={styles.contView}>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity style={styles.button} onPress={handleLogOut}>
                   <MaterialIcons
                     name="logout"
                     size={34}
@@ -239,8 +256,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     height: width / 2,
-    width: "100%", 
-    minWidth: "100%", 
+    width: "100%",
+    minWidth: "100%",
     borderRadius: 10,
     elevation: 5,
     shadowColor: "#000",

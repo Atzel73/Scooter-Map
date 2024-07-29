@@ -7,6 +7,7 @@ import {
   Text,
   TouchableOpacity,
   Image,
+  ActivityIndicator,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import CustomModal from "../../../components/Modal/Modal";
@@ -18,11 +19,41 @@ import {
   DrawerItem,
 } from "@react-navigation/drawer";
 
+import { db } from "../../../db/conection";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getDoc, doc } from "firebase/firestore";
+import { onSnapshot } from "firebase/firestore";
+import firebaseAuth from "../../../db/conection";
 const Drawer = createDrawerNavigator();
 
 function DrawerScreen(props) {
-  const [isLogged, setIsLogged] = useState(false);
+  const auth = getAuth();
+  const [userData, setUserData] = useState({});
+  const [onLoad, setOnLoad] = useState(false);
   const navigation = useNavigation();
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        try {
+          const userRef = doc(db, "users", user.uid);
+          const docSnap = await getDoc(userRef);
+          if (docSnap.exists()) {
+            setUserData(docSnap.data());
+          } else {
+            console.log("El usuario no existe");
+          }
+        } catch (error) {
+          console.log("Error al obtener los datos del usuario: ", error);
+        }
+      } else {
+        console.log("No hay usuario actualmente autenticado");
+      }
+    });
+
+    return () => unsubscribe();
+  }, [auth]);
+
+  console.log("userData: ", Object.keys(userData).length === 0);
   return (
     <DrawerContentScrollView {...props}>
       <DrawerItemList {...props} />
@@ -30,20 +61,34 @@ function DrawerScreen(props) {
         label="Tutorial"
         onPress={() => Linking.openURL("https://mywebsite.com/help")}
       />
-      {!isLogged && (
+
+      {auth && auth.currentUser && auth.currentUser.uid ? (
         <View style={{ margin: "5%" }}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate("Configurar Perfil")}
-            style={styles.viewUser}
-          >
-            <Image
-              source={{
-                uri: "https://userscontent2.emaze.com/images/b228cb3d-f05e-4d8c-9943-8af0baf0ebc4/01f2c3075f24988c95d277dda08f656d.png",
-              }}
-              style={styles.image}
-            />
-            <Text>Nombre estatico</Text>
-          </TouchableOpacity>
+          {Object.keys(userData).length === 0 ? (
+            <View style={{ alignItems: "center" }}>
+              <ActivityIndicator size="large" color="black" />
+            </View>
+          ) : (
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("Configurar Perfil", {
+                  item: "anything you want here",
+                  // name: userData.name,
+                  // photo: userData.photo,
+                })
+              }
+              style={styles.viewUser}
+            >
+              <Image
+                source={{
+                  uri: userData.photo,
+                }}
+                style={styles.image}
+              />
+              <Text>{userData.name}</Text>
+            </TouchableOpacity>
+          )}
+
           <View style={styles.contView}>
             <TouchableOpacity style={styles.button}>
               <FontAwesome6
@@ -100,14 +145,32 @@ function DrawerScreen(props) {
             </TouchableOpacity>
           </View>
         </View>
+      ) : (
+        <View style={styles.contView}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate("Iniciar Sesion")}
+          >
+            <FontAwesome6
+              name="money-check-dollar"
+              size={24}
+              color="black"
+              style={styles.Icon}
+            />
+            <Text style={styles.buttonText}>
+              No tienes la sesion iniciada. Inicia sesion.{" "}
+            </Text>
+          </TouchableOpacity>
+        </View>
       )}
     </DrawerContentScrollView>
   );
 }
 
 function HomeScreenSecond() {
-  const [isLogged, setIsLogged] = useState(false);
+  const [userData, setUserData] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
+
   const toggleModal = () => {
     setModalVisible(!modalVisible);
   };

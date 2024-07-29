@@ -8,6 +8,7 @@ import {
   Platform,
   ScrollView,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import {
   FontAwesome6,
@@ -17,17 +18,21 @@ import {
 } from "@expo/vector-icons";
 import CustomInput from "../../../../components/TextInput/textInput";
 import { useNavigation } from "@react-navigation/native";
-
+import app, { db } from "../../../../db/conection";
+import { getAuth } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import { set } from "firebase/database";
+import { onLog } from "firebase/app";
 const { width, height } = Dimensions.get("window");
 
 export default function EditProfile() {
   const navigation = useNavigation();
-  const [isLogged, setIsLogged] = useState(false);
+  const auth = getAuth();
   const [userData, setUserData] = useState({});
   const [showName, setShowName] = useState(false);
   const [showPhone, setShowPhone] = useState(false);
   const [showEmail, setShowEmail] = useState(false);
-
+  const [load, setOnLoad] = useState(false);
   function useStatesUser() {
     const handlerName = () => setShowName(!showName);
     const handlerPhone = () => setShowPhone(!showPhone);
@@ -38,6 +43,24 @@ export default function EditProfile() {
       handlerEmail,
     };
   }
+  useEffect(() => {
+    setOnLoad(true);
+    try {
+      async function getUser() {
+        const userRef = doc(db, "users", auth.currentUser.uid);
+        const docSnap = await getDoc(userRef);
+        if (docSnap.exists()) {
+          setUserData(docSnap.data());
+        } else {
+          console.log("El usuario no existe");
+        }
+      }
+      getUser();
+    } catch (error) {
+      console.log("Error: ", error);
+    }
+    setOnLoad(false);
+  }, []);
   useEffect(() => {
     navigation.setOptions({
       headerTitle: "Editar perfil",
@@ -58,148 +81,172 @@ export default function EditProfile() {
       ),
     });
   }, [navigation]);
+  console.log("userData: ", Object.keys(userData).length === 0);
 
+  if (Object.keys(userData).length === 0) {
+    return (
+      <View style={{ alignItems: "center", marginTop: "50%" }}>
+        <ActivityIndicator size="large" color="#ECF6FF" />
+      </View>
+    );
+  }
   const { handlerName, handlerPhone, handlerEmail } = useStatesUser();
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
-      <View style={styles.viewHead}>
-        <TouchableOpacity>
-          <FontAwesome6
-            name="circle-user"
-            size={60}
-            color="black"
-            style={[styles.Icon, { margin: "10%" }]}
-          />
-        </TouchableOpacity>
+      {Object.keys(userData).length === 0 ? (
+        <View style={{ alignItems: "center", marginTop: "50%" }}>
+          <ActivityIndicator size="large" color="#ECF6FF" />
+        </View>
+      ) : (
+        <>
+          <View style={styles.viewHead}>
+            <TouchableOpacity>
+              <FontAwesome6
+                name="circle-user"
+                size={60}
+                color="black"
+                style={[styles.Icon, { margin: "10%" }]}
+              />
+            </TouchableOpacity>
 
-        <Text>Informacion personal</Text>
-      </View>
+            <Text>Informacion personal</Text>
+          </View>
 
-      <View style={styles.contView}>
-        <TouchableOpacity
-          style={styles.viewField}
-          onPress={() => handlerName()}
-        >
-          <FontAwesome6
-            name="circle-user"
-            size={24}
-            color="black"
-            style={styles.Icon}
-          />
-          <Text style={styles.buttonText}>Marco Vazquez</Text>
-          <FontAwesome6
-            name="chevron-right"
-            size={24}
-            color="black"
-            style={styles.Icon}
-          />
-        </TouchableOpacity>
-        {showName && (
-          <View style={[styles.contView, { marginHorizontal: 10 }]}>
-            <Text style={styles.textTitle}>Actualiza tu nombre</Text>
-            <CustomInput
-              placeholderTextColor="black"
-              placeholder="nombre"
-              style={{
-                width: "100%",
-                paddingHorizontal: "45%",
-                marginHorizontal: 10,
-              }}
-            />
+          <View style={styles.contView}>
+            <TouchableOpacity
+              style={styles.viewField}
+              onPress={() => handlerName()}
+            >
+              <FontAwesome6
+                name="circle-user"
+                size={24}
+                color="black"
+                style={styles.Icon}
+              />
+              <Text style={styles.buttonText}>{userData.name}</Text>
+              <FontAwesome6
+                name="chevron-right"
+                size={24}
+                color="black"
+                style={styles.Icon}
+              />
+            </TouchableOpacity>
+            {showName && (
+              <View style={[styles.contView, { marginHorizontal: 10 }]}>
+                <Text style={styles.textTitle}>Actualiza tu nombre</Text>
+                <CustomInput
+                  placeholderTextColor="black"
+                  placeholder="nombre"
+                  style={{
+                    width: "100%",
+                    paddingHorizontal: "45%",
+                    marginHorizontal: 10,
+                  }}
+                />
+              </View>
+            )}
           </View>
-        )}
-      </View>
-      <View style={styles.contView}>
-        <TouchableOpacity
-          style={styles.viewField}
-          onPress={() => handlerPhone()}
-        >
-          <FontAwesome6
-            name="phone"
-            size={24}
-            color="black"
-            style={styles.Icon}
-          />
-          <Text style={styles.buttonText}>+52161812314561245</Text>
-          <FontAwesome6
-            name="chevron-right"
-            size={24}
-            color="black"
-            style={styles.Icon}
-          />
-        </TouchableOpacity>
-        {showPhone && (
-          <View style={[styles.contView, { marginHorizontal: 10 }]}>
-            <Text style={styles.textTitle}>Actualizar numero de telefono</Text>
-            <CustomInput
-              keyboardType="numeric"
-              placeholderTextColor="black"
-              placeholder="Nuevo numero de telefono"
-              style={{
-                width: "100%",
-                paddingHorizontal: "45%",
-                marginHorizontal: 10,
-              }}
-            />
+          <View style={styles.contView}>
+            <TouchableOpacity
+              style={styles.viewField}
+              onPress={() => handlerPhone()}
+            >
+              <FontAwesome6
+                name="phone"
+                size={24}
+                color="black"
+                style={styles.Icon}
+              />
+              <Text style={styles.buttonText}>{userData.phone}</Text>
+              <FontAwesome6
+                name="chevron-right"
+                size={24}
+                color="black"
+                style={styles.Icon}
+              />
+            </TouchableOpacity>
+            {showPhone && (
+              <View style={[styles.contView, { marginHorizontal: 10 }]}>
+                <Text style={styles.textTitle}>
+                  Actualizar numero de telefono
+                </Text>
+                <CustomInput
+                  keyboardType="numeric"
+                  placeholderTextColor="black"
+                  placeholder="Nuevo numero de telefono"
+                  style={{
+                    width: "100%",
+                    paddingHorizontal: "45%",
+                    marginHorizontal: 10,
+                  }}
+                />
+              </View>
+            )}
           </View>
-        )}
-      </View>
-      <View style={styles.contView}>
-        <TouchableOpacity
-          style={styles.viewField}
-          onPress={() => handlerEmail()}
-        >
-          <FontAwesome6
-            name="phone"
-            size={24}
-            color="black"
-            style={styles.Icon}
-          />
-          <Text style={styles.buttonText}>
-            KuberIlustracionDigital@gmail.com
-          </Text>
-          <MaterialCommunityIcons
-            name="email-multiple"
-            size={24}
-            color="black"
-            style={styles.Icon}
-          />
-        </TouchableOpacity>
-        {showEmail && (
-          <View style={[styles.contView, { marginHorizontal: 10 }]}>
-            <Text style={styles.textTitle}>
-              Actualiza tu correo electronico
-            </Text>
-            <CustomInput
-              keyboardType="email-address"
-              placeholderTextColor="black"
-              placeholder="Nuevo correo electronico"
-              style={{
-                width: "100%",
-                paddingHorizontal: "45%",
-                marginHorizontal: 10,
-              }}
-            />
+          <View style={styles.contView}>
+            <TouchableOpacity
+              style={styles.viewField}
+              onPress={() => handlerEmail()}
+            >
+              <MaterialCommunityIcons
+                name="email-multiple"
+                size={24}
+                color="black"
+                style={styles.Icon}
+              />
+              <Text style={styles.buttonText}>{userData.email}</Text>
+              <FontAwesome6
+                name="chevron-right"
+                size={24}
+                color="black"
+                style={styles.Icon}
+              />
+            </TouchableOpacity>
+            {showEmail && (
+              <View style={[styles.contView, { marginHorizontal: 10 }]}>
+                <Text style={styles.textTitle}>
+                  Actualiza tu correo electronico
+                </Text>
+                <CustomInput
+                  keyboardType="email-address"
+                  placeholderTextColor="black"
+                  placeholder="Nuevo correo electronico"
+                  style={{
+                    width: "100%",
+                    paddingHorizontal: "45%",
+                    marginHorizontal: 10,
+                  }}
+                />
+              </View>
+            )}
           </View>
-        )}
-      </View>
-      <View style={styles.contView}>
-        <TouchableOpacity
-          //onPress={() => navigation.goBack()}
-          style={styles.button}
-        >
-          {/* <FontAwesome6
+          <View style={styles.contView}>
+            <TouchableOpacity
+              //onPress={() => navigation.goBack()}
+              style={styles.button}
+            >
+              {/* <FontAwesome6
             name="chevron-left"
             size={24}
             color="black"
             style={styles.Icon}
           /> */}
-          <Text style={{ alignSelf: "center", fontSize: 18, fontStyle: 'italic' }}>Guardar </Text>
-        </TouchableOpacity>
-      </View>
+              <Text
+                style={{
+                  alignSelf: "center",
+                  fontSize: 18,
+                  fontStyle: "italic",
+                }}
+              >
+                Guardar{" "}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </>
+      )}
     </KeyboardAvoidingView>
   );
 }

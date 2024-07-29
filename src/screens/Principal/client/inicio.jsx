@@ -16,9 +16,15 @@ import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import pickImage from "../../../functions/cameraPîcker/imagePicker";
 import styles from "../StylesLoginRegister/styles";
+import { getAuth } from "firebase/auth";
+import app, { db } from "../../../db/conection";
+import firebaseAuth from "../../../db/conection";
+import Funcionalidades from "../../../functions/funcionalidades/functionsUser";
 const { width, height } = Dimensions.get("window");
 
 export default function Register() {
+  //auth es la sesion iniciada del usuario
+  const auth = getAuth();
   const navigation = useNavigation();
   const [userData, setUserData] = useState({});
 
@@ -70,6 +76,15 @@ export default function Register() {
             />
           </View>
           <View style={styles.inputContainer}>
+            <Text style={styles.label}>Numero de telefono:</Text>
+            <CustomInput
+              keyboardType="number"
+              value={userData.phone}
+              onChangeText={(text) => setUserData({ ...userData, phone: text })}
+              style={styles.input}
+            />
+          </View>
+          <View style={styles.inputContainer}>
             <Text style={styles.label}>Correo electrónico:</Text>
             <CustomInput
               value={userData.email}
@@ -117,10 +132,18 @@ export default function Register() {
           userData.email &&
           userData.password === userData.confirmPassword && (
             <View style={styles.buttonContainer}>
-              <TouchableOpacity style={styles.buttonSend}>
+              <Funcionalidades
+                style={styles.buttonSend}
+                user={userData}
+                callFunction="RegisterUser"
+              >
                 <Text style={styles.buttonText}>Enviar</Text>
                 <FontAwesome name="send" size={20} color="white" />
-              </TouchableOpacity>
+              </Funcionalidades>
+              {/* <TouchableOpacity style={styles.buttonSend}>
+                <Text style={styles.buttonText}>Enviar</Text>
+                <FontAwesome name="send" size={20} color="white" />
+              </TouchableOpacity> */}
             </View>
           )}
         <View style={{ alignItems: "center" }}>

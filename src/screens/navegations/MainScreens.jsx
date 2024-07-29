@@ -10,7 +10,8 @@ import Register from "../Principal/client/inicio";
 import Configuration from "../Principal/client/Configuration";
 import EditProfile from "../Principal/client/UserConfig/EditProfile";
 import HomeScreen from "../Principal/client/HomeScreen";
-
+import app, { db } from "../../db/conection";
+import { getAuth } from "firebase/auth";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -70,18 +71,31 @@ function LoginScreens() {
         component={UserConfig}
         options={{ headerShown: false }}
       />
+      <Stack.Screen name="Iniciar Sesion" component={UserEnter} />
     </Stack.Navigator>
   );
 }
 export default function Screens() {
   const [isLogged, setIsLogged] = useState(true);
-
+  const auth = getAuth();
+  auth.onAuthStateChanged((user) => {
+    if (user) {
+      console.log("Hay usuario");
+    } else {
+      console.log("No hay usuario");
+    }
+  });
   return (
     <NavigationContainer>
       <Tab.Navigator>
         {/* <Tab.Screen name="Configuracion de usuario" component={UserConfig} />
         <Tab.Screen name="Inicio" component={LoginScreens} /> */}
-
+        <Stack.Screen
+          name="Inicio"
+          component={LoginScreens}
+          options={{ headerShown: false }}
+        />
+        {/* 
         {!isLogged ? (
           <>
             <Stack.Screen
@@ -89,16 +103,16 @@ export default function Screens() {
               component={LoginScreens}
               options={{ headerShown: false }}
             />
-            {/* <Tab.Screen
+            <Tab.Screen
               options={{ headerShown: false }}
               name="Configuracion de usuario"
               component={UserConfig}
-            /> */}
+            />
             <Tab.Screen name="Espera" component={LoginScreens} />
           </>
         ) : (
           <Stack.Screen name="Registrarse" component={UserEnter} />
-        )}
+        )} */}
       </Tab.Navigator>
     </NavigationContainer>
   );

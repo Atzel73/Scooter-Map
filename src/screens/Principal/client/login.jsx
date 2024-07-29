@@ -15,26 +15,50 @@ import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import pickImage from "../../../functions/cameraPîcker/imagePicker";
 import styles from "../StylesLoginRegister/styles";
+import Funcionalidades from "../../../functions/funcionalidades/functionsUser";
 const { width, height } = Dimensions.get("window");
 
 export default function Login() {
-  const [isLogged, setIsLogged] = useState(false);
+  const [userData, setUserData] = useState({});
   const navigation = useNavigation();
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
-      <View>
-        <Text>Login</Text>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("Register");
-          }}
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <LinearGradient
+          colors={["#E2F0EE", "#91B2DC", "#4772A9"]}
+          style={styles.formContainer}
         >
-          <Text>Registrarse</Text>
-        </TouchableOpacity>
-      </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Correo electrónico:</Text>
+            <CustomInput
+              value={userData.email}
+              onChangeText={(text) => setUserData({ ...userData, email: text })}
+              keyboardType="email-address"
+              style={styles.input}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Contraseña:</Text>
+            <CustomInput
+              style={styles.input}
+              value={userData.password}
+              onChangeText={(text) => setUserData({ ...userData, password: text })}
+            />
+          </View>
+
+          <Funcionalidades
+            style={styles.buttonSend}
+            callFunction="SignUser"
+            userSign={userData}
+          >
+            <Text style={styles.buttonText}>Iniciar sesion</Text>
+            <FontAwesome name="sign-out" size={20} color="white" />
+          </Funcionalidades>
+        </LinearGradient>
+      </ScrollView>
     </KeyboardAvoidingView>
   );
 }
