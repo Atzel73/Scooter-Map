@@ -4,7 +4,7 @@ const styles = StyleSheet.create({
   view: {
     alignItems: "center",
     justifyContent: "center",
-    marginTop: "30%",
+    marginVertical: "10%",
   },
 });
 

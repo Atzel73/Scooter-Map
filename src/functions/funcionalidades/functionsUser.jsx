@@ -8,7 +8,7 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
 } from "firebase/auth";
-import { setDoc, doc } from "firebase/firestore";
+import { setDoc, doc, updateDoc } from "firebase/firestore";
 
 export default function Funcionalidades({
   title,
@@ -18,6 +18,7 @@ export default function Funcionalidades({
   children,
   user,
   userSign,
+  userUpdate,
 }) {
   const auth = getAuth();
   const navigation = useNavigation();
@@ -90,9 +91,24 @@ export default function Funcionalidades({
     }
   }
   async function UpdateUser() {
-    console.log("user");
+    console.log("user", userUpdate);
     try {
-    } catch (error) {}
+      const userData = {
+        updated_at: new Date(),
+        name: userUpdate.data.name,
+        email: userUpdate.data.email,
+        phone: userUpdate.data.phone,
+      };
+      const userRef = await updateDoc(
+        doc(db, "users", userUpdate.id),
+        userData
+      );
+      console.log("User updated");
+      Alert.alert("¡Datos actualizados!");
+      navigation.goBack()
+    } catch (error) {
+      console.log("Error: ", error);
+    }
   }
   async function SignUser() {
     try {

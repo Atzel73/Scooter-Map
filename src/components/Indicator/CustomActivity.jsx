@@ -5,7 +5,7 @@ import styles from "./styles";
 export default function CustomActivity() {
   return (
     <View style={styles.view}>
-      <ActivityIndicator size="large" color="#ECF6FF" />
+      <ActivityIndicator size="large" color="black" />
     </View>
   );
 }

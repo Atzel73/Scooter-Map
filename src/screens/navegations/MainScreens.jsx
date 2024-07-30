@@ -10,6 +10,7 @@ import Register from "../Principal/client/inicio";
 import Configuration from "../Principal/client/Configuration";
 import EditProfile from "../Principal/client/UserConfig/EditProfile";
 import HomeScreen from "../Principal/client/HomeScreen";
+import EditPhoto from "../Principal/client/UserConfig/PhotoUser/EditPhotoUser";
 import app, { db } from "../../db/conection";
 import { getAuth } from "firebase/auth";
 const Stack = createNativeStackNavigator();
@@ -46,6 +47,7 @@ function UserConfig() {
         component={EditProfile}
         //options={{ headerShown: false }}
       />
+      <Stack.Screen name="Cambiar foto" component={EditPhoto} />
     </Stack.Navigator>
   );
 }

@@ -1,1 +1,1 @@
-export {default} from './touchableOpacity'
+export { default } from "./CustomTouchable";

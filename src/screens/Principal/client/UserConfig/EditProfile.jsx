@@ -9,6 +9,8 @@ import {
   ScrollView,
   TouchableOpacity,
   ActivityIndicator,
+  Image,
+  TextInput,
 } from "react-native";
 import {
   FontAwesome6,
@@ -20,9 +22,9 @@ import CustomInput from "../../../../components/TextInput/textInput";
 import { useNavigation } from "@react-navigation/native";
 import app, { db } from "../../../../db/conection";
 import { getAuth } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
-import { set } from "firebase/database";
-import { onLog } from "firebase/app";
+import { doc, getDoc, onSnapshot } from "firebase/firestore";
+import CustomImage from "../../../../components/Image/Image";
+import Funcionalidades from "../../../../functions/funcionalidades/functionsUser";
 const { width, height } = Dimensions.get("window");
 
 export default function EditProfile() {
@@ -48,12 +50,15 @@ export default function EditProfile() {
     try {
       async function getUser() {
         const userRef = doc(db, "users", auth.currentUser.uid);
-        const docSnap = await getDoc(userRef);
-        if (docSnap.exists()) {
-          setUserData(docSnap.data());
-        } else {
-          console.log("El usuario no existe");
-        }
+        onSnapshot(userRef, (doc) => {
+          setUserData({ id: doc.id, data: doc.data() });
+        });
+        // const docSnap = await getDoc(userRef);
+        // if (docSnap.exists()) {
+        //   setUserData({ id: docSnap.id, data: docSnap.data() });
+        // } else {
+        //   console.log("El usuario no existe");
+        // }
       }
       getUser();
     } catch (error) {
@@ -81,34 +86,36 @@ export default function EditProfile() {
       ),
     });
   }, [navigation]);
-  console.log("userData: ", Object.keys(userData).length === 0);
 
   if (Object.keys(userData).length === 0) {
     return (
       <View style={{ alignItems: "center", marginTop: "50%" }}>
-        <ActivityIndicator size="large" color="#ECF6FF" />
+        <ActivityIndicator size="large" color="black" />
       </View>
     );
   }
+  console.log("User: ", Object.keys(userData).length === 0);
   const { handlerName, handlerPhone, handlerEmail } = useStatesUser();
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
-      {Object.keys(userData).length === 0 ? (
-        <View style={{ alignItems: "center", marginTop: "50%" }}>
-          <ActivityIndicator size="large" color="#ECF6FF" />
+      {Object.keys(userData.data).length === 0 ? (
+        <View style={{ alignItems: "center", marginTop: "10%" }}>
+          <ActivityIndicator size="large" color="black" />
         </View>
       ) : (
         <>
           <View style={styles.viewHead}>
-            <TouchableOpacity>
-              <FontAwesome6
-                name="circle-user"
-                size={60}
-                color="black"
-                style={[styles.Icon, { margin: "10%" }]}
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("Cambiar foto", { user: userData })
+              }
+            >
+              <Image
+                style={styles.img}
+                source={{ uri: userData.data && userData.data.photo }}
               />
             </TouchableOpacity>
 
@@ -126,7 +133,9 @@ export default function EditProfile() {
                 color="black"
                 style={styles.Icon}
               />
-              <Text style={styles.buttonText}>{userData.name}</Text>
+              <Text style={styles.buttonText}>
+                {userData.data && userData.data.name}
+              </Text>
               <FontAwesome6
                 name="chevron-right"
                 size={24}
@@ -138,6 +147,16 @@ export default function EditProfile() {
               <View style={[styles.contView, { marginHorizontal: 10 }]}>
                 <Text style={styles.textTitle}>Actualiza tu nombre</Text>
                 <CustomInput
+                  value={userData.data && userData.data.name}
+                  onChangeText={(text) =>
+                    setUserData((prevState) => ({
+                      ...prevState,
+                      data: {
+                        ...prevState.data,
+                        name: text,
+                      },
+                    }))
+                  }
                   placeholderTextColor="black"
                   placeholder="nombre"
                   style={{
@@ -160,7 +179,9 @@ export default function EditProfile() {
                 color="black"
                 style={styles.Icon}
               />
-              <Text style={styles.buttonText}>{userData.phone}</Text>
+              <Text style={styles.buttonText}>
+                {userData.data && userData.data.phone}
+              </Text>
               <FontAwesome6
                 name="chevron-right"
                 size={24}
@@ -175,6 +196,16 @@ export default function EditProfile() {
                 </Text>
                 <CustomInput
                   keyboardType="numeric"
+                  value={userData.data.phone}
+                  onChangeText={(text) =>
+                    setUserData((prevState) => ({
+                      ...prevState,
+                      data: {
+                        ...prevState.data,
+                        phone: text,
+                      },
+                    }))
+                  }
                   placeholderTextColor="black"
                   placeholder="Nuevo numero de telefono"
                   style={{
@@ -182,7 +213,9 @@ export default function EditProfile() {
                     paddingHorizontal: "45%",
                     marginHorizontal: 10,
                   }}
-                />
+                >
+                  {userData.data && userData.data.phone}
+                </CustomInput>
               </View>
             )}
           </View>
@@ -197,7 +230,9 @@ export default function EditProfile() {
                 color="black"
                 style={styles.Icon}
               />
-              <Text style={styles.buttonText}>{userData.email}</Text>
+              <Text style={styles.buttonText}>
+                {userData.data && userData.data.email}
+              </Text>
               <FontAwesome6
                 name="chevron-right"
                 size={24}
@@ -211,6 +246,16 @@ export default function EditProfile() {
                   Actualiza tu correo electronico
                 </Text>
                 <CustomInput
+                  value={userData.data.email}
+                  onChangeText={(text) =>
+                    setUserData((prevState) => ({
+                      ...prevState,
+                      data: {
+                        ...prevState.data,
+                        email: text,
+                      },
+                    }))
+                  }
                   keyboardType="email-address"
                   placeholderTextColor="black"
                   placeholder="Nuevo correo electronico"
@@ -224,16 +269,11 @@ export default function EditProfile() {
             )}
           </View>
           <View style={styles.contView}>
-            <TouchableOpacity
-              //onPress={() => navigation.goBack()}
+            <Funcionalidades
+              callFunction="UpdateUser"
+              userUpdate={userData}
               style={styles.button}
             >
-              {/* <FontAwesome6
-            name="chevron-left"
-            size={24}
-            color="black"
-            style={styles.Icon}
-          /> */}
               <Text
                 style={{
                   alignSelf: "center",
@@ -241,9 +281,9 @@ export default function EditProfile() {
                   fontStyle: "italic",
                 }}
               >
-                Guardar{" "}
+                Guardar
               </Text>
-            </TouchableOpacity>
+            </Funcionalidades>
           </View>
         </>
       )}
@@ -252,6 +292,12 @@ export default function EditProfile() {
 }
 
 const styles = StyleSheet.create({
+  img: {
+    width: 150,
+    height: 150,
+    borderRadius: 75,
+    margin: 10,
+  },
   textTitle: {
     fontSize: 18,
     fontWeight: "bold",
