@@ -36,12 +36,15 @@ function DrawerScreen(props) {
       if (user) {
         try {
           const userRef = doc(db, "users", user.uid);
-          const docSnap = await getDoc(userRef);
-          if (docSnap.exists()) {
-            setUserData(docSnap.data());
-          } else {
-            console.log("El usuario no existe");
-          }
+          onSnapshot(userRef, (doc) => {
+            setUserData(doc.data()); 
+          });
+          // const docSnap = await getDoc(userRef);
+          // if (docSnap.exists()) {
+          //   setUserData(docSnap.data());
+          // } else {
+          //   console.log("El usuario no existe");
+          // }
         } catch (error) {
           console.log("Error al obtener los datos del usuario: ", error);
         }
@@ -72,9 +75,8 @@ function DrawerScreen(props) {
             <TouchableOpacity
               onPress={() =>
                 navigation.navigate("Configurar Perfil", {
-                  item: "anything you want here",
-                  // name: userData.name,
-                  // photo: userData.photo,
+                  screen: "Config",
+                  params: { user: userData },
                 })
               }
               style={styles.viewUser}

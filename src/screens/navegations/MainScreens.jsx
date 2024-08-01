@@ -7,7 +7,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 
 import Login from "../Principal/client/login";
 import Register from "../Principal/client/inicio";
-import Configuration from "../Principal/client/Configuration";
+import Configuration from "../Principal/client/UserConfig/Configuration";
 import EditProfile from "../Principal/client/UserConfig/EditProfile";
 import HomeScreen from "../Principal/client/HomeScreen";
 import EditPhoto from "../Principal/client/UserConfig/PhotoUser/EditPhotoUser";

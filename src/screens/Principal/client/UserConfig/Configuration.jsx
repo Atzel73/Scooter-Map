@@ -18,9 +18,10 @@ import {
   DrawerItemList,
   DrawerItem,
 } from "@react-navigation/drawer";
-import { db } from "../../../db/conection";
+import { db } from "../../../../db/conection";
 import { getAuth, signOut } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
+import CustomImage from "../../../../components/Image/Image";
 const Drawer = createDrawerNavigator();
 const { width, height } = Dimensions.get("window");
 
@@ -66,7 +67,7 @@ function DrawerScreen(props) {
 }
 
 export default function Configuration({ route }) {
-  console.log("Route: ", route);
+  const userName = route.params.user.name;
   const navigation = useNavigation();
   const auth = getAuth();
   const [isLogged, setIsLogged] = useState(true);
@@ -96,8 +97,8 @@ export default function Configuration({ route }) {
     signOut(auth)
       .then(() => {
         console.log("Sesion cerrada.");
-        alert("¡Sesion cerrada!")
-        navigation.navigate("Principal")
+        alert("¡Sesion cerrada!");
+        navigation.navigate("Principal");
       })
       .catch((error) => {
         console.log(error);
@@ -123,16 +124,14 @@ export default function Configuration({ route }) {
             <View style={styles.viewPhoto}>
               <View>
                 <TouchableOpacity>
-                  <FontAwesome6
-                    name="circle-user"
-                    size={60}
-                    color="black"
-                    style={[styles.Icon, { margin: "10%" }]}
+                  <CustomImage
+                    source={{ uri: route.params.user.photo }}
+                    style={styles.img}
                   />
                 </TouchableOpacity>
               </View>
               <View>
-                <Text>Marco</Text>
+                <Text style={{ color: "black" }}> {userName}</Text>
               </View>
             </View>
             <View style={styles.viewButtons}>
@@ -215,6 +214,12 @@ export default function Configuration({ route }) {
 }
 
 const styles = StyleSheet.create({
+  img: {
+    width: 150,
+    height: 150,
+    borderRadius: 75,
+    margin: 10,
+  },
   scrollContainer: {
     flexGrow: 1,
     alignItems: "center",
@@ -225,8 +230,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     height: width / 2,
-    width: "95%", // Ajustado a un porcentaje mayor
-    minWidth: "100%", // Añadido para establecer un ancho mínimo
+    width: "95%",
+    minWidth: "100%",
     borderRadius: 10,
     elevation: 5,
     shadowColor: "#000",
@@ -270,8 +275,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     height: width / 2,
-    width: "100%", // Ajustado a un porcentaje mayor
-    minWidth: "100%", // Añadido para establecer un ancho mínimo
+    width: "100%",
+    minWidth: "100%",
     borderRadius: 10,
     elevation: 5,
     shadowColor: "#000",
@@ -323,8 +328,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#202020",
     marginBottom: 10,
-    width: "100%", // Ajustado para ocupar todo el contenedor
-    minWidth: "90%", // Añadido para establecer un ancho mínimo
+    width: "100%",
+    minWidth: "90%",
   },
   buttonText: {
     fontSize: 16,
