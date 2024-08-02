@@ -191,7 +191,10 @@ export default function Configuration({ route }) {
                 </TouchableOpacity>
               </View>
               <View style={styles.contView}>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => navigation.navigate("Borrar Cuenta")}
+                >
                   <MaterialIcons
                     name="delete-forever"
                     size={34}

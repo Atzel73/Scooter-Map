@@ -7,8 +7,21 @@ import {
   getAuth,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  signOut,
+  EmailAuthCredential,
+  EmailAuthProvider,
+  reauthenticateWithCredential,
+  deleteUser,
 } from "firebase/auth";
-import { setDoc, doc, updateDoc } from "firebase/firestore";
+import {
+  setDoc,
+  doc,
+  updateDoc,
+  getDoc,
+  onSnapshot,
+  deleteDoc,
+  writeBatch,
+} from "firebase/firestore";
 
 export default function Funcionalidades({
   title,
@@ -19,6 +32,7 @@ export default function Funcionalidades({
   user,
   userSign,
   userUpdate,
+  userDelete,
 }) {
   const auth = getAuth();
   const navigation = useNavigation();
@@ -105,7 +119,7 @@ export default function Funcionalidades({
       );
       console.log("User updated");
       Alert.alert("¡Datos actualizados!");
-      navigation.goBack()
+      navigation.goBack();
     } catch (error) {
       console.log("Error: ", error);
     }
@@ -113,10 +127,21 @@ export default function Funcionalidades({
   async function SignUser() {
     try {
       signInWithEmailAndPassword(auth, userSign.email, userSign.password)
-        .then(() => {
+        .then(async () => {
           console.log("Usuario iniciado. ");
           Alert.alert("¡Bienvenido!");
           navigation.navigate("Principal");
+          // const userRef = doc(db, "users", auth.currentUser.uid);
+          // onSnapshot(userRef, (doc) => {
+          //   console.log("logueado: ", doc.data());
+          //   if (doc.data().status == "Activo") {
+          //     Alert.alert("¡Bienvenido!");
+          //     navigation.navigate("Principal");
+          //   } else {
+          //     console.log("Cuenta no encontrada");
+          //     Alert.alert("Cuenta no encontrada");
+          //   }
+          // });
         })
         .catch((error) => {
           console.log(error.message);
@@ -142,6 +167,48 @@ export default function Funcionalidades({
       console.log("Error: ", error);
     }
   }
+  async function DeleteUser() {
+    console.log("Data: ", userDelete.password);
+    const email = auth.currentUser.email;
+    const password = userDelete.password;
+    const credentials = EmailAuthProvider.credential(email, password);
+
+    try {
+      // Reautenticar al usuario
+      await reauthenticateWithCredential(auth.currentUser, credentials);
+
+      // Crear un batch para borrar los datos del usuario
+      const batch = writeBatch(db);
+      const userRef = doc(db, "users", auth.currentUser.uid);
+      batch.delete(userRef);
+
+      // Borrar la cuenta del usuario
+      await deleteUser(auth.currentUser);
+
+      // Confirmar la eliminación en Firestore
+      await batch.commit();
+
+      // Cerrar sesión
+      await signOut(auth);
+      Alert.alert("Cuenta borrada")
+      navigation.navigate("Principal");
+      console.log("Cuenta borrada con éxito");
+    } catch (error) {
+      console.log("Error al borrar la cuenta: ", error);
+    }
+  }
+
+  function handleLogOut() {
+    signOut(auth)
+      .then(() => {
+        console.log("Sesion cerrada.");
+        //alert("¡Sesion cerrada!");
+        navigation.navigate("Principal");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
   return (
     <View>
       <TouchableOpacity
@@ -154,6 +221,9 @@ export default function Funcionalidades({
           }
           if (callFunction === "SignUser") {
             SignUser();
+          }
+          if (callFunction === "DeleteUser") {
+            DeleteUser();
           }
         }}
         style={[styles.button, style]}

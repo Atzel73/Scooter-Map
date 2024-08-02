@@ -30,33 +30,40 @@ function DrawerScreen(props) {
   const auth = getAuth();
   const [userData, setUserData] = useState({});
   const [onLoad, setOnLoad] = useState(false);
+  const [dontExist, setDontExist] = useState(false);
   const navigation = useNavigation();
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         try {
           const userRef = doc(db, "users", user.uid);
-          onSnapshot(userRef, (doc) => {
-            setUserData(doc.data()); 
-          });
-          // const docSnap = await getDoc(userRef);
-          // if (docSnap.exists()) {
-          //   setUserData(docSnap.data());
-          // } else {
-          //   console.log("El usuario no existe");
-          // }
+
+          const docSnap = await getDoc(userRef);
+          if (docSnap.exists()) {
+            //setUserData(docSnap.data());
+            onSnapshot(userRef, (doc) => {
+              setUserData(doc.data());
+              setDontExist(false);
+            });
+          } else {
+            console.log("El usuario no existe");
+            setDontExist(true);
+          }
         } catch (error) {
           console.log("Error al obtener los datos del usuario: ", error);
         }
       } else {
         console.log("No hay usuario actualmente autenticado");
+        //console.log("homescreen: ", Object.keys(userData).length === 0);
+        //setUserData(null);
+        setDontExist(true);
       }
     });
 
     return () => unsubscribe();
   }, [auth]);
 
-  console.log("userData: ", Object.keys(userData).length === 0);
+  //console.log("userData: ", Object.keys(userData).length === 0);
   return (
     <DrawerContentScrollView {...props}>
       <DrawerItemList {...props} />
@@ -67,11 +74,10 @@ function DrawerScreen(props) {
 
       {auth && auth.currentUser && auth.currentUser.uid ? (
         <View style={{ margin: "5%" }}>
-          {Object.keys(userData).length === 0 ? (
-            <View style={{ alignItems: "center" }}>
-              <ActivityIndicator size="large" color="black" />
-            </View>
-          ) : (
+          {auth &&
+          auth.currentUser &&
+          Object.keys(userData).length > 0 &&
+          userData.name ? (
             <TouchableOpacity
               onPress={() =>
                 navigation.navigate("Configurar Perfil", {
@@ -89,6 +95,10 @@ function DrawerScreen(props) {
               />
               <Text>{userData.name}</Text>
             </TouchableOpacity>
+          ) : (
+            <View style={{ alignItems: "center" }}>
+              <ActivityIndicator size="large" color="black" />
+            </View>
           )}
 
           <View style={styles.contView}>

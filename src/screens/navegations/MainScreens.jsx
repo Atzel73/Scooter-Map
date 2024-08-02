@@ -12,6 +12,7 @@ import EditProfile from "../Principal/client/UserConfig/EditProfile";
 import HomeScreen from "../Principal/client/HomeScreen";
 import EditPhoto from "../Principal/client/UserConfig/PhotoUser/EditPhotoUser";
 import app, { db } from "../../db/conection";
+import BorrarCuenta from "../Principal/client/UserConfig/BorrarCuenta/BorrarCuenta";
 import { getAuth } from "firebase/auth";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -48,6 +49,7 @@ function UserConfig() {
         //options={{ headerShown: false }}
       />
       <Stack.Screen name="Cambiar foto" component={EditPhoto} />
+      <Stack.Screen name="Borrar Cuenta" component={BorrarCuenta} />
     </Stack.Navigator>
   );
 }

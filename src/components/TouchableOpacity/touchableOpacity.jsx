@@ -6,8 +6,8 @@ export default function CustomTouchable({ title, onPress, style, children }) {
   return (
     <View>
       <TouchableOpacity onPress={onPress} style={[styles.buttonSend, style]}>
-        
         <Text style={{ color: "white" }}>{title}</Text>
+        {children}
       </TouchableOpacity>
     </View>
   );
