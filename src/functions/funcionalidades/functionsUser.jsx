@@ -105,7 +105,6 @@ export default function Funcionalidades({
     }
   }
   async function UpdateUser() {
-    console.log("user", userUpdate);
     try {
       const userData = {
         updated_at: new Date(),
@@ -168,7 +167,6 @@ export default function Funcionalidades({
     }
   }
   async function DeleteUser() {
-    console.log("Data: ", userDelete.password);
     const email = auth.currentUser.email;
     const password = userDelete.password;
     const credentials = EmailAuthProvider.credential(email, password);

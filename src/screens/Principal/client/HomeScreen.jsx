@@ -7,7 +7,7 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  ActivityIndicator,
+  ActivityIndicator, Linking
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import CustomModal from "../../../components/Modal/Modal";
@@ -28,7 +28,7 @@ const Drawer = createDrawerNavigator();
 
 function DrawerScreen(props) {
   const auth = getAuth();
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState(null);
   const [onLoad, setOnLoad] = useState(false);
   const [dontExist, setDontExist] = useState(false);
   const navigation = useNavigation();
@@ -54,6 +54,7 @@ function DrawerScreen(props) {
         }
       } else {
         console.log("No hay usuario actualmente autenticado");
+        //Si es un objeto, aqui se valida
         //console.log("homescreen: ", Object.keys(userData).length === 0);
         //setUserData(null);
         setDontExist(true);
@@ -62,8 +63,6 @@ function DrawerScreen(props) {
 
     return () => unsubscribe();
   }, [auth]);
-
-  //console.log("userData: ", Object.keys(userData).length === 0);
   return (
     <DrawerContentScrollView {...props}>
       <DrawerItemList {...props} />
@@ -72,12 +71,9 @@ function DrawerScreen(props) {
         onPress={() => Linking.openURL("https://mywebsite.com/help")}
       />
 
-      {auth && auth.currentUser && auth.currentUser.uid ? (
+      {auth && auth.currentUser && auth.currentUser.uid  ? (
         <View style={{ margin: "5%" }}>
-          {auth &&
-          auth.currentUser &&
-          Object.keys(userData).length > 0 &&
-          userData.name ? (
+          {auth && auth.currentUser && userData && userData.name ? (
             <TouchableOpacity
               onPress={() =>
                 navigation.navigate("Configurar Perfil", {

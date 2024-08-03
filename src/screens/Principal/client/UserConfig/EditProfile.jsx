@@ -94,7 +94,6 @@ export default function EditProfile() {
       </View>
     );
   }
-  console.log("User: ", Object.keys(userData).length === 0);
   const { handlerName, handlerPhone, handlerEmail } = useStatesUser();
   return (
     <KeyboardAvoidingView
