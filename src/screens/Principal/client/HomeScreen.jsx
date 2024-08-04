@@ -7,7 +7,8 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  ActivityIndicator, Linking
+  ActivityIndicator,
+  Linking,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import CustomModal from "../../../components/Modal/Modal";
@@ -24,6 +25,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getDoc, doc } from "firebase/firestore";
 import { onSnapshot } from "firebase/firestore";
 import firebaseAuth from "../../../db/conection";
+import PantallaMapa from "./PantallaMapa";
 const Drawer = createDrawerNavigator();
 
 function DrawerScreen(props) {
@@ -71,7 +73,7 @@ function DrawerScreen(props) {
         onPress={() => Linking.openURL("https://mywebsite.com/help")}
       />
 
-      {auth && auth.currentUser && auth.currentUser.uid  ? (
+      {auth && auth.currentUser && auth.currentUser.uid ? (
         <View style={{ margin: "5%" }}>
           {auth && auth.currentUser && userData && userData.name ? (
             <TouchableOpacity
@@ -185,7 +187,7 @@ function HomeScreenSecond() {
   return (
     <View style={[modalVisible ? styles.containerHide : styles.container]}>
       <View>
-        <Text>Aqui va un mapa, y parece que un modal. </Text>
+        <PantallaMapa />
       </View>
       <View style={styles.contView}>
         <TouchableOpacity style={styles.button} onPress={toggleModal}>

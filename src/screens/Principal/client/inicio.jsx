@@ -9,6 +9,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
+  TextInput,
 } from "react-native";
 import CustomInput from "../../../components/TextInput/textInput";
 import { LinearGradient } from "expo-linear-gradient";
@@ -78,7 +79,7 @@ export default function Register() {
           <View style={styles.inputContainer}>
             <Text style={styles.label}>Numero de telefono:</Text>
             <CustomInput
-              keyboardType="number"
+              keyboardType="numeric"
               value={userData.phone}
               onChangeText={(text) => setUserData({ ...userData, phone: text })}
               style={styles.input}
