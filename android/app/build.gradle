@@ -83,9 +83,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace 'com.vanitas73.ScooterMap'
+    namespace 'com.vanitas73.scootermap'
     defaultConfig {
-        applicationId 'com.vanitas73.ScooterMap'
+        applicationId 'com.vanitas73.scootermap'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

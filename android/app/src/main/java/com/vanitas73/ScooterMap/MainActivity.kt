@@ -1,4 +1,4 @@
-package com.vanitas73.ScooterMap
+package com.vanitas73.scootermap
 
 import android.os.Build
 import android.os.Bundle

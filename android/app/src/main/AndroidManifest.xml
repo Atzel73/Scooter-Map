@@ -25,8 +25,8 @@
         <action android:name="android.intent.action.VIEW"/>
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
-        <data android:scheme="com.vanitas73.ScooterMap"/>
-        <data android:scheme="ScooterMap"/>
+        <data android:scheme="scootermap"/>
+        <data android:scheme="com.vanitas73.scootermap"/>
         <data android:scheme="exp+scootermap"/>
       </intent-filter>
     </activity>

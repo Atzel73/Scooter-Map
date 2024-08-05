@@ -19,7 +19,7 @@
         "foregroundImage": "",
         "backgroundColor": "#6BB8FF"
       },
-      "package": "com.vanitas73.ScooterMap"
+      "package": "com.vanitas73.scootermap"
     },
     "web": {
       "favicon": "./assets/favicon.png"
