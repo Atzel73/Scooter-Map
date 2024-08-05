@@ -18,10 +18,17 @@
       "adaptiveIcon": {
         "foregroundImage": "",
         "backgroundColor": "#6BB8FF"
-      }
+      },
+      "package": "com.vanitas73.ScooterMap"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "77936019-01e0-4771-b613-f4344d913af3"
+      }
+    },
+    "scheme": "scootermap"
   }
 }
