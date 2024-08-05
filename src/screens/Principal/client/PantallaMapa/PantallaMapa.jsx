@@ -3,20 +3,20 @@ import { View, Text, TouchableOpacity, Image } from "react-native";
 import styles from "./styles";
 import * as Google from "expo-auth-session/providers/google";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-//import * as WebBrowser from "expo-web-browser";
+import * as WebBrowser from "expo-web-browser";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
-
-//WebBrowser.maybeCompleteAuthSession();
 
 //webID = 857598140703-mhi55jmtd7blc2je2innkmil8607lqmt.apps.googleusercontent.com
 //ios = 857598140703-jgmo8bar5psptnnqhb5uv4lc1skas1hl.apps.googleusercontent.com
 //android = 857598140703-cjer1r18grdqhrsln0g1fkcu6tjitntc.apps.googleusercontent.com
+WebBrowser.maybeCompleteAuthSession();
+
 export default function PantallaMapa() {
   const auth = getAuth();
   const [user, setUser] = useState(null);
   const [credential, setCredential] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
-  const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
+  const [request, response, promptAsync] = Google.useAuthRequest({
     selectAccount: true,
     clientId:
       "813875053971-h9m006kmq7vlpo32o8am4r4rvgeu4u1o.apps.googleusercontent.com",

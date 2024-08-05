@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, Alert } from "react-native";
 import CustomImage from "../../../../../components/Image/Image";
 import styles from "./styles";
-import pickImage from "../../../../../functions/cameraPîcker/imagePicker";
+import pickImage from "../../../../../functions/cameraPicker/imagePicker";
 import { useNavigation } from "@react-navigation/native";
 import { db } from "../../../../../db/conection";
 import { getAuth } from "firebase/auth";

@@ -13,7 +13,7 @@ import CustomInput from "../../../components/TextInput/textInput";
 import { LinearGradient } from "expo-linear-gradient";
 import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import pickImage from "../../../functions/cameraPîcker/imagePicker";
+import pickImage from "../../../functions/cameraPicker/imagePicker";
 import styles from "../StylesLoginRegister/styles";
 import Funcionalidades from "../../../functions/funcionalidades/functionsUser";
 const { width, height } = Dimensions.get("window");
