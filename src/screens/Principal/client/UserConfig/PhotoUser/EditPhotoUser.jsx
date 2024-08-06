@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, Alert } from "react-native";
+import { View, Text, TouchableOpacity, Alert, ActivityIndicator } from "react-native";
 import CustomImage from "../../../../../components/Image/Image";
 import styles from "./styles";
 import pickImage from "../../../../../functions/cameraPicker/imagePicker";
@@ -10,7 +10,6 @@ import { doc, updateDoc, getDoc, onSnapshot } from "firebase/firestore";
 
 import CustomActivity from "../../../../../components/Indicator/CustomActivity";
 export default function EditPhoto({ route }) {
-  console.log(route.params.user.id);
   const navigation = useNavigation();
   const auth = getAuth();
   const [image, setImage] = useState(null);
@@ -50,7 +49,7 @@ export default function EditPhoto({ route }) {
     <View style={styles.mainView}>
       {!image ? (
         <View>
-          <CustomActivity />
+          <ActivityIndicator color="#202020" size="large"/>
         </View>
       ) : (
         <CustomImage

@@ -8,7 +8,7 @@ import {
   Platform,
   Linking,
   ScrollView,
-  Dimensions,
+  Dimensions, Image
 } from "react-native";
 import { FontAwesome6, MaterialIcons, Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -20,7 +20,7 @@ import {
 } from "@react-navigation/drawer";
 import { db } from "../../../../db/conection";
 import { getAuth, signOut } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import CustomImage from "../../../../components/Image/Image";
 const Drawer = createDrawerNavigator();
 const { width, height } = Dimensions.get("window");
@@ -71,6 +71,7 @@ export default function Configuration({ route }) {
   const navigation = useNavigation();
   const auth = getAuth();
   const [isLogged, setIsLogged] = useState(true);
+  const [userData, setUserData] = useState({});
 
   useEffect(() => {
     navigation.setOptions({
@@ -92,7 +93,15 @@ export default function Configuration({ route }) {
       ),
     });
   }, [navigation]);
-
+  useEffect(() => {
+    async function getUser() {
+      const userRef = doc(db, "users", auth.currentUser.uid);
+      onSnapshot(userRef, (doc) => {
+        setUserData(doc.data());
+      });
+    }
+    getUser();
+  }, []);
   const handleLogOut = () => {
     signOut(auth)
       .then(() => {
@@ -124,14 +133,14 @@ export default function Configuration({ route }) {
             <View style={styles.viewPhoto}>
               <View>
                 <TouchableOpacity>
-                  <CustomImage
-                    source={{ uri: route.params.user.photo }}
+                  <Image
+                    source={{ uri: userData.photo }}
                     style={styles.img}
                   />
                 </TouchableOpacity>
               </View>
               <View>
-                <Text style={{ color: "black" }}> {userName}</Text>
+                <Text style={{ color: "black" }}> {userData.name}</Text>
               </View>
             </View>
             <View style={styles.viewButtons}>

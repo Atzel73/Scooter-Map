@@ -158,11 +158,7 @@ export default function Register() {
               <Text>¿Ya tienes cuenta? Inicia sesion</Text>
             </TouchableOpacity>
           </View>
-          <View style={styles.inputContainer}>
-            <TouchableOpacity style={{ alignItems: "center" }}>
-              <Text>Iniciar sesion con Google</Text>
-            </TouchableOpacity>
-          </View>
+        
         </View>
         {Platform.OS === "ios" && (
           <View style={styles.inputContainer}>

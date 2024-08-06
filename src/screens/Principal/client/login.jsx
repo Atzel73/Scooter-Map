@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -8,6 +8,7 @@ import {
   Platform,
   ScrollView,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import CustomInput from "../../../components/TextInput/textInput";
 import { LinearGradient } from "expo-linear-gradient";
@@ -16,11 +17,86 @@ import { useNavigation } from "@react-navigation/native";
 import pickImage from "../../../functions/cameraPicker/imagePicker";
 import styles from "../StylesLoginRegister/styles";
 import Funcionalidades from "../../../functions/funcionalidades/functionsUser";
-const { width, height } = Dimensions.get("window");
+import { db } from "../../../db/conection";
+import {
+  getAuth,
+  signInWithCredential,
+  GoogleAuthProvider,
+} from "firebase/auth";
+import { setDoc, doc, onSnapshot, getDoc } from "firebase/firestore";
+import * as Google from "expo-auth-session/providers/google";
+import * as WebBrowser from "expo-web-browser";
 
+const { width, height } = Dimensions.get("window");
+WebBrowser.maybeCompleteAuthSession();
 export default function Login() {
+  const auth = getAuth();
   const [userData, setUserData] = useState({});
   const navigation = useNavigation();
+  const [user, setUser] = useState(null);
+  const [credential, setCredential] = useState(null);
+  const [accessToken, setAccessToken] = useState(null);
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    selectAccount: true,
+    clientId:
+      "857598140703-mhi55jmtd7blc2je2innkmil8607lqmt.apps.googleusercontent.com",
+    iosClientId:
+      "857598140703-jgmo8bar5psptnnqhb5uv4lc1skas1hl.apps.googleusercontent.com",
+    androidClientId:
+      "857598140703-cjer1r18grdqhrsln0g1fkcu6tjitntc.apps.googleusercontent.com",
+  });
+  useEffect(() => {
+    if (response?.type === "success") {
+      setAccessToken(response.authentication.accessToken);
+      accessToken && fetchUserInfo();
+      const credentials = GoogleAuthProvider.credential(
+        response.params.id_token
+      );
+      setCredential(credentials);
+    }
+  }, [response, accessToken]);
+  async function fetchUserInfo() {
+    let response = await fetch("https://www.googleapis.com/userinfo/v2/me", {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    const userInfo = await response.json();
+
+    setUser(userInfo);
+    console.log("User: ", userInfo);
+    registerWithGoogle(userInfo);
+  }
+  const registerWithGoogle = async (user) => {
+    await signInWithCredential(auth, credential)
+      .then(() => {
+        const docRef = doc(db, "users", auth.currentUser.uid);
+        getDoc(docRef).then((document) => {
+          if (!document.exists()) {
+            setDoc(doc(db, "users", auth.currentUser.uid), {
+              name: user.given_name,
+              last_name: user.family_name,
+              rol: "usuario",
+              photo: user.picture,
+              password: user.given_name,
+              scooter_id: "",
+              status: "Activo",
+              email: user.email,
+              created_at: new Date(),
+            });
+          }
+        });
+        console.log("Cargando registro...");
+      })
+      .then(() => {
+        Alert.alert("¡Bienvenido!");
+        navigation.navigate("Principal");
+        console.log("Registrado");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -45,7 +121,9 @@ export default function Login() {
             <CustomInput
               style={styles.input}
               value={userData.password}
-              onChangeText={(text) => setUserData({ ...userData, password: text })}
+              onChangeText={(text) =>
+                setUserData({ ...userData, password: text })
+              }
             />
           </View>
 
@@ -57,6 +135,13 @@ export default function Login() {
             <Text style={styles.buttonText}>Iniciar sesion</Text>
             <FontAwesome name="sign-out" size={20} color="white" />
           </Funcionalidades>
+          <TouchableOpacity
+            style={styles.buttonGoogle}
+            onPress={() => promptAsync()}
+          >
+            <Text style={styles.buttonText}>Iniciar sesion con Google</Text>
+            <FontAwesome name="sign-out" size={20} color="white" />
+          </TouchableOpacity>
         </LinearGradient>
       </ScrollView>
     </KeyboardAvoidingView>

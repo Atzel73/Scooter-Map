@@ -12,6 +12,7 @@ import {
   EmailAuthProvider,
   reauthenticateWithCredential,
   deleteUser,
+  updateEmail,
 } from "firebase/auth";
 import {
   setDoc,
@@ -109,7 +110,7 @@ export default function Funcionalidades({
       const userData = {
         updated_at: new Date(),
         name: userUpdate.data.name,
-        email: userUpdate.data.email,
+        //email: userUpdate.data.email,
         phone: userUpdate.data.phone,
       };
       const userRef = await updateDoc(
@@ -172,27 +173,53 @@ export default function Funcionalidades({
     const credentials = EmailAuthProvider.credential(email, password);
 
     try {
-      // Reautenticar al usuario
       await reauthenticateWithCredential(auth.currentUser, credentials);
 
-      // Crear un batch para borrar los datos del usuario
       const batch = writeBatch(db);
       const userRef = doc(db, "users", auth.currentUser.uid);
       batch.delete(userRef);
 
-      // Borrar la cuenta del usuario
       await deleteUser(auth.currentUser);
 
-      // Confirmar la eliminación en Firestore
       await batch.commit();
 
-      // Cerrar sesión
       await signOut(auth);
-      Alert.alert("Cuenta borrada")
+      Alert.alert("Cuenta borrada");
       navigation.navigate("Principal");
       console.log("Cuenta borrada con éxito");
     } catch (error) {
       console.log("Error al borrar la cuenta: ", error);
+    }
+  }
+  async function UpdateEmail() {
+    const user = auth.currentUser;
+
+    if (!user) {
+      console.log("Usuario no autenticado");
+      return;
+    }
+
+    console.log(userUpdate[0].data.password);
+    console.log(userUpdate[1]);
+
+    try {
+      const credential = EmailAuthProvider.credential(
+        user.email,
+        userUpdate[0].data.password
+      );
+
+      await reauthenticateWithCredential(user, credential);
+      console.log("usuario reautenticado");
+
+      await updateEmail(user, userUpdate[0].data.email);
+      console.log("email actualizado");
+
+      await updateDoc(doc(db, "users", userUpdate[0].id), {
+        email: userUpdate[0].data.email,
+      });
+      console.log("actualizado");
+    } catch (error) {
+      console.error("Error al actualizar el correo electrónico:", error);
     }
   }
 
@@ -222,6 +249,9 @@ export default function Funcionalidades({
           }
           if (callFunction === "DeleteUser") {
             DeleteUser();
+          }
+          if (callFunction === "UpdateEmail") {
+            UpdateEmail();
           }
         }}
         style={[styles.button, style]}

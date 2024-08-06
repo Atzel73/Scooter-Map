@@ -4,8 +4,13 @@ import styles from "./styles";
 import * as Google from "expo-auth-session/providers/google";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as WebBrowser from "expo-web-browser";
-import { getAuth, GoogleAuthProvider } from "firebase/auth";
-
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithCredential,
+} from "firebase/auth";
+import { setDoc, doc, onSnapshot, getDoc } from "firebase/firestore";
+import { db } from "../../../../db/conection";
 //webID = 857598140703-mhi55jmtd7blc2je2innkmil8607lqmt.apps.googleusercontent.com
 //ios = 857598140703-jgmo8bar5psptnnqhb5uv4lc1skas1hl.apps.googleusercontent.com
 //android = 857598140703-cjer1r18grdqhrsln0g1fkcu6tjitntc.apps.googleusercontent.com
@@ -19,60 +24,13 @@ export default function PantallaMapa() {
   const [request, response, promptAsync] = Google.useAuthRequest({
     selectAccount: true,
     clientId:
-      "813875053971-h9m006kmq7vlpo32o8am4r4rvgeu4u1o.apps.googleusercontent.com",
+      "857598140703-mhi55jmtd7blc2je2innkmil8607lqmt.apps.googleusercontent.com",
     iosClientId:
-      "813875053971-bvemg1g8ugsa800giuqpoj561kl1mu96.apps.googleusercontent.com",
+      "857598140703-jgmo8bar5psptnnqhb5uv4lc1skas1hl.apps.googleusercontent.com",
     androidClientId:
       "857598140703-cjer1r18grdqhrsln0g1fkcu6tjitntc.apps.googleusercontent.com",
   });
 
-  // const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
-  //   selectAccount: true,
-  //   iosClientId:
-  //     "857598140703-jgmo8bar5psptnnqhb5uv4lc1skas1hl.apps.googleusercontent.com",
-  //   androidClientId:
-  //     "857598140703-cjer1r18grdqhrsln0g1fkcu6tjitntc.apps.googleusercontent.com",
-  //   webClientId:
-  //     "857598140703-mhi55jmtd7blc2je2innkmil8607lqmt.apps.googleusercontent.com",
-  // });
-
-  // useEffect(() => {
-  //   handleSigninWithGoogle();
-  // }, [response]);
-  // async function handleSigninWithGoogle() {
-  //   const user = await getLocalUser();
-  //   if (!user) {
-  //     if (response?.type === "success") {
-  //       getUserInfo(response.authentication.accessToken);
-  //       console.log("User: ", userInfo);
-  //     }
-  //   } else {
-  //     setuserInfo(user);
-  //   }
-  // }
-  // const getLocalUser = async () => {
-  //   const data = await AsyncStorage.getItem("@user");
-  //   if (!data) return null;
-  //   return JSON.parse(data);
-  // };
-
-  // const getUserInfo = async (token) => {
-  //   if (!token) return;
-  //   try {
-  //     const response = await fetch(
-  //       "https://www.googleapis.com/userinfo/v2/me",
-  //       {
-  //         headers: { Authorization: `Bearer ${token}` },
-  //       }
-  //     );
-  //     const user = await response.json();
-  //     await AsyncStorage.setItem("@user", JSON.stringify(user));
-  //     setuserInfo(user);
-  //     console.log("User: ", userInfo);
-  //   } catch (error) {
-  //     console.log("Error: ", error);
-  //   }
-  // };
 
   useEffect(() => {
     if (response?.type === "success") {
@@ -92,14 +50,37 @@ export default function PantallaMapa() {
       },
     });
     const userInfo = await response.json();
+
     setUser(userInfo);
+    console.log("User: ", userInfo);
     //registerWithGoogle(userInfo);
   }
-
+  const registerWithGoogle = async (user) => {
+    signInWithCredential(auth, credential)
+      .then(() => {
+        const docRef = doc(db, "users", `${auth.currentUser.uid}`);
+        getDoc(docRef).then((document) => {
+          if (!document.exists()) {
+            setDoc(doc(db, "users", `${auth.currentUser.uid}`), {
+              name: user.name,
+              rol: "usuario",
+              url_photo: user.picture,
+              estatus: "Activo",
+              email: user.email,
+              created_at: new Date(),
+            });
+          }
+        });
+        console.log(user);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
     <View style={styles.container}>
       <Text>Pantalla Mapa</Text>
-      {!user ? (
+      {/* {!user ? (
         <TouchableOpacity
           style={{ borderWidth: 1, borderRadius: 10 }}
           onPress={() => {
@@ -119,7 +100,7 @@ export default function PantallaMapa() {
           <Text>Usuario: {user.name}</Text>
           <Text>Correo: {user.verified_email} </Text>
         </View>
-      )}
+      )} */}
     </View>
   );
 }

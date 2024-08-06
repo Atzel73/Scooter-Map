@@ -80,6 +80,22 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
     shadowRadius: 2,
+    margin: "5%"
+  },
+  buttonGoogle: {
+    width: "90%",
+    height: 45,
+    backgroundColor: "blue",
+    borderRadius: 5,
+    alignItems: "center",
+    justifyContent: "space-around",
+    flexDirection: "row",
+    elevation: 2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    margin: "5%"
   },
   buttonText: {
     fontSize: 16,
