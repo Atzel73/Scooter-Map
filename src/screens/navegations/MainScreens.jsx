@@ -14,6 +14,7 @@ import app, { db } from "../../db/conection";
 import BorrarCuenta from "../Principal/client/UserConfig/BorrarCuenta/BorrarCuenta";
 import { getAuth } from "firebase/auth";
 import HomeScreen from "../Principal/client/Principal/HomeScreen";
+import BlockUser from "../Principal/client/BlockUser"
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -70,11 +71,13 @@ function LoginScreens() {
         component={HomeScreen}
         options={{ headerShown: false }}
       />
+
       <Stack.Screen
         name="Configurar Perfil"
         component={UserConfig}
         options={{ headerShown: false }}
       />
+      <Stack.Screen name="Bloquear" component={BlockUser} />
       <Stack.Screen name="Iniciar Sesion" component={UserEnter} />
     </Stack.Navigator>
   );

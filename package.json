@@ -9,6 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@expo-google-fonts/montserrat": "^0.2.3",
     "@expo/webpack-config": "^0.12.52",
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-navigation/bottom-tabs": "^6.5.20",
@@ -39,10 +40,16 @@
     "react-native-screens": "3.31.1",
     "react-native-tab-view": "^3.5.2",
     "react-native-vector-icons": "^10.1.0",
-    "react-native-web": "~0.19.10"
+    "react-native-web": "~0.19.10",
+    "expo-font": "~12.0.9"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
+  },
+  "rnpm": {
+    "assets": [
+      "./src/fonts/"
+    ]
   },
   "private": true
 }

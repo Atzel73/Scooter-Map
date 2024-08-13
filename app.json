@@ -30,6 +30,14 @@
         "projectId": "77936019-01e0-4771-b613-f4344d913af3"
       }
     },
-    "scheme": "scootermap"
+    "scheme": "scootermap",
+    "plugins": [
+      [
+        "expo-font",
+        {
+          "fonts": ["./assets/fonts/Knucklehead.otf"]
+        }
+      ]
+    ]
   }
 }

@@ -56,6 +56,7 @@ export default function Login() {
     }
   }, [response, accessToken]);
   async function fetchUserInfo() {
+    console.log("fetchUserInfo");
     let response = await fetch("https://www.googleapis.com/userinfo/v2/me", {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -83,10 +84,11 @@ export default function Login() {
               status: "Activo",
               email: user.email,
               created_at: new Date(),
+              users_blocked: [],
+              blocked_by: [],
             });
           }
         });
-        console.log("Cargando registro...");
       })
       .then(() => {
         Alert.alert("¡Bienvenido!");

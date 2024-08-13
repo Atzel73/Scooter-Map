@@ -70,6 +70,8 @@ export default function Funcionalidades({
             rol: "usuario",
             scooter_id: "",
             created_at: new Date(),
+            users_blocked: [],
+            blocked_by: [],
           });
           Alert.alert("¡Bienvenido!");
           navigation.navigate("Principal");

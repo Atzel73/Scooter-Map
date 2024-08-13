@@ -8,7 +8,9 @@ import {
   Platform,
   Linking,
   ScrollView,
-  Dimensions, Image
+  Dimensions,
+  Image,
+  ActivityIndicator,
 } from "react-native";
 import { FontAwesome6, MaterialIcons, Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -131,14 +133,15 @@ export default function Configuration({ route }) {
               </Text>
             </View> */}
             <View style={styles.viewPhoto}>
-              <View>
-                <TouchableOpacity>
-                  <Image
-                    source={{ uri: userData.photo }}
-                    style={styles.img}
-                  />
-                </TouchableOpacity>
-              </View>
+              {!userData.photo ? (
+                <View>
+                  <ActivityIndicator color="#202020" size="large" />
+                </View>
+              ) : (
+                <View>
+                  <Image source={{ uri: userData.photo }} style={styles.img} />
+                </View>
+              )}
               <View>
                 <Text style={{ color: "black" }}> {userData.name}</Text>
               </View>
@@ -211,6 +214,7 @@ export default function Configuration({ route }) {
                     style={styles.Icon}
                   />
                   <Text style={styles.buttonText}>Eliminar cuenta</Text>
+                  <Text style={{textAlign: 'center', fontFamily: 'Knucklehead'}}>Prueba</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -347,5 +351,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     flex: 1,
     textAlign: "center",
+    fontFamily: "Knucklehead",
   },
 });
