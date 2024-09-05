@@ -190,6 +190,7 @@ export default function HomeScreen() {
   const [userData, setUserData] = useState(null);
   const [users, setUsers] = useState([]);
   const [dontExist, setDontExist] = useState(false);
+  const [error, setIsError] = useState(false);
   const navigation = useNavigation();
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
@@ -207,6 +208,7 @@ export default function HomeScreen() {
           if (!docSnap.exists()) {
             console.log("El usuario no existe");
             setDontExist(true);
+            setIsError(true)
           } else {
             onSnapshot(userRef, (doc) => {
               setUserData(doc.data());
@@ -251,6 +253,7 @@ export default function HomeScreen() {
   const toggleModal = () => {
     setModalVisible(!modalVisible);
   };
+ 
   return (
     <View
       style={styles.container}

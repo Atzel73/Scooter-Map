@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { blue } from "react-native-reanimated/lib/typescript/reanimated2/Colors";
 const styles = StyleSheet.create({
   modalOverlay: {
     flex: 1,
@@ -77,7 +78,24 @@ const styles = StyleSheet.create({
     borderColor: "#202020",
     marginBottom: 10,
   },
+  buttonGuest: {
+    flexDirection: "row",
+    alignItems: "center",
+    margin: 5,
+    justifyContent: "space-around",
+    padding: 10,
+    backgroundColor: "#202020",
+    borderRadius: 5,
+    borderColor: "#202020",
+    marginBottom: 10,
+  },
   contView: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  contViewGuest: {
+    marginTop: 100,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",

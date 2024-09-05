@@ -44,6 +44,7 @@ export default function Funcionalidades({
 
   const handlerDisabledButton = () => {};
   async function RegisterUser() {
+    console.log("Dentro");
     try {
       const userData = {
         photo: user.image === undefined ? "empty" : user.image,
@@ -64,11 +65,11 @@ export default function Funcionalidades({
       )
         .then((userCredentials) => {
           setDoc(doc(db, "users", userCredentials.user.uid), {
-            photo: user.image === undefined ? "empty" : user.image,
-            name: user.name,
-            last_name: user.lastName,
+            photo: user.image === undefined ? empty : user.image,
+            name: "usuario",
+            last_name: "usuario",
             email: userCredentials.user.email,
-            phone: user.phone,
+            phone: "",
             password: user.confirmPassword,
             status: "Activo",
             rol: "usuario",

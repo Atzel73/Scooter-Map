@@ -27,6 +27,8 @@ export default function ModalDrawer({ modalVisible, toggleModal }) {
   const [userData, setUserData] = useState(null);
   const [onLoad, setOnLoad] = useState(false);
   const [dontExist, setDontExist] = useState(false);
+  const [error, setIsError] = useState(false);
+
   const navigation = useNavigation();
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
@@ -44,6 +46,7 @@ export default function ModalDrawer({ modalVisible, toggleModal }) {
           if (!docSnap.exists()) {
             console.log("El usuario no existe");
             setDontExist(true);
+            setIsError(true);
           } else {
             onSnapshot(userRef, (doc) => {
               setUserData(doc.data());
@@ -60,7 +63,13 @@ export default function ModalDrawer({ modalVisible, toggleModal }) {
 
     return () => unsubscribe();
   }, [auth]);
-
+  if (error) {
+    return (
+      <View>
+        <Text>Error al traer los datos de usuario</Text>
+      </View>
+    );
+  }
   return (
     <View>
       <Modal
@@ -193,12 +202,12 @@ export default function ModalDrawer({ modalVisible, toggleModal }) {
                 </TouchableOpacity>
               </>
             ) : (
-              <View style={styles.contView}>
+              <View style={styles.contViewGuest}>
                 <TouchableOpacity
-                  style={styles.button}
+                  style={styles.buttonGuest}
                   onPress={() => {
                     navigation.navigate("Iniciar Sesion");
-                    toggleModal();  
+                    toggleModal();
                   }}
                 >
                   <FontAwesome6
@@ -208,7 +217,7 @@ export default function ModalDrawer({ modalVisible, toggleModal }) {
                     style={styles.Icon}
                   />
                   <Text style={styles.buttonText}>
-                    No tienes la sesion iniciada. Inicia sesion.{" "}
+                    No hay sesion activa. Inicia sesion o crea una cuenta.
                   </Text>
                 </TouchableOpacity>
               </View>

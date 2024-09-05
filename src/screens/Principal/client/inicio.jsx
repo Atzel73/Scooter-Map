@@ -50,23 +50,23 @@ export default function Register() {
               </View>
             </View>
           )}
-          <View style={styles.inputContainer}>
+          {/* <View style={styles.inputContainer}>
             <TouchableOpacity
               style={{ alignItems: "center" }}
               onPress={getImage}
             >
               <Text>Por favor, seleccione una imagen para su perfil</Text>
             </TouchableOpacity>
-          </View>
-          <View style={styles.inputContainer}>
+          </View> */}
+          {/* <View style={styles.inputContainer}>
             <Text style={styles.label}>Nombre:</Text>
             <CustomInput
               style={styles.input}
               value={userData.name}
               onChangeText={(text) => setUserData({ ...userData, name: text })}
             />
-          </View>
-          <View style={styles.inputContainer}>
+          </View> */}
+          {/* <View style={styles.inputContainer}>
             <Text style={styles.label}>Apellido:</Text>
             <CustomInput
               value={userData.lastName}
@@ -75,8 +75,8 @@ export default function Register() {
               }
               style={styles.input}
             />
-          </View>
-          <View style={styles.inputContainer}>
+          </View> */}
+          {/* <View style={styles.inputContainer}>
             <Text style={styles.label}>Numero de telefono:</Text>
             <CustomInput
               keyboardType="numeric"
@@ -84,7 +84,7 @@ export default function Register() {
               onChangeText={(text) => setUserData({ ...userData, phone: text })}
               style={styles.input}
             />
-          </View>
+          </View> */}
           <View style={styles.inputContainer}>
             <Text style={styles.label}>Correo electrónico:</Text>
             <CustomInput
@@ -128,10 +128,10 @@ export default function Register() {
               </View>
             )}
         </LinearGradient>
-        {userData.name &&
-          userData.lastName &&
-          userData.email &&
-          userData.password === userData.confirmPassword && (
+        {
+          // userData.name &&
+          //   userData.lastName &&
+          userData.email && userData.password === userData.confirmPassword && (
             <View style={styles.buttonContainer}>
               <Funcionalidades
                 style={styles.buttonSend}
@@ -146,7 +146,8 @@ export default function Register() {
                 <FontAwesome name="send" size={20} color="white" />
               </TouchableOpacity> */}
             </View>
-          )}
+          )
+        }
         <View style={{ alignItems: "center" }}>
           <View style={styles.inputContainer}>
             <TouchableOpacity
@@ -158,7 +159,6 @@ export default function Register() {
               <Text>¿Ya tienes cuenta? Inicia sesion</Text>
             </TouchableOpacity>
           </View>
-        
         </View>
         {Platform.OS === "ios" && (
           <View style={styles.inputContainer}>

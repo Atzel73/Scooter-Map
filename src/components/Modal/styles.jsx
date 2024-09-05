@@ -2,6 +2,23 @@ import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
+  contViewGuest: {
+    marginTop: "50%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  buttonGuest: {
+    flexDirection: "row",
+    alignItems: "center",
+    margin: 5,
+    justifyContent: "space-around",
+    padding: 10,
+    backgroundColor: "#ddd",
+    borderRadius: 5,
+    borderColor: "#202020",
+    marginBottom: 10,
+  },
   Icon: {
     marginLeft: 10,
     marginRight: 10,
