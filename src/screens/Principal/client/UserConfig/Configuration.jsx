@@ -213,8 +213,7 @@ export default function Configuration({ route }) {
                     color="black"
                     style={styles.Icon}
                   />
-                  <Text style={styles.buttonText}>Eliminar cuenta</Text>
-                  <Text style={{textAlign: 'center', fontFamily: 'Knucklehead'}}>Prueba</Text>
+                  <Text style={styles.buttonText}>Eliminar cuenta </Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -351,6 +350,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     flex: 1,
     textAlign: "center",
-    fontFamily: "Knucklehead",
   },
 });

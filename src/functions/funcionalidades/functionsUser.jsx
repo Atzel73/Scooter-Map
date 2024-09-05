@@ -34,11 +34,15 @@ export default function Funcionalidades({
   userSign,
   userUpdate,
   userDelete,
+  disabled,
 }) {
   const auth = getAuth();
   const navigation = useNavigation();
+  const [buttonDisabled, setButtonDisabled] = React.useState(false);
   const empty =
     "https://firebasestorage.googleapis.com/v0/b/floydapp-a1e0d.appspot.com/o/Admin%2FuserEmpty.jpg?alt=media&token=19d2651d-f14e-4ae7-8629-489f512bfc78";
+
+  const handlerDisabledButton = () => {};
   async function RegisterUser() {
     try {
       const userData = {
@@ -109,6 +113,8 @@ export default function Funcionalidades({
   }
   async function UpdateUser() {
     try {
+      setButtonDisabled(true);
+
       const userData = {
         updated_at: new Date(),
         name: userUpdate.data.name,
@@ -124,6 +130,56 @@ export default function Funcionalidades({
       navigation.goBack();
     } catch (error) {
       console.log("Error: ", error);
+    } finally {
+      setButtonDisabled(false);
+    }
+  }
+  async function UpdateUserName() {
+    try {
+      setButtonDisabled(true);
+
+      const userData = {
+        updated_at: new Date(),
+        name: userUpdate.name,
+        last_name: userUpdate.last_name,
+        //email: userUpdate.data.email,
+        //phone: userUpdate.data.phone,
+      };
+      const userRef = await updateDoc(
+        doc(db, "users", auth.currentUser.uid),
+        userData
+      );
+      console.log("User updated");
+      Alert.alert("¡Nombre actualizados");
+      navigation.goBack();
+    } catch (error) {
+      console.log("Error: ", error);
+    } finally {
+      setButtonDisabled(true);
+    }
+  }
+  async function UpdateUserPhone() {
+    try {
+      setButtonDisabled(true);
+
+      const userData = {
+        updated_at: new Date(),
+        //name: userUpdate.name,
+        //last_name: userUpdate.last_name,
+        //email: userUpdate.data.email,
+        phone: userUpdate.phone,
+      };
+      const userRef = await updateDoc(
+        doc(db, "users", auth.currentUser.uid),
+        userData
+      );
+      console.log("User updated");
+      Alert.alert("¡Numero actualizados");
+      navigation.goBack();
+    } catch (error) {
+      console.log("Error: ", error);
+    } finally {
+      setButtonDisabled(false);
     }
   }
   async function SignUser() {
@@ -195,33 +251,37 @@ export default function Funcionalidades({
   }
   async function UpdateEmail() {
     const user = auth.currentUser;
-
+    console.log("Props: ", userUpdate);
     if (!user) {
       console.log("Usuario no autenticado");
       return;
     }
 
-    console.log(userUpdate[0].data.password);
-    console.log(userUpdate[1]);
+    console.log(userUpdate.password);
 
     try {
+      setButtonDisabled(true); // Desactivar el botón
       const credential = EmailAuthProvider.credential(
         user.email,
-        userUpdate[0].data.password
+        userUpdate.password
       );
 
       await reauthenticateWithCredential(user, credential);
       console.log("usuario reautenticado");
 
-      await updateEmail(user, userUpdate[0].data.email);
+      await updateEmail(user, userUpdate.email);
       console.log("email actualizado");
 
-      await updateDoc(doc(db, "users", userUpdate[0].id), {
-        email: userUpdate[0].data.email,
+      await updateDoc(doc(db, "users", auth.currentUser.uid), {
+        email: userUpdate.email,
       });
       console.log("actualizado");
+      Alert.alert("Correo actualizado");
+      navigation.goBack();
     } catch (error) {
       console.error("Error al actualizar el correo electrónico:", error);
+    } finally {
+      setButtonDisabled(false);
     }
   }
 
@@ -246,6 +306,12 @@ export default function Funcionalidades({
           if (callFunction === "UpdateUser") {
             UpdateUser();
           }
+          if (callFunction === "UpdateUserName") {
+            UpdateUserName();
+          }
+          if (callFunction === "UpdateUserPhone") {
+            UpdateUserPhone();
+          }
           if (callFunction === "SignUser") {
             SignUser();
           }
@@ -256,7 +322,12 @@ export default function Funcionalidades({
             UpdateEmail();
           }
         }}
-        style={[styles.button, style]}
+        style={[
+          styles.button,
+          style,
+          (buttonDisabled || disabled) && styles.buttonDisabled,
+        ]}
+        disabled={buttonDisabled || disabled}
       >
         <Text>{title}</Text>
         {children}
@@ -274,5 +345,8 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     padding: 10,
     marginHorizontal: 10,
+  },
+  buttonDisabled: {
+    opacity: 0.5, // Reduce la opacidad cuando el botón está deshabilitado
   },
 });

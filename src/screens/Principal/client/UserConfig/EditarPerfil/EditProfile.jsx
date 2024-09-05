@@ -56,12 +56,6 @@ export default function EditProfile() {
           setUserData({ id: doc.id, data: doc.data() });
           setUserEmail(doc.data().email);
         });
-        // const docSnap = await getDoc(userRef);
-        // if (docSnap.exists()) {
-        //   setUserData({ id: docSnap.id, data: docSnap.data() });
-        // } else {
-        //   console.log("El usuario no existe");
-        // }
       }
       getUser();
     } catch (error) {
@@ -124,7 +118,8 @@ export default function EditProfile() {
           <View style={styles.contView}>
             <TouchableOpacity
               style={styles.viewField}
-              onPress={() => handlerName()}
+              //onPress={() => handlerName()}
+              onPress={() => navigation.navigate("Cambiar nombre")}
             >
               <FontAwesome6
                 name="circle-user"
@@ -170,7 +165,8 @@ export default function EditProfile() {
           <View style={styles.contView}>
             <TouchableOpacity
               style={styles.viewField}
-              onPress={() => handlerPhone()}
+              //onPress={() => handlerPhone()}
+              onPress={() => navigation.navigate("Cambiar numero")}
             >
               <FontAwesome6
                 name="phone"
@@ -221,7 +217,8 @@ export default function EditProfile() {
           <View style={styles.contView}>
             <TouchableOpacity
               style={styles.viewField}
-              onPress={() => handlerEmail()}
+              //onPress={() => handlerEmail()}
+              onPress={() => navigation.navigate("Cambiar correo")}
             >
               <MaterialCommunityIcons
                 name="email-multiple"
@@ -284,7 +281,7 @@ export default function EditProfile() {
               </View>
             )}
           </View>
-          {!showEmail && (
+          {/* {!showEmail && (
             <View style={styles.contView}>
               <Funcionalidades
                 callFunction="UpdateUser"
@@ -302,10 +299,9 @@ export default function EditProfile() {
                 </Text>
               </Funcionalidades>
             </View>
-          )}
+          )} */}
         </>
       )}
     </KeyboardAvoidingView>
   );
 }
-

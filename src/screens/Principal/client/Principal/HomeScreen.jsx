@@ -185,7 +185,7 @@ function DrawerScreen(props) {
   );
 }
 
-function HomeScreenSecond() {
+export default function HomeScreen() {
   const auth = getAuth();
   const [userData, setUserData] = useState(null);
   const [users, setUsers] = useState([]);
@@ -238,39 +238,6 @@ function HomeScreenSecond() {
 
     return () => unsubscribe();
   }, [auth]);
-  useEffect(() => {
-    function getAllUsers() {
-      const usersRef = collection(db, "users");
-
-      onSnapshot(usersRef, (querySnapshot) => {
-        const users = [];
-
-        querySnapshot.forEach((doc) => {
-          const userData = doc.data();
-
-          if (doc.id === auth.currentUser.uid) {
-            return;
-          }
-
-          const userActual = userData.blocked_by?.some(
-            (blockedUser) => blockedUser.user_id === auth.currentUser.uid
-          );
-
-          const blockedBy = userData.users_blocked?.some(
-            (blockedUser) => blockedUser.user_id === auth.currentUser.uid
-          );
-
-          if (!userActual && !blockedBy) {
-            users.push({ id: doc.id, userData });
-          }
-        });
-
-        setUsers(users);
-      });
-    }
-
-    getAllUsers();
-  }, []);
 
   useEffect(() => {
     navigation.setOptions({
@@ -297,93 +264,33 @@ function HomeScreenSecond() {
       >
         <FontAwesome6 name="grip-lines" size={30} color="black" />
       </TouchableOpacity>
-      <View>
-        {/* <PantallaMapa /> */}
-        {users &&
-          users.map((item, index) => {
-            return auth && auth.currentUser && auth.currentUser.uid ? (
-              <TouchableOpacity
-                key={index}
-                style={{
-                  alignItems: "center",
-                  flexDirection: "row",
-                  justifyContent: "space-around",
-                  margin: 10,
-                }}
-                onPress={() =>
-                  navigation.navigate("Bloquear", {
-                    user: item.users,
-                    id: item.id,
-                  })
-                }
-              >
-                {!item.userData.photo ? (
-                  <Text>Cargando...</Text>
-                ) : (
-                  <Image
-                    source={{ uri: item.userData.photo }}
-                    style={{ width: 150, height: 150 }}
-                  />
-                )}
-
-                <Text>{item.userData.name}</Text>
-              </TouchableOpacity>
-            ) : (
-              <View
-                key={index}
-                style={{
-                  alignItems: "center",
-                  flexDirection: "row",
-                  justifyContent: "space-around",
-                  margin: 10,
-                }}
-                onPress={() =>
-                  navigation.navigate("Bloquear", {
-                    user: item.users,
-                    id: item.id,
-                  })
-                }
-              >
-                {!item.userData.photo ? (
-                  <Text>Cargando...</Text>
-                ) : (
-                  <Image
-                    source={{ uri: item.userData.photo }}
-                    style={{ width: 150, height: 150 }}
-                  />
-                )}
-
-                <Text>{item.userData.name}</Text>
-              </View>
-            );
-          })}
-      </View>
+      <View>{/* <PantallaMapa /> */}</View>
     </View>
   );
 }
 
-export default function HomeScreen() {
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+// export default function HomeScreen() {
+//   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  const toggleDrawer = () => {
-    setIsDrawerOpen(!isDrawerOpen);
-  };
+//   const toggleDrawer = () => {
+//     setIsDrawerOpen(!isDrawerOpen);
+//   };
 
-  return (
-    <Drawer.Navigator
-      drawerContent={(props) => <DrawerScreen {...props} />}
-      initialRouteName="Perfil"
-      screenOptions={{
-        drawerStyle: {
-          //backgroundColor: "#c6cbef",
-          //width: 240,
-        },
-        drawerType: "back",
-        drawerActiveTintColor: "#4772A9",
-        overlayColor: "grey",
-      }}
-    >
-      <Drawer.Screen name="Inicio" component={HomeScreenSecond} />
-    </Drawer.Navigator>
-  );
-}
+//   return (
+//     <Drawer.Navigator
+//       drawerContent={(props) => <DrawerScreen {...props} />}
+//       initialRouteName="Perfil"
+//       screenOptions={{
+//         drawerStyle: {
+//           //backgroundColor: "#c6cbef",
+//           //width: 240,
+//         },
+//         drawerType: "back",
+//         drawerActiveTintColor: "#4772A9",
+//         overlayColor: "grey",
+//       }}
+//     >
+//       <Drawer.Screen name="Inicio" component={HomeScreenSecond} />
+//     </Drawer.Navigator>
+//   );
+// }

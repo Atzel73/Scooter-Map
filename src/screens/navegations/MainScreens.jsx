@@ -14,7 +14,10 @@ import app, { db } from "../../db/conection";
 import BorrarCuenta from "../Principal/client/UserConfig/BorrarCuenta/BorrarCuenta";
 import { getAuth } from "firebase/auth";
 import HomeScreen from "../Principal/client/Principal/HomeScreen";
-import BlockUser from "../Principal/client/BlockUser"
+import BlockUser from "../Principal/client/BlockUser";
+import EditarNombreScreen from "../Principal/client/UserConfig/EditarNombre/EditarNombreScreen";
+import EditarNumeroScreen from "../Principal/client/UserConfig/EditarNumero/EditarNumeroScreen";
+import EditarCorreoScreen from "../Principal/client/UserConfig/EditarCorreo/EditarCorreoScreen";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -49,6 +52,9 @@ function UserConfig() {
         component={EditProfile}
         //options={{ headerShown: false }}
       />
+      <Stack.Screen name="Cambiar nombre" component={EditarNombreScreen} />
+      <Stack.Screen name="Cambiar numero" component={EditarNumeroScreen} />
+      <Stack.Screen name="Cambiar correo" component={EditarCorreoScreen} />
       <Stack.Screen name="Cambiar foto" component={EditPhoto} />
       <Stack.Screen name="Borrar Cuenta" component={BorrarCuenta} />
     </Stack.Navigator>
@@ -94,7 +100,7 @@ export default function Screens() {
   });
   return (
     <NavigationContainer>
-      <Tab.Navigator>
+      <Stack.Navigator>
         {/* <Tab.Screen name="Configuracion de usuario" component={UserConfig} />
         <Tab.Screen name="Inicio" component={LoginScreens} /> */}
         <Stack.Screen
@@ -120,7 +126,7 @@ export default function Screens() {
         ) : (
           <Stack.Screen name="Registrarse" component={UserEnter} />
         )} */}
-      </Tab.Navigator>
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }
