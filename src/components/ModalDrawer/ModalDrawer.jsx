@@ -182,7 +182,9 @@ export default function ModalDrawer({ modalVisible, toggleModal }) {
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={styles.button}
-                      onPress={() => navigation.navigate("Soporte")}
+                      onPress={() => {
+                        navigation.navigate("Soporte"), toggleModal();
+                      }}
                     >
                       <MaterialIcons
                         name="support-agent"
