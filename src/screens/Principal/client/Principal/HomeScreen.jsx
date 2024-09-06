@@ -243,7 +243,7 @@ export default function HomeScreen() {
 
   useEffect(() => {
     navigation.setOptions({
-      headerShown: true,
+      headerShown: false,
       headerTransparent: true,
     });
   }, []);

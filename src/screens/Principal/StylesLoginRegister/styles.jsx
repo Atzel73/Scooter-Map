@@ -21,17 +21,22 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   formContainer: {
-    width: width * 0.9,
-    paddingVertical: 30,
-    paddingHorizontal: 20,
-    borderRadius: 15,
-    alignItems: "center",
+    // width: width * 0.9,
+    // paddingVertical: 30,
+    // paddingHorizontal: 20,
+    // borderRadius: 15,
+    // alignItems: "center",
+    // justifyContent: "center",
+    // elevation: 5,
+    // shadowColor: "#000",
+    // shadowOffset: { width: 0, height: 2 },
+    // shadowOpacity: 0.8,
+    // shadowRadius: 2,
+   
     justifyContent: "center",
-    elevation: 5,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
+    alignItems: "center",
+    backgroundColor: "white",
+
   },
   inputContainer: {
     marginBottom: 20,
@@ -52,6 +57,10 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "#fff",
   },
+  contView: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
   errorContainer: {
     marginBottom: 20,
     width: "100%",
@@ -68,19 +77,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonSend: {
-    width: "90%",
-    height: 45,
-    backgroundColor: "#4CAF50",
-    borderRadius: 5,
-    alignItems: "center",
-    justifyContent: "space-around",
+    width: "100%",
     flexDirection: "row",
-    elevation: 2,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-    margin: "5%"
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#6BB8FF",
+    borderRadius: 10,
+    margin: 10,
+    padding: 20
   },
   buttonGoogle: {
     width: "90%",
@@ -95,13 +99,12 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
     shadowRadius: 2,
-    margin: "5%"
+    margin: "5%",
   },
   buttonText: {
-    fontSize: 16,
-    fontStyle: "italic",
+    fontSize: 18,
     color: "white",
-    marginRight: 10,
+    textAlign: 'center'
   },
 });
 export default styles;

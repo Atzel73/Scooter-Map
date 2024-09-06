@@ -340,10 +340,10 @@ export default function Funcionalidades({
 const styles = StyleSheet.create({
   button: {
     borderRadius: 10,
-    borrderWidth: 1,
     borderColor: "grey",
     alignItems: "center",
     alignSelf: "center",
+    justifyContent: 'center',
     padding: 10,
     marginHorizontal: 10,
   },

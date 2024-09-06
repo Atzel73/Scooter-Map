@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   },
   drawerButton: {
     position: "absolute",
-    top: 100,
+    top: 50,
     left: 20,
     zIndex: 1,
     backgroundColor: "white",

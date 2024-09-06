@@ -28,12 +28,12 @@ function UserEnter() {
       <Stack.Screen
         name="Register"
         component={Register}
-        options={{ headerShown: false }}
+        options={{ headerShown: true }}
       />
       <Stack.Screen
         name="Login"
         component={Login}
-        options={{ headerShown: false }}
+        options={{ headerShown: true }}
       />
     </Stack.Navigator>
   );
@@ -84,7 +84,11 @@ function LoginScreens() {
         options={{ headerShown: false }}
       />
       <Stack.Screen name="Bloquear" component={BlockUser} />
-      <Stack.Screen name="Iniciar Sesion" component={UserEnter} />
+      <Stack.Screen
+        name="Iniciar Sesion"
+        component={UserEnter}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 }

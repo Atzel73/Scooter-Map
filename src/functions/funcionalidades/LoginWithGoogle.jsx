@@ -10,14 +10,6 @@ import {
   TouchableOpacity,
   Alert,
 } from "react-native";
-import CustomInput from "../../../components/TextInput/textInput";
-import { LinearGradient } from "expo-linear-gradient";
-import { FontAwesome, Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
-import pickImage from "../../../functions/cameraPicker/imagePicker";
-import styles from "../StylesLoginRegister/styles";
-import Funcionalidades from "../../../functions/funcionalidades/functionsUser";
-import { db } from "../../../db/conection";
 import {
   getAuth,
   signInWithCredential,
@@ -26,35 +18,16 @@ import {
 import { setDoc, doc, onSnapshot, getDoc } from "firebase/firestore";
 import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
+import { FontAwesome6, MaterialIcons, AntDesign } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
-const { width, height } = Dimensions.get("window");
-WebBrowser.maybeCompleteAuthSession();
-export default function Login() {
+export default function LoginWithGoogle() {
   const auth = getAuth();
   const [userData, setUserData] = useState({});
   const navigation = useNavigation();
   const [user, setUser] = useState(null);
   const [credential, setCredential] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
-
-  useEffect(() => {
-    navigation.setOptions({
-      headerTitle: "",
-      headerLeft: () => (
-        <View>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Ionicons
-              name="arrow-back-circle"
-              size={30}
-              color="black"
-              style={styles.Icon}
-            />
-          </TouchableOpacity>
-        </View>
-      ),
-    });
-  }, [navigation]);
-
   const [request, response, promptAsync] = Google.useAuthRequest({
     selectAccount: true,
     clientId:
@@ -118,48 +91,55 @@ export default function Login() {
         console.log(error);
       });
   };
-  return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.formContainer}
-    >
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <View style={styles.contView}>
-          <Text style={styles.label}>Correo electrónico:</Text>
-          <CustomInput
-            value={userData.email}
-            onChangeText={(text) => setUserData({ ...userData, email: text })}
-            keyboardType="email-address"
-            style={{
-              width: "100%",
-              paddingHorizontal: "45%",
-              marginHorizontal: 10,
-            }}
-          />
-        </View>
-        <View style={styles.contView}>
-          <Text style={styles.label}>Contraseña:</Text>
-          <CustomInput
-            value={userData.password}
-            onChangeText={(text) =>
-              setUserData({ ...userData, password: text })
-            }
-            style={{
-              width: "100%",
-              paddingHorizontal: "45%",
-              marginHorizontal: 10,
-            }}
-          />
-        </View>
 
-        <Funcionalidades
-          style={styles.buttonSend}
-          callFunction="SignUser"
-          userSign={userData}
-        >
-          <Text style={styles.buttonText}>Iniciar sesion</Text>
-        </Funcionalidades>
-      </ScrollView>
-    </KeyboardAvoidingView>
+  return (
+    <View>
+      <TouchableOpacity style={styles.button} onPress={() => promptAsync()}>
+        <View style={styles.viewInter}>
+          <AntDesign
+            name="google"
+            size={24}
+            color="black"
+            style={styles.Icon}
+          />
+        </View>
+        <View style={styles.viewInter}>
+          <Text>Continua con Google</Text>
+        </View>
+        <View style={styles.viewInter}>
+          <Text style={styles.googleText}>Vincular</Text>
+        </View>
+      </TouchableOpacity>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  googleText: {
+    color: "#6BB8FF",
+    marginLeft: 10
+  },
+  viewButton: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  button: {
+    
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center",
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#202020",
+  },
+  Icon: {
+    marginLeft: 10,
+    marginRight: 5
+  },
+  viewInter: {
+    margin: 15,
+    marginHorizontal: 10,
+  },
+});
+
+
