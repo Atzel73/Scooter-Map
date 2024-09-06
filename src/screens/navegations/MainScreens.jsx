@@ -18,6 +18,8 @@ import BlockUser from "../Principal/client/BlockUser";
 import EditarNombreScreen from "../Principal/client/UserConfig/EditarNombre/EditarNombreScreen";
 import EditarNumeroScreen from "../Principal/client/UserConfig/EditarNumero/EditarNumeroScreen";
 import EditarCorreoScreen from "../Principal/client/UserConfig/EditarCorreo/EditarCorreoScreen";
+
+import SoporteScreens from "./SoporteNavigation";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -87,6 +89,11 @@ function LoginScreens() {
       <Stack.Screen
         name="Iniciar Sesion"
         component={UserEnter}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        component={SoporteScreens}
+        name="Soporte"
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

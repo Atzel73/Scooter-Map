@@ -32,10 +32,11 @@ const styles = StyleSheet.create({
     // shadowOffset: { width: 0, height: 2 },
     // shadowOpacity: 0.8,
     // shadowRadius: 2,
-   
+   flex: 1,
     justifyContent: "center",
-    alignItems: "center",
+    //alignItems: "center",
     backgroundColor: "white",
+    margin: 10
 
   },
   inputContainer: {

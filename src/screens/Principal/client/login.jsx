@@ -123,35 +123,33 @@ export default function Login() {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.formContainer}
     >
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <View style={styles.contView}>
-          <Text style={styles.label}>Correo electrónico:</Text>
-          <CustomInput
-            value={userData.email}
-            onChangeText={(text) => setUserData({ ...userData, email: text })}
-            keyboardType="email-address"
-            style={{
-              width: "100%",
-              paddingHorizontal: "45%",
-              marginHorizontal: 10,
-            }}
-          />
-        </View>
-        <View style={styles.contView}>
-          <Text style={styles.label}>Contraseña:</Text>
-          <CustomInput
-            value={userData.password}
-            onChangeText={(text) =>
-              setUserData({ ...userData, password: text })
-            }
-            style={{
-              width: "100%",
-              paddingHorizontal: "45%",
-              marginHorizontal: 10,
-            }}
-          />
-        </View>
-
+      <View style={styles.contView}>
+        <Text style={styles.label}>Correo electrónico:</Text>
+        <CustomInput
+          value={userData.email}
+          onChangeText={(text) => setUserData({ ...userData, email: text })}
+          keyboardType="email-address"
+          style={{
+            width: "100%",
+            paddingHorizontal: "45%",
+            marginHorizontal: 10,
+          }}
+        />
+      </View>
+      <View style={styles.contView}>
+        <Text style={styles.label}>Contraseña:</Text>
+        <CustomInput
+          value={userData.password}
+          onChangeText={(text) => setUserData({ ...userData, password: text })}
+          style={{
+            width: "100%",
+            paddingHorizontal: "45%",
+            marginHorizontal: 10,
+          }}
+        />
+      </View>
+      
+      <>
         <Funcionalidades
           style={styles.buttonSend}
           callFunction="SignUser"
@@ -159,7 +157,7 @@ export default function Login() {
         >
           <Text style={styles.buttonText}>Iniciar sesion</Text>
         </Funcionalidades>
-      </ScrollView>
+      </>
     </KeyboardAvoidingView>
   );
 }

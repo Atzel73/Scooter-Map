@@ -180,7 +180,10 @@ export default function ModalDrawer({ modalVisible, toggleModal }) {
                       />
                       <Text style={styles.buttonText}>Reportes</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.button}>
+                    <TouchableOpacity
+                      style={styles.button}
+                      onPress={() => navigation.navigate("Soporte")}
+                    >
                       <MaterialIcons
                         name="support-agent"
                         size={24}
