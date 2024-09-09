@@ -29,18 +29,18 @@ export default function EditarNumeroScreen() {
   useEffect(() => {
     navigation.setOptions({
       headerTitle: "Actualizar  número de teléfono",
-      headerLeft: () => (
-        <View>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Ionicons
-              name="arrow-back-circle"
-              size={30}
-              color="black"
-              style={styles.Icon}
-            />
-          </TouchableOpacity>
-        </View>
-      ),
+      // headerLeft: () => (
+      //   <View>
+      //     <TouchableOpacity onPress={() => navigation.goBack()}>
+      //       <Ionicons
+      //         name="arrow-back-circle"
+      //         size={30}
+      //         color="black"
+      //         style={styles.Icon}
+      //       />
+      //     </TouchableOpacity>
+      //   </View>
+      // ),
     });
   }, [navigation]);
 
@@ -96,44 +96,56 @@ export default function EditarNumeroScreen() {
   }
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.container}
-    >
-      <View>
-        <Text>Escribe tu número de teléfono</Text>
+    <>
+      <View style={styles.buttonFloat}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Ionicons
+            name="arrow-back-circle"
+            size={30}
+            color="black"
+            style={styles.Icon}
+          />
+        </TouchableOpacity>
       </View>
-      <View style={[styles.contView, { marginHorizontal: 10 }]}>
-        <CustomInput
-          value={userData.phone}
-          keyboardType="numeric"
-          onChangeText={handlePhoneChange}
-          placeholderTextColor="black"
-          placeholder="Número de teléfono"
-          style={{
-            width: "100%",
-            paddingHorizontal: "45%",
-            marginHorizontal: 10,
-          }}
-        />
-      </View>
-      <View style={styles.contView}>
-        <Funcionalidades
-          callFunction="UpdateUserPhone"
-          userUpdate={userData}
-          style={styles.button}
-        >
-          <Text
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.container}
+      >
+        <View>
+          <Text>Escribe tu número de teléfono</Text>
+        </View>
+        <View style={[styles.contView, { marginHorizontal: 10 }]}>
+          <CustomInput
+            value={userData.phone}
+            keyboardType="numeric"
+            onChangeText={handlePhoneChange}
+            placeholderTextColor="black"
+            placeholder="Número de teléfono"
             style={{
-              alignSelf: "center",
-              fontSize: 18,
-              fontStyle: "italic",
+              width: "100%",
+              paddingHorizontal: "45%",
+              marginHorizontal: 10,
             }}
+          />
+        </View>
+        <View style={styles.contView}>
+          <Funcionalidades
+            callFunction="UpdateUserPhone"
+            userUpdate={userData}
+            style={styles.button}
           >
-            Guardar
-          </Text>
-        </Funcionalidades>
-      </View>
-    </KeyboardAvoidingView>
+            <Text
+              style={{
+                alignSelf: "center",
+                fontSize: 18,
+                fontStyle: "italic",
+              }}
+            >
+              Guardar
+            </Text>
+          </Funcionalidades>
+        </View>
+      </KeyboardAvoidingView>
+    </>
   );
 }

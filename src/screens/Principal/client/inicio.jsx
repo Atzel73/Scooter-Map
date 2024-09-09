@@ -36,40 +36,32 @@ export default function Register() {
     const image = await pickImage();
     setUserData({ ...userData, image });
   };
-  useEffect(() => {
-    navigation.setOptions({
-      headerTitle: "",
-      headerLeft: () => (
-        <View>
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            //style={{ marginLeft: 10 }}
-          >
-            <Ionicons
-              name="arrow-back-circle"
-              size={30}
-              color="black"
-              style={styles.Icon}
-            />
-          </TouchableOpacity>
-        </View>
-      ),
-    });
-  }, [navigation]);
+
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.formContainer}
-    >
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-        {userData.image && (
-          <View style={styles.inputContainer}>
-            <View style={styles.imageContainer}>
-              <Image source={{ uri: userData.image }} style={styles.image} />
+    <>
+      <View style={styles.buttonFloat}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Ionicons
+            name="arrow-back-circle"
+            size={30}
+            color="black"
+            style={styles.Icon}
+          />
+        </TouchableOpacity>
+      </View>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.formContainer}
+      >
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          {userData.image && (
+            <View style={styles.inputContainer}>
+              <View style={styles.imageContainer}>
+                <Image source={{ uri: userData.image }} style={styles.image} />
+              </View>
             </View>
-          </View>
-        )}
-        {/* <View style={styles.inputContainer}>
+          )}
+          {/* <View style={styles.inputContainer}>
             <TouchableOpacity
               style={{ alignItems: "center" }}
               onPress={getImage}
@@ -77,7 +69,7 @@ export default function Register() {
               <Text>Por favor, seleccione una imagen para su perfil</Text>
             </TouchableOpacity>
           </View> */}
-        {/* <View style={styles.inputContainer}>
+          {/* <View style={styles.inputContainer}>
             <Text style={styles.label}>Nombre:</Text>
             <CustomInput
               style={styles.input}
@@ -85,7 +77,7 @@ export default function Register() {
               onChangeText={(text) => setUserData({ ...userData, name: text })}
             />
           </View> */}
-        {/* <View style={styles.inputContainer}>
+          {/* <View style={styles.inputContainer}>
             <Text style={styles.label}>Apellido:</Text>
             <CustomInput
               value={userData.lastName}
@@ -95,7 +87,7 @@ export default function Register() {
               style={styles.input}
             />
           </View> */}
-        {/* <View style={styles.inputContainer}>
+          {/* <View style={styles.inputContainer}>
             <Text style={styles.label}>Numero de telefono:</Text>
             <CustomInput
               keyboardType="numeric"
@@ -104,51 +96,57 @@ export default function Register() {
               style={styles.input}
             />
           </View> */}
-        <View style={styles.contView}>
-          <Text style={styles.label}>Ingresa tu electrónico</Text>
-          <CustomInput
-            value={userData.email}
-            onChangeText={(text) => setUserData({ ...userData, email: text })}
-            keyboardType="email-address"
-            style={{
-              width: "100%",
-              paddingHorizontal: "45%",
-              marginHorizontal: 10,
-            }}
-          />
-        </View>
-        <View style={styles.contView}>
-          <Text style={styles.label}>Contraseña</Text>
-          <CustomInput
-            value={userData.password}
-            onChangeText={(text) =>
-              setUserData({ ...userData, password: text })
-            }
-            secureTextEntry
-            style={{
-              width: "100%",
-              paddingHorizontal: "45%",
-              marginHorizontal: 10,
-            }}
-          />
-        </View>
-        {userData.password && (
-          <View style={styles.contView}>
-            <Text style={styles.label}>Confirme su contraseña</Text>
-            <CustomInput
-              value={userData.confirmPassword}
-              onChangeText={(text) =>
-                setUserData({ ...userData, confirmPassword: text })
-              }
-              secureTextEntry
-              style={{
-                width: "100%",
-                paddingHorizontal: "45%",
-                marginHorizontal: 10,
-              }}
-            />
+          <View style={{ marginTop: "10%" }}>
+            <View style={styles.contView}>
+              <Text style={styles.label}>Ingresa tu electrónico</Text>
+              <CustomInput
+                value={userData.email}
+                onChangeText={(text) =>
+                  setUserData({ ...userData, email: text })
+                }
+                keyboardType="email-address"
+                style={{
+                  width: "100%",
+                  paddingHorizontal: "45%",
+                  marginHorizontal: 10,
+                }}
+              />
+            </View>
+            <View style={styles.contView}>
+              <Text style={styles.label}>Contraseña</Text>
+              <CustomInput
+                value={userData.password}
+                onChangeText={(text) =>
+                  setUserData({ ...userData, password: text })
+                }
+                secureTextEntry
+                style={{
+                  width: "100%",
+                  paddingHorizontal: "45%",
+                  marginHorizontal: 10,
+                }}
+              />
+            </View>
           </View>
-        )}
+          {/* {userData.password && (
+            <View style={styles.contView}>
+              <Text style={styles.label}>Confirme su contraseña</Text>
+              <CustomInput
+                value={userData.confirmPassword}
+                onChangeText={(text) =>
+                  setUserData({ ...userData, confirmPassword: text })
+                }
+                secureTextEntry
+                style={{
+                  width: "100%",
+                  paddingHorizontal: "45%",
+                  marginHorizontal: 10,
+                }}
+              />
+            </View>
+          )} */}
+
+          {/* Validacion de contraseñas
         {userData.password &&
           userData.confirmPassword &&
           userData.password !== userData.confirmPassword && (
@@ -157,42 +155,61 @@ export default function Register() {
                 Las contraseñas no coinciden, por favor intente de nuevo
               </Text>
             </View>
-          )}
+          )} */}
 
-        {
-          // userData.name &&
-          //   userData.lastName &&
-          userData.email && userData.password === userData.confirmPassword && (
-            <>
-              <Funcionalidades
-                style={styles.buttonSend}
-                user={userData}
-                callFunction="RegisterUser"
-              >
-                <Text style={styles.buttonText}>Continuar</Text>
-              </Funcionalidades>
-            </>
-          )
-        }
-        <View style={styles.contView}>
-          <TouchableOpacity
-            style={{ alignItems: "center" }}
-            onPress={() => {
-              navigation.navigate("Login");
+          {/* {
+            userData.email && userData.password && (
+              <>
+                <Funcionalidades
+                  style={styles.buttonSend}
+                  user={userData}
+                  callFunction="RegisterUser"
+                >
+                  <Text style={styles.buttonText}>Continuar</Text>
+                </Funcionalidades>
+              </>
+            )
+          } */}
+          <Funcionalidades
+            style={styles.buttonSend}
+            user={userData}
+            callFunction="RegisterUser"
+          >
+            <Text style={styles.buttonText}>Continuar</Text>
+          </Funcionalidades>
+          <View style={styles.contView}>
+            <TouchableOpacity
+              style={{ alignItems: "center" }}
+              onPress={() => {
+                navigation.navigate("Login");
+              }}
+            >
+              <Text>¿Ya tienes cuenta? Inicia sesion</Text>
+            </TouchableOpacity>
+          </View>
+          <View
+            style={{
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "flex-start",
+              margin: 10,
             }}
           >
-            <Text>¿Ya tienes cuenta? Inicia sesion</Text>
-          </TouchableOpacity>
-        </View>
-        <View
-          style={{ alignItems: "center", justifyContent: "center", margin: 10 }}
-        >
-          <LoginWithGoogle />
-          <LoginWithApple />
-          <LoginWithFacebook />
-          <LoginWithPhone />
-        </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+            <LoginWithGoogle />
+            <LoginWithApple />
+            <LoginWithFacebook />
+            <LoginWithPhone />
+          </View>
+          <View style={{ alignItems: "center", margin: 20 }}>
+            <Text style={{ fontSize: 12 }}>
+              {" "}
+              Al continuar, aceptas recibir llamadas, Whatsapp o SMS de
+              FloydRide.
+            </Text>
+          </View>
+        </ScrollView>
+        <View style={styles.viewBottom} />
+      </KeyboardAvoidingView>
+    </>
   );
 }

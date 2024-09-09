@@ -33,7 +33,7 @@ export default function LoginWithPhone() {
           <AntDesign name="phone" size={24} color="black" style={styles.Icon} />
         </View>
         <View style={styles.viewInter}>
-          <Text>Continua con numero de telefono</Text>
+          <Text>Continua con  telefono</Text>
         </View>
         <View style={styles.viewInter}>
           <Text style={styles.googleText}>Vincular</Text>
@@ -67,5 +67,7 @@ const styles = StyleSheet.create({
   viewInter: {
     margin: 15,
     marginHorizontal: 10,
+    alignItems: "flex-start",
+    flexWrap: "wrap"
   },
 });

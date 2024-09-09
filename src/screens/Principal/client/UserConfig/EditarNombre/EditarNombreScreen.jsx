@@ -22,23 +22,7 @@ export default function EditarNombreScreen() {
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerTitle: "Actualiza tu nombre",
-      headerLeft: () => (
-        <View>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Ionicons
-              name="arrow-back-circle"
-              size={30}
-              color="black"
-              style={styles.Icon}
-            />
-          </TouchableOpacity>
-        </View>
-      ),
-    });
-  }, [navigation]);
+
 
   useEffect(() => {
     async function getUser() {
@@ -84,56 +68,68 @@ export default function EditarNombreScreen() {
   }
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.container}
-    >
-      <View>
-        <Text>Escribe tu nombre tal cual aparece en tu INE</Text>
+    <>
+      <View style={styles.buttonFloat}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Ionicons
+            name="arrow-back-circle"
+            size={30}
+            color="black"
+            style={styles.Icon}
+          />
+        </TouchableOpacity>
       </View>
-      <View style={[styles.contView, { marginHorizontal: 10 }]}>
-        <CustomInput
-          value={userData.name} // Aquí se enlaza el valor al estado
-          onChangeText={handleNameChange}
-          placeholderTextColor="black"
-          placeholder="Nombre"
-          style={{
-            width: "100%",
-            paddingHorizontal: "45%",
-            marginHorizontal: 10,
-          }}
-        />
-      </View>
-      <View style={[styles.contView, { marginHorizontal: 10 }]}>
-        <CustomInput
-          value={userData.last_name} // Aquí se enlaza el valor al estado
-          onChangeText={handleLastNameChange}
-          placeholderTextColor="black"
-          placeholder="Apellido"
-          style={{
-            width: "100%",
-            paddingHorizontal: "45%",
-            marginHorizontal: 10,
-          }}
-        />
-      </View>
-      <View style={styles.contView}>
-        <Funcionalidades
-          callFunction="UpdateUserName"
-          userUpdate={userData} // Pasar userData directamente
-          style={styles.button}
-        >
-          <Text
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.container}
+      >
+        <View>
+          <Text>Escribe tu nombre tal cual aparece en tu INE</Text>
+        </View>
+        <View style={[styles.contView, { marginHorizontal: 10 }]}>
+          <CustomInput
+            value={userData.name} // Aquí se enlaza el valor al estado
+            onChangeText={handleNameChange}
+            placeholderTextColor="black"
+            placeholder="Nombre"
             style={{
-              alignSelf: "center",
-              fontSize: 18,
-              fontStyle: "italic",
+              width: "100%",
+              paddingHorizontal: "45%",
+              marginHorizontal: 10,
             }}
+          />
+        </View>
+        <View style={[styles.contView, { marginHorizontal: 10 }]}>
+          <CustomInput
+            value={userData.last_name} // Aquí se enlaza el valor al estado
+            onChangeText={handleLastNameChange}
+            placeholderTextColor="black"
+            placeholder="Apellido"
+            style={{
+              width: "100%",
+              paddingHorizontal: "45%",
+              marginHorizontal: 10,
+            }}
+          />
+        </View>
+        <View style={styles.contView}>
+          <Funcionalidades
+            callFunction="UpdateUserName"
+            userUpdate={userData} // Pasar userData directamente
+            style={styles.button}
           >
-            Guardar
-          </Text>
-        </Funcionalidades>
-      </View>
-    </KeyboardAvoidingView>
+            <Text
+              style={{
+                alignSelf: "center",
+                fontSize: 18,
+                fontStyle: "italic",
+              }}
+            >
+              Guardar
+            </Text>
+          </Funcionalidades>
+        </View>
+      </KeyboardAvoidingView>
+    </>
   );
 }

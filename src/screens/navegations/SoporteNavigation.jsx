@@ -19,12 +19,58 @@ export default function SoporteScreens() {
       <Stack.Screen
         name="SoporteScreen"
         component={SoporteScreen}
-        options={{ headerShown: true }}
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: "#6BB8FF",
+          },
+          headerTintColor: "#6BB8FF",
+        }}
       />
-      <Stack.Screen component={ConsejosScreen} name="Consejos" />
-      <Stack.Screen component={ViajandoScreen} name="Viajando" />
-      <Stack.Screen component={OfertaScreen} name="Ofertas" />
-      <Stack.Screen component={SugerenciasScreen} name="Sugerencias" />
+      <Stack.Screen
+        component={ConsejosScreen}
+        name="Consejos"
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: "#6BB8FF",
+          },
+          headerTintColor: "#6BB8FF",
+        }}
+      />
+      <Stack.Screen
+        component={ViajandoScreen}
+        name="Viajando"
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: "#6BB8FF",
+          },
+          headerTintColor: "#6BB8FF",
+        }}
+      />
+      <Stack.Screen
+        component={OfertaScreen}
+        name="Ofertas"
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: "#6BB8FF",
+          },
+          headerTintColor: "#6BB8FF",
+        }}
+      />
+      <Stack.Screen
+        component={SugerenciasScreen}
+        name="Sugerencias"
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: "#6BB8FF",
+          },
+          headerTintColor: "#6BB8FF",
+        }}
+      />
     </Stack.Navigator>
   );
 }

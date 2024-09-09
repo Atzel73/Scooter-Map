@@ -44,14 +44,18 @@ export default function Funcionalidades({
 
   const handlerDisabledButton = () => {};
   async function RegisterUser() {
-    console.log("Dentro");
+    console.log("Dentro", user.password);
     try {
+      if (!user.email) {
+        alert("Por favor, introduzca el correo electronico");
+        return;
+      }
       const userData = {
         photo: user.image === undefined ? "empty" : user.image,
         name: user.name,
         last_name: user.lastName,
         email: user.email,
-        password: user.confirmPassword,
+        password: user.password,
         phone: user.phone,
         status: "Activo",
         rol: "usuario",
@@ -61,7 +65,7 @@ export default function Funcionalidades({
       await createUserWithEmailAndPassword(
         auth,
         user.email,
-        user.confirmPassword
+        user.password
       )
         .then((userCredentials) => {
           setDoc(doc(db, "users", userCredentials.user.uid), {
@@ -70,7 +74,7 @@ export default function Funcionalidades({
             last_name: "usuario",
             email: userCredentials.user.email,
             phone: "",
-            password: user.confirmPassword,
+            password: user.password,
             status: "Activo",
             rol: "usuario",
             scooter_id: "",
@@ -79,7 +83,8 @@ export default function Funcionalidades({
             blocked_by: [],
           });
           Alert.alert("¡Bienvenido!");
-          navigation.navigate("Principal");
+          //navigation.navigate("Principal");
+          navigation.navigate("LoginName");
           console.log("Registrado");
         })
         .catch((error) => {
@@ -343,7 +348,7 @@ const styles = StyleSheet.create({
     borderColor: "grey",
     alignItems: "center",
     alignSelf: "center",
-    justifyContent: 'center',
+    justifyContent: "center",
     padding: 10,
     marginHorizontal: 10,
   },

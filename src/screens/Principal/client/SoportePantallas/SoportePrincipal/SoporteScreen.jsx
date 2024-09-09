@@ -14,23 +14,33 @@ export default function SoporteScreen() {
   useEffect(() => {
     navigation.setOptions({
       headerTitle: "Preferencias de comunicación",
-      headerLeft: () => (
-        <View>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Ionicons
-              name="arrow-back-circle"
-              size={30}
-              color="black"
-              style={styles.Icon}
-            />
-          </TouchableOpacity>
-        </View>
-      ),
+      // headerLeft: () => (
+      //   <View style={styles.buttonFloat}>
+      //     <TouchableOpacity onPress={() => navigation.goBack()}>
+      //       <Ionicons
+      //         name="arrow-back-circle"
+      //         size={30}
+      //         color="black"
+      //         style={styles.Icon}
+      //       />
+      //     </TouchableOpacity>
+      //   </View>
+      // ),
     });
   }, [navigation]);
 
   return (
     <>
+      <View style={styles.buttonFloat}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Ionicons
+            name="arrow-back-circle"
+            size={30}
+            color="black"
+            style={styles.Icon}
+          />
+        </TouchableOpacity>
+      </View>
       <View
         style={{
           flex: 1,
@@ -40,6 +50,9 @@ export default function SoporteScreen() {
           backgroundColor: "#fff",
         }}
       >
+        <View>
+          <Text style={styles.textTitle}>Preferencias de comunicacion</Text>
+        </View>
         <View style={styles.contView}>
           <TouchableOpacity
             style={styles.button}

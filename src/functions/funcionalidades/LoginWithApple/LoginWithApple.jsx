@@ -73,6 +73,9 @@ const styles = StyleSheet.create({
   viewInter: {
     margin: 15,
     marginHorizontal: 10,
+    alignItems: "flex-start",
+    flexWrap: "wrap"
+
   },
 });
 

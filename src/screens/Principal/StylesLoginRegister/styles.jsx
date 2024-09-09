@@ -2,6 +2,30 @@ import React, { useState } from "react";
 import { StyleSheet, Dimensions } from "react-native";
 const { width, height } = Dimensions.get("window");
 const styles = StyleSheet.create({
+  viewBottom: {
+    backgroundColor: "#6BB8FF",
+    height: 50,
+    width: "100%",
+    borderTopRightRadius: 20,
+    borderTopLeftRadius: 20,
+  },
+  buttonFloat: {
+    position: "absolute",
+    top: 10,
+    left: 0,
+    zIndex: 1,
+    backgroundColor: "white",
+    padding: 10,
+    borderRadius: 30,
+    //elevation: 5,
+    //shadowColor: "#000",
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2,
+    // },
+    // shadowOpacity: 0.25,
+    // shadowRadius: 3.84,
+  },
   image: {
     width: "100%",
     height: 250,
@@ -12,7 +36,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#f5f5f5",
-    marginTop: "10%",
+    marginBottom: 100,
   },
   scrollContainer: {
     flexGrow: 1,
@@ -32,12 +56,12 @@ const styles = StyleSheet.create({
     // shadowOffset: { width: 0, height: 2 },
     // shadowOpacity: 0.8,
     // shadowRadius: 2,
-   flex: 1,
+    flex: 1,
     justifyContent: "center",
     //alignItems: "center",
     backgroundColor: "white",
-    margin: 10
-
+    // margin: 10,
+    //marginBottom: "50%",
   },
   inputContainer: {
     marginBottom: 20,
@@ -85,7 +109,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#6BB8FF",
     borderRadius: 10,
     margin: 10,
-    padding: 20
+    padding: 20,
   },
   buttonGoogle: {
     width: "90%",
@@ -105,7 +129,7 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 18,
     color: "white",
-    textAlign: 'center'
+    textAlign: "center",
   },
 });
 export default styles;

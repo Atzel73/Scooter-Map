@@ -76,26 +76,6 @@ export default function Configuration({ route }) {
   const [userData, setUserData] = useState({});
 
   useEffect(() => {
-    navigation.setOptions({
-      headerTitle: "Configuración de la cuenta",
-      headerLeft: () => (
-        <View>
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            //style={{ marginLeft: 10 }}
-          >
-            <Ionicons
-              name="arrow-back-circle"
-              size={30}
-              color="black"
-              style={styles.Icon}
-            />
-          </TouchableOpacity>
-        </View>
-      ),
-    });
-  }, [navigation]);
-  useEffect(() => {
     async function getUser() {
       const userRef = doc(db, "users", auth.currentUser.uid);
       onSnapshot(userRef, (doc) => {
@@ -116,119 +96,148 @@ export default function Configuration({ route }) {
       });
   };
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.container}
-    >
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={styles.scrollContainer}
-      >
-        {auth && auth.currentUser && auth.currentUser.uid ? (
-          <View style={styles.subContainer}>
-            {/* <View style={styles.sectionHead}>
-              <Text style={styles.sectionTitle}>
-                Configuración de la cuenta
-              </Text>
-            </View> */}
-            <View style={styles.viewPhoto}>
-              {!userData.photo ? (
-                <View>
-                  <ActivityIndicator color="#202020" size="large" />
-                </View>
-              ) : (
-                <View>
-                  <Image source={{ uri: userData.photo }} style={styles.img} />
-                </View>
-              )}
-              <View>
-                <Text style={{ color: "black" }}> {userData.name}</Text>
+    <>
+      <View style={styles.container}>
+        <ScrollView
+          contentInsetAdjustmentBehavior="automatic"
+          keyboardShouldPersistTaps="handled"
+          contentContainerStyle={styles.scrollContainer}
+        >
+          {auth && auth.currentUser && auth.currentUser.uid ? (
+            <View style={styles.subContainer}>
+              <View style={styles.buttonFloat}>
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                  <Ionicons
+                    name="arrow-back-circle"
+                    size={30}
+                    color="black"
+                    style={styles.Icon}
+                  />
+                </TouchableOpacity>
               </View>
-            </View>
-            <View style={styles.viewButtons}>
-              <View style={styles.viewInfo}>
+              <View style={styles.viewPhoto}>
+                {!userData.photo ? (
+                  <View>
+                    <ActivityIndicator color="#202020" size="large" />
+                  </View>
+                ) : (
+                  <View>
+                    <Image
+                      source={{ uri: userData.photo }}
+                      style={styles.img}
+                    />
+                  </View>
+                )}
+                <View>
+                  <Text style={{ color: "black" }}> {userData.name}</Text>
+                </View>
+              </View>
+              <View style={styles.viewButtons}>
+                <View style={styles.viewInfo}>
+                  <View style={styles.contView}>
+                    <TouchableOpacity
+                      style={styles.button}
+                      onPress={() => navigation.navigate("EditProfile")}
+                    >
+                      <FontAwesome6
+                        name="circle-user"
+                        size={24}
+                        color="black"
+                        style={styles.Icon}
+                      />
+                      <Text style={styles.buttonText}>
+                        Información personal
+                      </Text>
+                      <FontAwesome6
+                        name="chevron-right"
+                        size={24}
+                        color="black"
+                        style={styles.Icon}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                  <View style={styles.contView}>
+                    <TouchableOpacity style={styles.button}>
+                      <MaterialIcons
+                        name="security"
+                        size={24}
+                        color="black"
+                        style={styles.Icon}
+                      />
+                      <Text style={styles.buttonText}>Seguridad</Text>
+                      <FontAwesome6
+                        name="chevron-right"
+                        size={24}
+                        color="black"
+                        style={styles.Icon}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+              <View style={styles.viewLugares}>
+                <Text>Lugares</Text>
+              </View>
+              <View style={styles.viewLogout}>
                 <View style={styles.contView}>
                   <TouchableOpacity
                     style={styles.button}
-                    onPress={() => navigation.navigate("EditProfile")}
+                    onPress={handleLogOut}
                   >
-                    <FontAwesome6
-                      name="circle-user"
-                      size={24}
+                    <MaterialIcons
+                      name="logout"
+                      size={34}
                       color="black"
                       style={styles.Icon}
                     />
-                    <Text style={styles.buttonText}>Información personal</Text>
-                    <FontAwesome6
-                      name="chevron-right"
-                      size={24}
-                      color="black"
-                      style={styles.Icon}
-                    />
+                    <Text style={styles.buttonText}>Cerrar sesión</Text>
                   </TouchableOpacity>
                 </View>
                 <View style={styles.contView}>
-                  <TouchableOpacity style={styles.button}>
+                  <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => navigation.navigate("Borrar Cuenta")}
+                  >
                     <MaterialIcons
-                      name="security"
-                      size={24}
+                      name="delete-forever"
+                      size={34}
                       color="black"
                       style={styles.Icon}
                     />
-                    <Text style={styles.buttonText}>Seguridad</Text>
-                    <FontAwesome6
-                      name="chevron-right"
-                      size={24}
-                      color="black"
-                      style={styles.Icon}
-                    />
+                    <Text style={styles.buttonText}>Eliminar cuenta </Text>
                   </TouchableOpacity>
                 </View>
               </View>
             </View>
-            <View style={styles.viewLugares}>
-              <Text>Lugares</Text>
+          ) : (
+            <View>
+              <Text>Por favor, inicia sesión</Text>
             </View>
-            <View style={styles.viewLogout}>
-              <View style={styles.contView}>
-                <TouchableOpacity style={styles.button} onPress={handleLogOut}>
-                  <MaterialIcons
-                    name="logout"
-                    size={34}
-                    color="black"
-                    style={styles.Icon}
-                  />
-                  <Text style={styles.buttonText}>Cerrar sesión</Text>
-                </TouchableOpacity>
-              </View>
-              <View style={styles.contView}>
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={() => navigation.navigate("Borrar Cuenta")}
-                >
-                  <MaterialIcons
-                    name="delete-forever"
-                    size={34}
-                    color="black"
-                    style={styles.Icon}
-                  />
-                  <Text style={styles.buttonText}>Eliminar cuenta </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-        ) : (
-          <View>
-            <Text>Por favor, inicia sesión</Text>
-          </View>
-        )}
-      </ScrollView>
-    </KeyboardAvoidingView>
+          )}
+        </ScrollView>
+      </View>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
+  buttonFloat: {
+    position: "absolute",
+    top: -5,
+    left: 9,
+    zIndex: 1,
+    backgroundColor: "white",
+    padding: 15,
+    borderRadius: 5,
+    //elevation: 5,
+    //shadowColor: "#202020",
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2,
+    // },
+    // shadowOpacity: 0.25,
+    // shadowRadius: 3.84,
+  },
   img: {
     width: 150,
     height: 150,
@@ -245,32 +254,32 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     height: width / 2,
-    width: "95%",
+    width: "100%",
     minWidth: "100%",
     borderRadius: 10,
     elevation: 5,
-    shadowColor: "#000",
+    shadowColor: "#202020",
     shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
+    shadowOpacity: 0.0,
+    shadowRadius: 90,
     marginBottom: 10,
   },
   viewPhoto: {
-    marginHorizontal: "1%",
+    //marginHorizontal: "1%",
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 10,
     marginVertical: 5,
-    padding: 20,
+    marginTop: -35,
+    //padding: 20,
     height: width / 2,
     width: "100%",
     minWidth: "100%",
     elevation: 5,
-    shadowColor: "#000",
+    shadowColor: "#202020",
     shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    borderRadius: 10,
+    shadowOpacity: 0.0,
+    shadowRadius: 90,
   },
   viewButtons: {
     alignItems: "center",
@@ -280,10 +289,10 @@ const styles = StyleSheet.create({
     minWidth: "100%",
     borderRadius: 10,
     elevation: 5,
-    shadowColor: "#000",
+    shadowColor: "#202020",
     shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
+    shadowOpacity: 0.0,
+    shadowRadius: 90,
     marginBottom: 10,
   },
   viewLogout: {
@@ -294,11 +303,11 @@ const styles = StyleSheet.create({
     minWidth: "100%",
     borderRadius: 10,
     elevation: 5,
-    shadowColor: "#000",
+    shadowColor: "#202020",
     shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    marginBottom: 10,
+    shadowOpacity: 0.0,
+    shadowRadius: 90,
+    marginBottom: -10,
   },
   viewInfo: {
     alignItems: "center",
@@ -321,8 +330,8 @@ const styles = StyleSheet.create({
   },
   subContainer: {
     flex: 1,
-    margin: 20,
-    marginTop: "10%",
+    //marginVertical: 5,
+    justifyContent: "center",
     alignItems: "center",
   },
   sectionHead: {

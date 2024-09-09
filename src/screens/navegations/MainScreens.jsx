@@ -19,6 +19,8 @@ import EditarNombreScreen from "../Principal/client/UserConfig/EditarNombre/Edit
 import EditarNumeroScreen from "../Principal/client/UserConfig/EditarNumero/EditarNumeroScreen";
 import EditarCorreoScreen from "../Principal/client/UserConfig/EditarCorreo/EditarCorreoScreen";
 
+import LoginName from "../Principal/client/LoginsScreens/LoginName";
+
 import SoporteScreens from "./SoporteNavigation";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -30,12 +32,35 @@ function UserEnter() {
       <Stack.Screen
         name="Register"
         component={Register}
-        options={{ headerShown: true }}
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: "#6BB8FF",
+          },
+          headerTintColor: "#6BB8FF",
+        }}
       />
       <Stack.Screen
         name="Login"
         component={Login}
-        options={{ headerShown: true }}
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: "#6BB8FF",
+          },
+          headerTintColor: "#6BB8FF",
+        }}
+      />
+      <Stack.Screen
+        name="LoginName"
+        component={LoginName}
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: "#6BB8FF",
+          },
+          headerTintColor: "#6BB8FF",
+        }}
       />
     </Stack.Navigator>
   );
@@ -47,18 +72,80 @@ function UserConfig() {
       <Stack.Screen
         name="Config"
         component={Configuration}
-        //options={{ headerShown: false }}
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: "#6BB8FF",
+          },
+          headerTintColor: "#6BB8FF",
+        }}
       />
       <Stack.Screen
         name="EditProfile"
         component={EditProfile}
-        //options={{ headerShown: false }}
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: "#6BB8FF",
+          },
+          headerTintColor: "#6BB8FF",
+        }}
       />
-      <Stack.Screen name="Cambiar nombre" component={EditarNombreScreen} />
-      <Stack.Screen name="Cambiar numero" component={EditarNumeroScreen} />
-      <Stack.Screen name="Cambiar correo" component={EditarCorreoScreen} />
-      <Stack.Screen name="Cambiar foto" component={EditPhoto} />
-      <Stack.Screen name="Borrar Cuenta" component={BorrarCuenta} />
+      <Stack.Screen
+        name="Cambiar nombre"
+        component={EditarNombreScreen}
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: "#6BB8FF",
+          },
+          headerTintColor: "#6BB8FF",
+        }}
+      />
+      <Stack.Screen
+        name="Cambiar numero"
+        component={EditarNumeroScreen}
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: "#6BB8FF",
+          },
+          headerTintColor: "#6BB8FF",
+        }}
+      />
+      <Stack.Screen
+        name="Cambiar correo"
+        component={EditarCorreoScreen}
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: "#6BB8FF",
+          },
+          headerTintColor: "#6BB8FF",
+        }}
+      />
+      <Stack.Screen
+        name="Cambiar foto"
+        component={EditPhoto}
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: "#6BB8FF",
+          },
+          headerTintColor: "#6BB8FF",
+        }}
+      />
+      <Stack.Screen
+        name="Borrar Cuenta"
+        component={BorrarCuenta}
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: "#6BB8FF",
+          },
+          headerTintColor: "#6BB8FF",
+        }}
+      />
     </Stack.Navigator>
   );
 }

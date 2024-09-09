@@ -37,24 +37,6 @@ export default function Login() {
   const [credential, setCredential] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerTitle: "",
-      headerLeft: () => (
-        <View>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Ionicons
-              name="arrow-back-circle"
-              size={30}
-              color="black"
-              style={styles.Icon}
-            />
-          </TouchableOpacity>
-        </View>
-      ),
-    });
-  }, [navigation]);
-
   const [request, response, promptAsync] = Google.useAuthRequest({
     selectAccount: true,
     clientId:
@@ -119,45 +101,59 @@ export default function Login() {
       });
   };
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.formContainer}
-    >
-      <View style={styles.contView}>
-        <Text style={styles.label}>Correo electrónico:</Text>
-        <CustomInput
-          value={userData.email}
-          onChangeText={(text) => setUserData({ ...userData, email: text })}
-          keyboardType="email-address"
-          style={{
-            width: "100%",
-            paddingHorizontal: "45%",
-            marginHorizontal: 10,
-          }}
-        />
+    <>
+      <View style={styles.buttonFloat}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Ionicons
+            name="arrow-back-circle"
+            size={30}
+            color="black"
+            style={styles.Icon}
+          />
+        </TouchableOpacity>
       </View>
-      <View style={styles.contView}>
-        <Text style={styles.label}>Contraseña:</Text>
-        <CustomInput
-          value={userData.password}
-          onChangeText={(text) => setUserData({ ...userData, password: text })}
-          style={{
-            width: "100%",
-            paddingHorizontal: "45%",
-            marginHorizontal: 10,
-          }}
-        />
-      </View>
-      
-      <>
-        <Funcionalidades
-          style={styles.buttonSend}
-          callFunction="SignUser"
-          userSign={userData}
-        >
-          <Text style={styles.buttonText}>Iniciar sesion</Text>
-        </Funcionalidades>
-      </>
-    </KeyboardAvoidingView>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.formContainer}
+      >
+        <View style={styles.contView}>
+          <Text style={styles.label}>Correo electrónico:</Text>
+          <CustomInput
+            value={userData.email}
+            onChangeText={(text) => setUserData({ ...userData, email: text })}
+            keyboardType="email-address"
+            style={{
+              width: "100%",
+              paddingHorizontal: "45%",
+              marginHorizontal: 10,
+            }}
+          />
+        </View>
+        <View style={styles.contView}>
+          <Text style={styles.label}>Contraseña:</Text>
+          <CustomInput
+            value={userData.password}
+            onChangeText={(text) =>
+              setUserData({ ...userData, password: text })
+            }
+            style={{
+              width: "100%",
+              paddingHorizontal: "45%",
+              marginHorizontal: 10,
+            }}
+          />
+        </View>
+
+        <>
+          <Funcionalidades
+            style={styles.buttonSend}
+            callFunction="SignUser"
+            userSign={userData}
+          >
+            <Text style={styles.buttonText}>Iniciar sesion</Text>
+          </Funcionalidades>
+        </>
+      </KeyboardAvoidingView>
+    </>
   );
 }
