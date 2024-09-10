@@ -7,7 +7,7 @@
     "icon": "./assets/provisional.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splashX.png",
+      "image": "./assets/GIF_FLOYD.gif",
       "resizeMode": "contain",
       "backgroundColor": "#6BB8FF"
     },

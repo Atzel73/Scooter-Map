@@ -33,7 +33,7 @@ export default function LoginWithPhone() {
           <AntDesign name="phone" size={24} color="black" style={styles.Icon} />
         </View>
         <View style={styles.viewInter}>
-          <Text>Continua con  telefono</Text>
+          <Text>Continua con telefono</Text>
         </View>
         <View style={styles.viewInter}>
           <Text style={styles.googleText}>Vincular</Text>
@@ -46,20 +46,19 @@ export default function LoginWithPhone() {
 const styles = StyleSheet.create({
   googleText: {
     color: "#6BB8FF",
-    marginLeft: 10
+    marginLeft: 10,
   },
   viewButton: {
     alignItems: "center",
     justifyContent: "center",
   },
   button: {
-    
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "center",
     padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#202020",
+    //borderBottomWidth: 1,
+    //borderBottomColor: "#202020",
   },
   Icon: {
     marginLeft: 10,
@@ -68,6 +67,6 @@ const styles = StyleSheet.create({
     margin: 15,
     marginHorizontal: 10,
     alignItems: "flex-start",
-    flexWrap: "wrap"
+    flexWrap: "wrap",
   },
 });

@@ -98,7 +98,7 @@ export default function Register() {
           </View> */}
           <View style={{ marginTop: "10%" }}>
             <View style={styles.contView}>
-              <Text style={styles.label}>Ingresa tu electrónico</Text>
+              <Text style={styles.label}>Ingresa tu correo electrónico</Text>
               <CustomInput
                 value={userData.email}
                 onChangeText={(text) =>
@@ -128,48 +128,7 @@ export default function Register() {
               />
             </View>
           </View>
-          {/* {userData.password && (
-            <View style={styles.contView}>
-              <Text style={styles.label}>Confirme su contraseña</Text>
-              <CustomInput
-                value={userData.confirmPassword}
-                onChangeText={(text) =>
-                  setUserData({ ...userData, confirmPassword: text })
-                }
-                secureTextEntry
-                style={{
-                  width: "100%",
-                  paddingHorizontal: "45%",
-                  marginHorizontal: 10,
-                }}
-              />
-            </View>
-          )} */}
 
-          {/* Validacion de contraseñas
-        {userData.password &&
-          userData.confirmPassword &&
-          userData.password !== userData.confirmPassword && (
-            <View style={styles.errorContainer}>
-              <Text style={styles.errorText}>
-                Las contraseñas no coinciden, por favor intente de nuevo
-              </Text>
-            </View>
-          )} */}
-
-          {/* {
-            userData.email && userData.password && (
-              <>
-                <Funcionalidades
-                  style={styles.buttonSend}
-                  user={userData}
-                  callFunction="RegisterUser"
-                >
-                  <Text style={styles.buttonText}>Continuar</Text>
-                </Funcionalidades>
-              </>
-            )
-          } */}
           <Funcionalidades
             style={styles.buttonSend}
             user={userData}

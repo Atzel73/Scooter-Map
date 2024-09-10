@@ -1,11 +1,17 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
-  modalOverlay: {
-    flex: 1,
+  modalActive: {
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "white", 
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 2,
   },
   modalContent: {
     width: "80%",

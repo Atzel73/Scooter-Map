@@ -62,11 +62,7 @@ export default function Funcionalidades({
         scooter_id: "",
         created_at: new Date(),
       };
-      await createUserWithEmailAndPassword(
-        auth,
-        user.email,
-        user.password
-      )
+      await createUserWithEmailAndPassword(auth, user.email, user.password)
         .then((userCredentials) => {
           setDoc(doc(db, "users", userCredentials.user.uid), {
             photo: user.image === undefined ? empty : user.image,
@@ -81,6 +77,7 @@ export default function Funcionalidades({
             created_at: new Date(),
             users_blocked: [],
             blocked_by: [],
+            verifyByEmail: true,
           });
           Alert.alert("¡Bienvenido!");
           //navigation.navigate("Principal");
@@ -96,12 +93,8 @@ export default function Funcionalidades({
             Alert.alert("El email es obligatorio");
           } else if (error.code === "auth/missing-password") {
             Alert.alert("Por favor, ingrese la contraseña");
-          } else if (error.code === "auth/user-not-found") {
-            Alert.alert("Usuario no encontrado");
-          } else if (error.code === "auth/invalid-credential") {
-            Alert.alert("El email o contraseña son incorrectos");
-          } else if (error.code === "auth/invalid-email-verified") {
-            Alert.alert("El email es incorrecto");
+          } else if (error.code === "auth/email-already-in-use") {
+            Alert.alert("El email ya está en uso");
           }
         });
     } catch (error) {
@@ -110,8 +103,6 @@ export default function Funcionalidades({
         alert("La contraseña debe contener al menos 6 caracteres.");
       } else if (error.code === "auth/invalid-email") {
         alert("El email es inválido");
-      } else if (error.code === "auth/email-already-in-use") {
-        alert("El email ya está en uso");
       } else if (error.code === "auth/missing-email") {
         alert("El email es obligatorio");
       }

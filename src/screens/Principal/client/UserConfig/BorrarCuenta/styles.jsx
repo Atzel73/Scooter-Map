@@ -2,6 +2,15 @@ import React from "react";
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
+  buttonFloat: {
+    position: "absolute",
+    top: 10,
+    left: 0,
+    zIndex: 1,
+    backgroundColor: "white",
+    padding: 10,
+    borderRadius: 30,
+  },
   input: {
     width: "100%",
     height: 40,
@@ -14,8 +23,9 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    marginHorizontal: 16,
-    marginVertical: 32,
+    // marginHorizontal: 16,
+    // marginVertical: 32,
+    backgroundColor: "#fff"
   },
   section: {
     flexDirection: "row",

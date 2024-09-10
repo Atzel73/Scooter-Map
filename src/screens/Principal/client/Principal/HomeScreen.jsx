@@ -33,6 +33,10 @@ import PantallaMapa from "../PantallaMapa";
 import ModalDrawer from "../../../../components/ModalDrawer";
 import styles from "./styles";
 import { get } from "firebase/database";
+import ModalLogin from "../../../../components/ModalLogin/ModalLogin";
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 const Drawer = createDrawerNavigator();
 
 function DrawerScreen(props) {
@@ -188,10 +192,12 @@ function DrawerScreen(props) {
 export default function HomeScreen() {
   const auth = getAuth();
   const [userData, setUserData] = useState(null);
-  const [users, setUsers] = useState([]);
   const [dontExist, setDontExist] = useState(false);
   const [error, setIsError] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisibleLogin, setModalVisibleLogin] = useState(false);
   const navigation = useNavigation();
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
@@ -208,33 +214,20 @@ export default function HomeScreen() {
           if (!docSnap.exists()) {
             console.log("El usuario no existe");
             setDontExist(true);
-            setIsError(true)
+            setIsError(true);
           } else {
             onSnapshot(userRef, (doc) => {
               setUserData(doc.data());
+              setModalVisibleLogin(false);
               setDontExist(false);
             });
-            // function getUsers() {
-            //   var is_blocked = false;
-            //   const q = query(
-            //     collection(db, "users"),
-            //     where("blocked_by", "not-in", [auth.currentUser.uid])
-            //   );
-            //   onSnapshot(q, (querySnapshot) => {
-            //     const users = [];
-            //     querySnapshot.forEach((doc) => {
-            //       users.push(doc.data());
-            //     });
-            //     setUsers(users);
-            //   });
-            // }
-            // getUsers();
           }
         } catch (error) {
           console.log("Error al obtener los datos del usuario: ", error);
+          setIsError(true);
         }
       } else {
-        console.log("No hay usuario");
+        setModalVisibleLogin(true);
       }
     });
 
@@ -248,17 +241,28 @@ export default function HomeScreen() {
     });
   }, []);
 
-  const [modalVisible, setModalVisible] = useState(false);
+  if (error) {
+    return (
+      <View>
+        <Text>{error}</Text>
+      </View>
+    );
+  }
 
-  const toggleModal = () => {
-    setModalVisible(!modalVisible);
-  };
- 
+  const toggleModal = () => setModalVisible(!modalVisible);
+  const toggleModalLogin = () => setModalVisibleLogin(!modalVisibleLogin);
+
   return (
-    <View
-      style={styles.container}
-      //  style={[modalVisible ? styles.containerHide : styles.container]}
-    >
+    <View style={styles.container}>
+      {modalVisibleLogin && (
+        <View style={styles.modalOverlay}>
+          <ModalLogin
+            modalVisibleLogin={modalVisibleLogin}
+            toggleModalLogin={toggleModalLogin}
+          />
+        </View>
+      )}
+
       <ModalDrawer modalVisible={modalVisible} toggleModal={toggleModal} />
 
       <TouchableOpacity
@@ -267,6 +271,7 @@ export default function HomeScreen() {
       >
         <FontAwesome6 name="grip-lines" size={30} color="black" />
       </TouchableOpacity>
+
       <View>{/* <PantallaMapa /> */}</View>
     </View>
   );
