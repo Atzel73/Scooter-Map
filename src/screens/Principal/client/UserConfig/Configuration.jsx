@@ -148,12 +148,9 @@ export default function Configuration({ route }) {
                       <Text style={styles.buttonText}>
                         Información personal
                       </Text>
-                      <FontAwesome6
-                        name="chevron-right"
-                        size={24}
-                        color="black"
-                        style={styles.Icon}
-                      />
+                      <Text style={{ color: "#6BB8FF", fontSize: 16 }}>
+                        Editar
+                      </Text>
                     </TouchableOpacity>
                   </View>
                   <View style={styles.contView}>
@@ -165,12 +162,6 @@ export default function Configuration({ route }) {
                         style={styles.Icon}
                       />
                       <Text style={styles.buttonText}>Seguridad</Text>
-                      <FontAwesome6
-                        name="chevron-right"
-                        size={24}
-                        color="black"
-                        style={styles.Icon}
-                      />
                     </TouchableOpacity>
                   </View>
                 </View>

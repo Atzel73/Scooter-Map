@@ -20,58 +20,78 @@ import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
 import { FontAwesome6, MaterialIcons, AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-
+const { width, height } = Dimensions.get("window");
 export default function LoginWithFacebook() {
   const auth = getAuth();
   const [userData, setUserData] = useState({});
   const navigation = useNavigation();
 
   return (
-    <View style={styles.viewButton}>
-      <TouchableOpacity style={styles.button}>
-        <View style={styles.viewInter}>
-          <FontAwesome6
-            name="facebook"
-            size={24}
-            color="black"
-            style={styles.Icon}
-          />
+    <View style={styles.viewButtons}>
+      <View style={styles.viewInfo}>
+        <View style={styles.contView}>
+          <TouchableOpacity style={styles.button}>
+            <FontAwesome6
+              name="facebook"
+              size={24}
+              color="black"
+              style={styles.Icon}
+            />
+            <Text style={styles.buttonText}>Continua con Facebook</Text>
+            <Text style={styles.googleText}>Vincular</Text>
+          </TouchableOpacity>
         </View>
-        <View style={styles.viewInter}>
-          <Text>Continua con Facebook</Text>
-        </View>
-        <View style={styles.viewInter}>
-          <Text style={styles.googleText}>Vincular</Text>
-        </View>
-      </TouchableOpacity>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  contView: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+  },
+  viewButtons: {
+    alignItems: "left",
+    justifyContent: "left",
+    // height: width / 2,
+    width: "100%",
+    minWidth: "100%",
+    borderRadius: 10,
+    marginRight: 50
+
+  },
+  viewInfo: {
+    alignItems: "left",
+    justifyContent: "left",
+  },
   googleText: {
     color: "#6BB8FF",
+    marginLeft: 10,
   },
   viewButton: {
     alignItems: "center",
     justifyContent: "center",
   },
   button: {
-    alignItems: "center",
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "space-between",
+    alignItems: "center",
     padding: 10,
+    backgroundColor: "white",
     borderBottomWidth: 1,
     borderBottomColor: "#202020",
+    width: "100%",
+    minWidth: "90%",
   },
   Icon: {
-    marginRight: 1,
-    marginLeft: 10
+    marginLeft: 15,
+    marginRight: 15,
   },
   viewInter: {
-    margin: 15,
     marginHorizontal: 10,
     alignItems: "flex-start",
-    flexWrap: "wrap"
+    flexWrap: "wrap",
   },
 });

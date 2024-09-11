@@ -103,12 +103,7 @@ export default function ModalDrawer({ modalVisible, toggleModal }) {
                           });
                           toggleModal();
                         }}
-                        style={{
-                          alignItems: "center",
-                          flexDirection: "row",
-                          justifyContent: "space-evenly",
-                          padding: 10,
-                        }}
+                        style={styles.buttonModal}
                       >
                         <View>
                           <Image
@@ -129,13 +124,9 @@ export default function ModalDrawer({ modalVisible, toggleModal }) {
                           <Text style={styles.modalTitle}>{userData.name}</Text>
                           <Text style={styles.miniText}>Mi perfil</Text>
                         </View>
-                        <View
-                          style={{
-                            alignItems: "center",
-                            flexDirection: "row",
-                            flexWrap: "wrap",
-                          }}
-                        >
+                      </TouchableOpacity>
+                      <TouchableOpacity>
+                        <View style={styles.viewStars}>
                           <AntDesign name="star" size={24} color="#4772A9" />
                           <AntDesign name="star" size={24} color="#4772A9" />
                           <AntDesign name="star" size={24} color="#4772A9" />
@@ -161,8 +152,8 @@ export default function ModalDrawer({ modalVisible, toggleModal }) {
                       <Text style={styles.buttonText}>Pago</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button}>
-                      <FontAwesome6
-                        name="person-running"
+                      <Ionicons
+                        name="bag-remove-sharp"
                         size={24}
                         color="black"
                         style={styles.Icon}
@@ -228,6 +219,7 @@ export default function ModalDrawer({ modalVisible, toggleModal }) {
               </View>
             )}
           </View>
+          <View style={styles.viewBottom} />
         </View>
       </Modal>
     </View>

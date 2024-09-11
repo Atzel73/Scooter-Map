@@ -2,6 +2,15 @@ import React, { useState } from "react";
 import { StyleSheet, Dimensions } from "react-native";
 const { width, height } = Dimensions.get("window");
 const styles = StyleSheet.create({
+  passwordContainer: {
+    width: "100%",
+    position: "relative",
+  },
+  iconContainer: {
+    position: "absolute",
+    right: 15,
+    top: 12,
+  },
   viewBottom: {
     backgroundColor: "#6BB8FF",
     height: 50,
@@ -17,14 +26,6 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     padding: 10,
     borderRadius: 30,
-    //elevation: 5,
-    //shadowColor: "#000",
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 2,
-    // },
-    // shadowOpacity: 0.25,
-    // shadowRadius: 3.84,
   },
   image: {
     width: "100%",
@@ -45,23 +46,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   formContainer: {
-    // width: width * 0.9,
-    // paddingVertical: 30,
-    // paddingHorizontal: 20,
-    // borderRadius: 15,
-    // alignItems: "center",
-    // justifyContent: "center",
-    // elevation: 5,
-    // shadowColor: "#000",
-    // shadowOffset: { width: 0, height: 2 },
-    // shadowOpacity: 0.8,
-    // shadowRadius: 2,
     flex: 1,
     justifyContent: "center",
     //alignItems: "center",
     backgroundColor: "white",
     // margin: 10,
-    //marginBottom: "50%",
+    //marginBottom: "70%",
   },
   inputContainer: {
     marginBottom: 20,
@@ -83,6 +73,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   contView: {
+    width: "75%",
+    alignSelf: 'center',
     alignItems: "center",
     justifyContent: "center",
   },

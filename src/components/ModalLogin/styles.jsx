@@ -2,6 +2,15 @@ import React, { useState } from "react";
 import { StyleSheet, Dimensions } from "react-native";
 const { width, height } = Dimensions.get("window");
 const styles = StyleSheet.create({
+  passwordContainer: {
+    width: "100%",
+    position: "relative", 
+  },
+  iconContainer: {
+    position: "absolute",
+    right: 15, 
+    top: 12, 
+  },
   viewBottom: {
     backgroundColor: "#6BB8FF",
     height: 50,

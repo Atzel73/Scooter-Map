@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import CustomInput from "../../../components/TextInput/textInput";
 import { LinearGradient } from "expo-linear-gradient";
-import { FontAwesome, Ionicons } from "@expo/vector-icons";
+import { FontAwesome, Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import pickImage from "../../../functions/cameraPicker/imagePicker";
 import styles from "../StylesLoginRegister/styles";
@@ -36,7 +36,10 @@ export default function Login() {
   const [user, setUser] = useState(null);
   const [credential, setCredential] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
-
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
   const [request, response, promptAsync] = Google.useAuthRequest({
     selectAccount: true,
     clientId:
@@ -114,34 +117,63 @@ export default function Login() {
       </View>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.formContainer}
+        style={[styles.formContainer, { marginBottom: "70%" }]}
       >
         <View style={styles.contView}>
-          <Text style={styles.label}>Correo electrónico:</Text>
-          <CustomInput
-            value={userData.email}
-            onChangeText={(text) => setUserData({ ...userData, email: text })}
-            keyboardType="email-address"
+          <View
             style={{
-              width: "100%",
-              paddingHorizontal: "45%",
-              marginHorizontal: 10,
+              alignItems: "flex-start",
+              justifyContent: "flex-start",
+              marginVertical: 10,
+              marginRight: "70%"
             }}
-          />
+          >
+            <Text
+              style={{ fontWeight: "bold", fontSize: 18, textAlign: "left" }}
+            >
+              Ingresar
+            </Text>
+          </View>
+          <View style={styles.passwordContainer}>
+            <CustomInput
+              placeholder="Correo"
+              value={userData.email}
+              onChangeText={(text) => setUserData({ ...userData, email: text })}
+              keyboardType="email-address"
+              style={{
+                width: "100%",
+                paddingHorizontal: "45%",
+                marginHorizontal: 10,
+              }}
+            />
+          </View>
         </View>
         <View style={styles.contView}>
-          <Text style={styles.label}>Contraseña:</Text>
-          <CustomInput
-            value={userData.password}
-            onChangeText={(text) =>
-              setUserData({ ...userData, password: text })
-            }
-            style={{
-              width: "100%",
-              paddingHorizontal: "45%",
-              marginHorizontal: 10,
-            }}
-          />
+          <View style={styles.passwordContainer}>
+            <CustomInput
+              placeholder="contraseña"
+              value={userData.password}
+              onChangeText={(text) =>
+                setUserData({ ...userData, password: text })
+              }
+              secureTextEntry={!showPassword}
+              style={{
+                width: "100%",
+                paddingHorizontal: "45%",
+                marginHorizontal: 10,
+              }}
+            />
+            <TouchableOpacity
+              onPress={togglePasswordVisibility}
+              style={styles.iconContainer}
+            >
+              <FontAwesome5
+                name={showPassword ? "eye" : "eye-slash"}
+                size={20}
+                color="black"
+              />
+            </TouchableOpacity>
+          </View>
         </View>
 
         <>

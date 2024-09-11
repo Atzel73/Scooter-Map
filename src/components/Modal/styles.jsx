@@ -2,6 +2,33 @@ import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
+  viewBottom: {
+    backgroundColor: "#fff",
+    height: 50,
+    width: "90%",
+    borderBottomRightRadius: 90,
+    borderBottomLeftRadius: 90,
+    position: "absolute",
+    top: 450,
+    right: "5%",
+    left: "5%",
+    bottom: 0,
+  },
+  viewStars: {
+    alignItems: "center",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    borderLeftWidth: 1,
+    width: "100%",
+    height: "35%",
+    padding: 10,
+  },
+  buttonModal: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    padding: 10,
+  },
   contViewGuest: {
     marginTop: "50%",
     flexDirection: "row",
@@ -14,7 +41,7 @@ const styles = StyleSheet.create({
     margin: 5,
     justifyContent: "space-around",
     padding: 10,
-    backgroundColor: "#ddd",
+    backgroundColor: "#fff",
     borderRadius: 5,
     borderColor: "#202020",
     marginBottom: 10,
@@ -32,7 +59,7 @@ const styles = StyleSheet.create({
   modalContent: {
     width: "100%",
     height: "50%",
-    backgroundColor: "#E2E2E2",
+    backgroundColor: "#fff",
     borderRadius: 10,
     padding: 20,
     alignItems: "center",
@@ -97,7 +124,7 @@ const styles = StyleSheet.create({
     margin: 5,
     justifyContent: "space-around",
     padding: 10,
-    backgroundColor: "#ddd",
+    backgroundColor: "#fff",
     borderRadius: 5,
     borderColor: "#202020",
     marginBottom: 10,
@@ -108,10 +135,10 @@ const styles = StyleSheet.create({
     margin: 5,
     justifyContent: "space-between",
     padding: 10,
-    backgroundColor: "#ddd",
+    backgroundColor: "#fff",
     borderRadius: 5,
     borderColor: "#202020",
-    marginBottom: 10,
+    marginTop: 50,
   },
   contView: {
     flexDirection: "row",
@@ -134,7 +161,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     borderRadius: 50,
     width: 100,
-    height: 100,
+    height: 75,
   },
   miniText: {
     color: "#4772A9",

@@ -124,8 +124,19 @@ export default function EditProfile() {
                   style={styles.img}
                   source={{ uri: userData.data.photo }}
                 />
+                <View
+                style={{
+                  position: "absolute",
+                  top: "15%",
+                  left: "50%",
+                  right: 0,
+                  bottom: 0,
+                }}
+              >
+                <FontAwesome6 name="repeat" size={29} color="#6BB8FF" />
+              </View>
               </TouchableOpacity>
-
+              
               <Text>Informacion personal</Text>
             </View>
 
@@ -144,12 +155,7 @@ export default function EditProfile() {
                 <Text style={styles.buttonText}>
                   {userData.data && userData.data.name}
                 </Text>
-                <FontAwesome6
-                  name="chevron-right"
-                  size={24}
-                  color="black"
-                  style={styles.Icon}
-                />
+                <Text style={{ color: "#6BB8FF", fontSize: 16 }}>Editar</Text>
               </TouchableOpacity>
               {showName && (
                 <View style={[styles.contView, { marginHorizontal: 10 }]}>
@@ -191,12 +197,7 @@ export default function EditProfile() {
                 <Text style={styles.buttonText}>
                   {userData.data && userData.data.phone}
                 </Text>
-                <FontAwesome6
-                  name="chevron-right"
-                  size={24}
-                  color="black"
-                  style={styles.Icon}
-                />
+                <Text style={{ color: "#6BB8FF", fontSize: 16 }}>Editar</Text>
               </TouchableOpacity>
               {showPhone && (
                 <View style={[styles.contView, { marginHorizontal: 10 }]}>
@@ -243,12 +244,7 @@ export default function EditProfile() {
                 <Text style={styles.buttonText}>
                   {userData.data && userData.data.email}
                 </Text>
-                <FontAwesome6
-                  name="chevron-right"
-                  size={24}
-                  color="black"
-                  style={styles.Icon}
-                />
+                <Text style={{ color: "#6BB8FF", fontSize: 16 }}>Editar</Text>
               </TouchableOpacity>
               {showEmail && (
                 <View style={[styles.contView, { marginHorizontal: 10 }]}>

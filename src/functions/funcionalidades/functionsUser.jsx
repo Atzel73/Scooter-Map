@@ -43,6 +43,10 @@ export default function Funcionalidades({
     "https://firebasestorage.googleapis.com/v0/b/floydapp-a1e0d.appspot.com/o/Admin%2FuserEmpty.jpg?alt=media&token=19d2651d-f14e-4ae7-8629-489f512bfc78";
 
   const handlerDisabledButton = () => {};
+  async function RegisterWithPhone() {
+    try {
+    } catch (error) {}
+  }
   async function RegisterUserModal() {
     console.log("Dentro", user.password);
     try {

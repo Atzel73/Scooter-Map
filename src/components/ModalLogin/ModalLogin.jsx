@@ -16,6 +16,7 @@ import {
   MaterialIcons,
   Ionicons,
   AntDesign,
+  FontAwesome5,
 } from "@expo/vector-icons";
 import styles from "./styles";
 import { getAuth } from "firebase/auth";
@@ -31,14 +32,13 @@ export default function ModalLogin({ modalVisibleLogin, toggleModalLogin }) {
   const auth = getAuth();
   const navigation = useNavigation();
   const [userData, setUserData] = useState({});
-
-  const storeData = async (value) => {
-    try {
-      await AsyncStorage.setItem("invitado", "invitado");
-      console.log("Guardado");
-    } catch (e) {
-      console.log("Error en async storage: ", e);
-    }
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+  const handlerNavigation = () => {
+    navigation.navigate("Iniciar Sesion", { screen: "RegisterPhone" });
+    toggleModalLogin(!modalVisibleLogin);
   };
   return (
     <KeyboardAvoidingView
@@ -71,18 +71,30 @@ export default function ModalLogin({ modalVisibleLogin, toggleModalLogin }) {
             </View>
             <View style={styles.contView}>
               <Text style={styles.label}>Contraseña</Text>
-              <CustomInput
-                value={userData.password}
-                onChangeText={(text) =>
-                  setUserData({ ...userData, password: text })
-                }
-                secureTextEntry
-                style={{
-                  width: "100%",
-                  paddingHorizontal: "45%",
-                  marginHorizontal: 10,
-                }}
-              />
+              <View style={styles.passwordContainer}>
+                <CustomInput
+                  value={userData.password}
+                  onChangeText={(text) =>
+                    setUserData({ ...userData, password: text })
+                  }
+                  secureTextEntry={!showPassword}
+                  style={{
+                    width: "100%",
+                    paddingHorizontal: "45%",
+                    marginHorizontal: 10,
+                  }}
+                />
+                <TouchableOpacity
+                  onPress={togglePasswordVisibility}
+                  style={styles.iconContainer}
+                >
+                  <FontAwesome5
+                    name={showPassword ? "eye" : "eye-slash"}
+                    size={20}
+                    color="black"
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
           <Funcionalidades
@@ -97,7 +109,7 @@ export default function ModalLogin({ modalVisibleLogin, toggleModalLogin }) {
               style={{ alignItems: "center" }}
               onPress={() => {
                 navigation.navigate("Iniciar Sesion", { screen: "Login" });
-                  //toggleModalLogin(!modalVisibleLogin);
+                toggleModalLogin(!modalVisibleLogin);
               }}
             >
               <Text>¿Ya tienes cuenta? Inicia sesion</Text>
@@ -108,7 +120,6 @@ export default function ModalLogin({ modalVisibleLogin, toggleModalLogin }) {
               style={{ alignItems: "center" }}
               onPress={() => {
                 toggleModalLogin(!modalVisibleLogin);
-                storeData(true);
               }}
             >
               <Text>Continuar como invitado</Text>
@@ -125,7 +136,11 @@ export default function ModalLogin({ modalVisibleLogin, toggleModalLogin }) {
             <LoginWithGoogle />
             <LoginWithApple />
             <LoginWithFacebook />
-            <LoginWithPhone />
+            <LoginWithPhone
+              icon="AntDesign"
+              onPress={handlerNavigation}
+              title="Continua con numero de telefono"
+            />
           </View>
           <View style={{ alignItems: "center", margin: 20 }}>
             <Text style={{ fontSize: 12 }}>

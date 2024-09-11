@@ -10,6 +10,7 @@ export default function CustomInput({
   keyboardType,
   placeholderTextColor,
   autoFocus,
+  secureTextEntry,
 }) {
   return (
     <View>
@@ -21,6 +22,7 @@ export default function CustomInput({
         value={value}
         onChangeText={onChangeText}
         style={[styles.input, style]}
+        secureTextEntry={secureTextEntry}
       />
     </View>
   );

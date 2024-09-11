@@ -27,7 +27,7 @@ import LoginWithFacebook from "../../../functions/funcionalidades/LoginWithFaceb
 import LoginWithPhone from "../../../functions/funcionalidades/LoginWithPhone/LoginWithphone";
 const { width, height } = Dimensions.get("window");
 
-export default function Register() {
+export default function RegisterPhoneMain() {
   const auth = getAuth();
   const navigation = useNavigation();
   const [userData, setUserData] = useState({});
@@ -40,8 +40,9 @@ export default function Register() {
     setUserData({ ...userData, image });
   };
   const handlerNavigation = () => {
-    navigation.navigate("RegisterPhone");
+    navigation.goBack();
   };
+
   return (
     <>
       <View style={styles.buttonFloat}>
@@ -68,21 +69,19 @@ export default function Register() {
           )}
           <View style={{ marginTop: "10%" }}>
             <View style={styles.contView}>
-              <Text style={styles.label}>Ingresa tu correo electrónico</Text>
-              <View style={styles.passwordContainer}>
-                <CustomInput
-                  value={userData.email}
-                  onChangeText={(text) =>
-                    setUserData({ ...userData, email: text })
-                  }
-                  keyboardType="email-address"
-                  style={{
-                    width: "100%",
-                    paddingHorizontal: "45%",
-                    marginHorizontal: 10,
-                  }}
-                />
-              </View>
+              <Text style={styles.label}>Ingresa tu numero de telefono</Text>
+              <CustomInput
+                value={userData.email}
+                onChangeText={(text) =>
+                  setUserData({ ...userData, email: text })
+                }
+                keyboardType="numeric"
+                style={{
+                  width: "100%",
+                  paddingHorizontal: "45%",
+                  marginHorizontal: 10,
+                }}
+              />
             </View>
             <View style={styles.contView}>
               <Text style={styles.label}>Contraseña</Text>
@@ -142,9 +141,9 @@ export default function Register() {
             <LoginWithApple />
             <LoginWithFacebook />
             <LoginWithPhone
-              icon="AntDesign"
+              icon="Material"
               onPress={handlerNavigation}
-              title="Continua con numero de telefono"
+              title="Continua con correo electronico"
             />
           </View>
           <View style={{ alignItems: "center", margin: 20 }}>
