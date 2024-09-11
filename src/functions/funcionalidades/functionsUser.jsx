@@ -43,6 +43,71 @@ export default function Funcionalidades({
     "https://firebasestorage.googleapis.com/v0/b/floydapp-a1e0d.appspot.com/o/Admin%2FuserEmpty.jpg?alt=media&token=19d2651d-f14e-4ae7-8629-489f512bfc78";
 
   const handlerDisabledButton = () => {};
+  async function RegisterUserModal() {
+    console.log("Dentro", user.password);
+    try {
+      if (!user.email) {
+        alert("Por favor, introduzca el correo electronico");
+        return;
+      }
+      const userData = {
+        photo: user.image === undefined ? "empty" : user.image,
+        name: user.name,
+        last_name: user.lastName,
+        email: user.email,
+        password: user.password,
+        phone: user.phone,
+        status: "Activo",
+        rol: "usuario",
+        scooter_id: "",
+        created_at: new Date(),
+      };
+      await createUserWithEmailAndPassword(auth, user.email, user.password)
+        .then((userCredentials) => {
+          setDoc(doc(db, "users", userCredentials.user.uid), {
+            photo: user.image === undefined ? empty : user.image,
+            name: "usuario",
+            last_name: "usuario",
+            email: userCredentials.user.email,
+            phone: "",
+            password: user.password,
+            status: "Activo",
+            rol: "usuario",
+            scooter_id: "",
+            created_at: new Date(),
+            users_blocked: [],
+            blocked_by: [],
+            verifyByEmail: true,
+          });
+          Alert.alert("¡Bienvenido!");
+          //navigation.navigate("Principal");
+          navigation.navigate("Iniciar Sesion", { screen: "LoginName" });
+          console.log("Registrado");
+        })
+        .catch((error) => {
+          if (error.code === "auth/weak-password") {
+            Alert.alert("La contraseña debe contener al menos 6 caracteres.");
+          } else if (error.code === "auth/invalid-email") {
+            Alert.alert("El email es inválido");
+          } else if (error.code === "auth/missing-email") {
+            Alert.alert("El email es obligatorio");
+          } else if (error.code === "auth/missing-password") {
+            Alert.alert("Por favor, ingrese la contraseña");
+          } else if (error.code === "auth/email-already-in-use") {
+            Alert.alert("El email ya está en uso");
+          }
+        });
+    } catch (error) {
+      console.log("Error: ", error);
+      if (error.code === "auth/weak-password") {
+        alert("La contraseña debe contener al menos 6 caracteres.");
+      } else if (error.code === "auth/invalid-email") {
+        alert("El email es inválido");
+      } else if (error.code === "auth/missing-email") {
+        alert("El email es obligatorio");
+      }
+    }
+  }
   async function RegisterUser() {
     console.log("Dentro", user.password);
     try {
@@ -186,17 +251,6 @@ export default function Funcionalidades({
           console.log("Usuario iniciado. ");
           Alert.alert("¡Bienvenido!");
           navigation.navigate("Principal");
-          // const userRef = doc(db, "users", auth.currentUser.uid);
-          // onSnapshot(userRef, (doc) => {
-          //   console.log("logueado: ", doc.data());
-          //   if (doc.data().status == "Activo") {
-          //     Alert.alert("¡Bienvenido!");
-          //     navigation.navigate("Principal");
-          //   } else {
-          //     console.log("Cuenta no encontrada");
-          //     Alert.alert("Cuenta no encontrada");
-          //   }
-          // });
         })
         .catch((error) => {
           console.log(error.message);
@@ -299,6 +353,9 @@ export default function Funcionalidades({
         onPress={() => {
           if (callFunction === "RegisterUser") {
             RegisterUser();
+          }
+          if (callFunction === "RegisterUserModal") {
+            RegisterUserModal();
           }
           if (callFunction === "UpdateUser") {
             UpdateUser();

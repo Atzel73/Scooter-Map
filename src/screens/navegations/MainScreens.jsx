@@ -20,6 +20,7 @@ import EditarNumeroScreen from "../Principal/client/UserConfig/EditarNumero/Edit
 import EditarCorreoScreen from "../Principal/client/UserConfig/EditarCorreo/EditarCorreoScreen";
 
 import LoginName from "../Principal/client/LoginsScreens/LoginName";
+import LoginPhone from "../Principal/client/LoginsScreens/LoginPhoneScreen";
 
 import SoporteScreens from "./SoporteNavigation";
 const Stack = createNativeStackNavigator();
@@ -54,6 +55,17 @@ function UserEnter() {
       <Stack.Screen
         name="LoginName"
         component={LoginName}
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: "#6BB8FF",
+          },
+          headerTintColor: "#6BB8FF",
+        }}
+      />
+      <Stack.Screen
+        name="LoginPhone"
+        component={LoginPhone}
         options={{
           headerShown: true,
           headerStyle: {

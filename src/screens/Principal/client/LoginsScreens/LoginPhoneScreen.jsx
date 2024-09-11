@@ -14,48 +14,38 @@ import { useNavigation } from "@react-navigation/native";
 import { db } from "../../../../db/conection";
 import { doc, onSnapshot, updateDoc } from "firebase/firestore";
 import CustomInput from "../../../../components/TextInput/textInput";
-import Funcionalidades from "../../../../functions/funcionalidades/functionsUser";
-export default function LoginName() {
+export default function LoginPhone() {
   const navigation = useNavigation();
   const auth = getAuth();
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [userData, setUserData] = useState({ name: "", last_name: "" });
+  const [userData, setUserData] = useState({ phone: "" });
 
-  const handleNameChange = (text) => {
+  const handlePhoneChange = (text) => {
     setUserData((prevUserData) => ({
       ...prevUserData,
-      name: text,
+      phone: text,
     }));
   };
 
-  const handleLastNameChange = (text) => {
-    setUserData((prevUserData) => ({
-      ...prevUserData,
-      last_name: text,
-    }));
-  };
   async function updateUser() {
-    console.log("Dentro de login name", userData);
-    if (!userData.name || !userData.last_name) {
-      alert("Por favor, no deje campos vacios");
+    if (!userData.phone) {
+      Alert.alert("Por favor, no deje campos vacios");
       return;
     }
     try {
       setIsLoading(true);
       const userDataUpdate = {
         updated_at: new Date(),
-        name: userData.name,
-        last_name: userData.last_name,
+        phone: userData.phone,
       };
       const userRef = await updateDoc(
         doc(db, "users", auth.currentUser.uid),
         userDataUpdate
       );
-      console.log("User updated");
       setIsLoading(false);
-      Alert.alert("Datos registrados");
-      navigation.navigate("LoginPhone");
+      Alert.alert("¡Registro con exito!");
+      navigation.navigate("Principal")
     } catch (error) {
       console.log(error);
       setIsLoading(false);
@@ -88,27 +78,15 @@ export default function LoginName() {
       style={styles.container}
     >
       <View>
-        <Text>¿Cual es tu nombre?</Text>
+        <Text>Ingresa tu numero de telefono</Text>
       </View>
       <View style={[styles.contView, { marginHorizontal: 10 }]}>
         <CustomInput
-          value={userData.name}
-          onChangeText={handleNameChange}
+          keyboardType="numeric"
+          value={userData.phone}
+          onChangeText={handlePhoneChange}
           placeholderTextColor="black"
-          placeholder="Nombre"
-          style={{
-            width: "100%",
-            paddingHorizontal: "45%",
-            marginHorizontal: 10,
-          }}
-        />
-      </View>
-      <View style={[styles.contView, { marginHorizontal: 10 }]}>
-        <CustomInput
-          value={userData.last_name}
-          onChangeText={handleLastNameChange}
-          placeholderTextColor="black"
-          placeholder="Apellido"
+          placeholder="618..."
           style={{
             width: "100%",
             paddingHorizontal: "45%",

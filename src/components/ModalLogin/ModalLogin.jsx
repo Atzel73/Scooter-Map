@@ -88,7 +88,7 @@ export default function ModalLogin({ modalVisibleLogin, toggleModalLogin }) {
           <Funcionalidades
             style={styles.buttonSend}
             user={userData}
-            callFunction="RegisterUser"
+            callFunction="RegisterUserModal"
           >
             <Text style={styles.buttonText}>Continuar</Text>
           </Funcionalidades>
@@ -96,8 +96,8 @@ export default function ModalLogin({ modalVisibleLogin, toggleModalLogin }) {
             <TouchableOpacity
               style={{ alignItems: "center" }}
               onPress={() => {
-                navigation.navigate("Iniciar Sesion", { screen: "Login" }),
-                  toggleModalLogin(!modalVisibleLogin);
+                navigation.navigate("Iniciar Sesion", { screen: "Login" });
+                  //toggleModalLogin(!modalVisibleLogin);
               }}
             >
               <Text>¿Ya tienes cuenta? Inicia sesion</Text>
