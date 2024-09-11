@@ -63,9 +63,7 @@ export default function BorrarCuenta({ route }) {
 
   const handleDeleteAccount = () => {
     if (selectedOption && userPassword === remotePassword.password) {
-      // Aquí puedes realizar la lógica para eliminar la cuenta
       console.log("Eliminar cuenta");
-      // Por ejemplo, podrías llamar a una función que maneje la eliminación del usuario
     } else {
       console.log(
         "Las contraseñas no coinciden o no se ha seleccionado una opción"
