@@ -13,6 +13,8 @@ import {
   reauthenticateWithCredential,
   deleteUser,
   updateEmail,
+  GoogleAuthProvider,
+  reauthenticateWithPopup,
 } from "firebase/auth";
 import {
   setDoc,
@@ -281,27 +283,41 @@ export default function Funcionalidades({
     }
   }
   async function DeleteUser() {
-    const email = auth.currentUser.email;
-    const password = userDelete.password;
-    const credentials = EmailAuthProvider.credential(email, password);
-
     try {
-      await reauthenticateWithCredential(auth.currentUser, credentials);
+      const user = auth.currentUser;
 
+      if (user.providerData[0].providerId === "google.com") {
+        // Reautenticar con Google
+        const provider = new GoogleAuthProvider();
+        await reauthenticateWithPopup(user, provider);
+      } else {
+        // En caso de que no sea una cuenta de Google, usar el método tradicional
+        const email = auth.currentUser.email;
+        const password = userDelete.password; // Obtener la contraseña del estado correctamente
+        const credentials = EmailAuthProvider.credential(email, password);
+        await reauthenticateWithCredential(user, credentials);
+      }
+
+      // Preparar batch para eliminar usuario
       const batch = writeBatch(db);
       const userRef = doc(db, "users", auth.currentUser.uid);
       batch.delete(userRef);
 
-      await deleteUser(auth.currentUser);
+      // Eliminar el usuario
+      await deleteUser(user);
 
+      // Confirmar la operación en batch
       await batch.commit();
 
+      // Cerrar sesión después de eliminar la cuenta
       await signOut(auth);
+
+      // Mostrar alerta y navegar a la pantalla principal
       Alert.alert("Cuenta borrada");
       navigation.navigate("Principal");
       console.log("Cuenta borrada con éxito");
     } catch (error) {
-      console.log("Error al borrar la cuenta: ", error);
+      console.error("Error al borrar la cuenta: ", error);
     }
   }
   async function UpdateEmail() {

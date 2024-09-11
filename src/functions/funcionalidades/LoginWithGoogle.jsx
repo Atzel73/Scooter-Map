@@ -20,7 +20,7 @@ import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
 import { FontAwesome6, MaterialIcons, AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-
+import { db } from "../../db/conection";
 export default function LoginWithGoogle() {
   const auth = getAuth();
   const [userData, setUserData] = useState({});
@@ -28,6 +28,8 @@ export default function LoginWithGoogle() {
   const [user, setUser] = useState(null);
   const [credential, setCredential] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
+  const empty =
+    "https://firebasestorage.googleapis.com/v0/b/floydapp-a1e0d.appspot.com/o/Admin%2FuserEmpty.jpg?alt=media&token=19d2651d-f14e-4ae7-8629-489f512bfc78";
   const [request, response, promptAsync] = Google.useAuthRequest({
     selectAccount: true,
     clientId:
@@ -70,7 +72,7 @@ export default function LoginWithGoogle() {
               name: user.given_name,
               last_name: user.family_name,
               rol: "usuario",
-              photo: user.picture,
+              photo: !user.picture ? empty : user.picture,
               password: user.given_name,
               scooter_id: "",
               status: "Activo",
@@ -78,6 +80,7 @@ export default function LoginWithGoogle() {
               created_at: new Date(),
               users_blocked: [],
               blocked_by: [],
+              verifyByFacebook: true,
             });
           }
         });
@@ -144,7 +147,7 @@ const styles = StyleSheet.create({
     width: "100%",
     minWidth: "100%",
     borderRadius: 10,
-    marginRight: 50
+    marginRight: 50,
   },
   viewInfo: {
     alignItems: "center",
