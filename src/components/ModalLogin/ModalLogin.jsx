@@ -26,6 +26,7 @@ import LoginWithApple from "../../functions/funcionalidades/LoginWithApple/Login
 import LoginWithFacebook from "../../functions/funcionalidades/LoginWithFacebook/LoginWithFacebook";
 import LoginWithGoogle from "../../functions/funcionalidades/LoginWithGoogle";
 import LoginWithPhone from "../../functions/funcionalidades/LoginWithPhone/LoginWithphone";
+import LoginWithGuest from "../../functions/funcionalidades/LoginWithGuest";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function ModalLogin({ modalVisibleLogin, toggleModalLogin }) {
@@ -112,27 +113,23 @@ export default function ModalLogin({ modalVisibleLogin, toggleModalLogin }) {
                 toggleModalLogin(!modalVisibleLogin);
               }}
             >
-              <Text>¿Ya tienes cuenta? Inicia sesion</Text>
+              <Text>¿Ya tienes cuenta? {"\n"}</Text>
+              <Text>Inicia sesion</Text>
             </TouchableOpacity>
           </View>
-          <View style={styles.contView}>
-            <TouchableOpacity
-              style={{ alignItems: "center" }}
-              onPress={() => {
-                toggleModalLogin(!modalVisibleLogin);
-              }}
-            >
-              <Text>Continuar como invitado</Text>
-            </TouchableOpacity>
-          </View>
+
           <View
             style={{
               flexDirection: "column",
-              alignItems: "flex-end",
-              justifyContent: "flex-end",
+              alignItems: "center",
+              justifyContent: "flex-start",
               margin: 10,
             }}
           >
+            <LoginWithGuest
+              onPress={() => toggleModalLogin(!modalVisibleLogin)}
+              title="Continua como invitado"
+            />
             <LoginWithGoogle />
             <LoginWithApple />
             <LoginWithFacebook />

@@ -54,7 +54,7 @@ export default function EditProfile() {
         const userRef = doc(db, "users", auth.currentUser.uid);
         onSnapshot(userRef, (doc) => {
           setUserData({ id: doc.id, data: doc.data() });
-          setUserEmail(doc.data().email);
+         // setUserEmail(doc.data().email);
         });
       }
       getUser();
@@ -125,18 +125,18 @@ export default function EditProfile() {
                   source={{ uri: userData.data.photo }}
                 />
                 <View
-                style={{
-                  position: "absolute",
-                  top: "15%",
-                  left: "50%",
-                  right: 0,
-                  bottom: 0,
-                }}
-              >
-                <FontAwesome6 name="repeat" size={29} color="#6BB8FF" />
-              </View>
+                  style={{
+                    position: "absolute",
+                    top: "15%",
+                    left: "50%",
+                    right: 0,
+                    bottom: 0,
+                  }}
+                >
+                  <FontAwesome6 name="repeat" size={29} color="#6BB8FF" />
+                </View>
               </TouchableOpacity>
-              
+
               <Text>Informacion personal</Text>
             </View>
 
@@ -251,30 +251,11 @@ export default function EditProfile() {
                   <Text style={styles.textTitle}>
                     Actualiza tu correo electronico
                   </Text>
-                  <CustomInput
-                    value={userData.data.email}
-                    onChangeText={(text) =>
-                      setUserData((prevState) => ({
-                        ...prevState,
-                        data: {
-                          ...prevState.data,
-                          email: text,
-                        },
-                      }))
-                    }
-                    keyboardType="email-address"
-                    placeholderTextColor="black"
-                    placeholder="Nuevo correo electronico"
-                    style={{
-                      width: "100%",
-                      paddingHorizontal: "45%",
-                      marginHorizontal: 10,
-                    }}
-                  />
+
                   <View style={styles.contView}>
                     <Funcionalidades
                       callFunction="UpdateEmail"
-                      userUpdate={[userData, userEmail]}
+                      //userUpdate={[userData, userEmail]}
                       style={styles.button}
                     >
                       <Text
@@ -291,25 +272,6 @@ export default function EditProfile() {
                 </View>
               )}
             </View>
-            {/* {!showEmail && (
-            <View style={styles.contView}>
-              <Funcionalidades
-                callFunction="UpdateUser"
-                userUpdate={userData}
-                style={styles.button}
-              >
-                <Text
-                  style={{
-                    alignSelf: "center",
-                    fontSize: 18,
-                    fontStyle: "italic",
-                  }}
-                >
-                  Guardar
-                </Text>
-              </Funcionalidades>
-            </View>
-          )} */}
           </>
         )}
       </KeyboardAvoidingView>

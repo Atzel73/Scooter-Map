@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   TouchableOpacity,
@@ -30,7 +30,7 @@ import {
   deleteDoc,
   writeBatch,
 } from "firebase/firestore";
-
+import TouchID from "react-native-touch-id";
 export default function Funcionalidades({
   title,
   callFunction,
@@ -45,12 +45,46 @@ export default function Funcionalidades({
 }) {
   const auth = getAuth();
   const navigation = useNavigation();
-  const [buttonDisabled, setButtonDisabled] = React.useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [isAuthBio, setIsAuthBio] = useState(false);
   const empty =
     "https://firebasestorage.googleapis.com/v0/b/floydapp-a1e0d.appspot.com/o/Admin%2FuserEmpty.jpg?alt=media&token=19d2651d-f14e-4ae7-8629-489f512bfc78";
-  async function HandlerBiometric() {
-    console.log("Dentro de la huella");
-  }
+
+  const optionalConfigObject = {
+    title: "Se requiere verificacion", // Android
+    imageColor: "#6BB8FF", // Android
+    imageErrorColor: "#ff0000", // Android
+    sensorDescription: "Huella biometrica", // Android
+    sensorErrorDescription: "Error", // Android
+    cancelText: "Cancelar", // Android
+    fallbackLabel: "Show Passcode", // iOS (if empty, then label is hidden)
+    unifiedErrors: false, // use unified error messages (default false)
+    passcodeFallback: false, // iOS - allows the device to fall back to using the passcode, if faceid/touch is not available. this does not mean that if touchid/faceid fails the first few times it will revert to passcode, rather that if the former are not enrolled, then it will use the passcode.
+  };
+
+ 
+  const HandlerBiometric = async () => {
+    console.log("Dentro de la huella", TouchID);
+    try {
+      const biometryType = await TouchID.isSupported(optionalConfigObject);
+      if (biometryType === "FaceID") {
+        console.log("FaceID is supported.");
+      } else {
+        console.log("TouchID is supported.");
+        TouchID.authenticate("", optionalConfigObject).then(
+          (success) => {
+            console.log("Autenticación exitosa:", success);
+            DeleteUser();
+          },
+          (error) => {
+            console.log("Error al autenticar:", error);
+          }
+        );
+      }
+    } catch (error) {
+      console.log("Error al verificar la compatibilidad de biometría:", error);
+    }
+  };
 
   async function RegisterWithPhone() {
     try {

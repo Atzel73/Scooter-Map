@@ -96,24 +96,6 @@ export default function LoginWithGoogle() {
   };
 
   return (
-    // <View>
-    //   <TouchableOpacity style={styles.button} onPress={() => promptAsync()}>
-    //     <View style={styles.viewInter}>
-    //       <AntDesign
-    //         name="google"
-    //         size={24}
-    //         color="black"
-    //         style={styles.Icon}
-    //       />
-    //     </View>
-    //     <View style={styles.viewInter}>
-    //       <Text>Continua con Google</Text>
-    //     </View>
-    //     <View style={styles.viewInter}>
-    //       <Text style={styles.googleText}>Vincular</Text>
-    //     </View>
-    //   </TouchableOpacity>
-    // </View>
 
     <View style={styles.viewButtons}>
       <View style={styles.viewInfo}>
@@ -147,7 +129,7 @@ const styles = StyleSheet.create({
     width: "100%",
     minWidth: "100%",
     borderRadius: 10,
-    marginRight: 50,
+   // marginRight: 50,
   },
   viewInfo: {
     alignItems: "center",
@@ -175,7 +157,7 @@ const styles = StyleSheet.create({
   },
   Icon: {
     marginLeft: 15,
-    marginRight: -100,
+    marginRight: -90,
   },
   viewInter: {
     margin: 15,

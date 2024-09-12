@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     width: "100%",
     minWidth: "100%",
     borderRadius: 10,
-    marginRight: 50,
+  //  marginRight: 50,
   },
   viewInfo: {
     alignItems: "left",

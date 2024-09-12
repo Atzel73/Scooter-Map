@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
   iconContainer: {
     position: "absolute",
     right: 15,
-    top: 12,
+    top: 20,
   },
   viewBottom: {
     backgroundColor: "#6BB8FF",
@@ -73,10 +73,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   contView: {
-    width: "75%",
+    width: "100%",
     alignSelf: 'center',
     alignItems: "center",
     justifyContent: "center",
+    marginHorizontal: 5
   },
   errorContainer: {
     marginBottom: 20,

@@ -21,7 +21,8 @@ import * as WebBrowser from "expo-web-browser";
 import { FontAwesome6, MaterialIcons, AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 const { width, height } = Dimensions.get("window");
-export default function LoginWithFacebook() {
+
+export default function LoginWithGuest({ onPress, title, icon }) {
   const auth = getAuth();
   const [userData, setUserData] = useState({});
   const navigation = useNavigation();
@@ -30,15 +31,15 @@ export default function LoginWithFacebook() {
     <View style={styles.viewButtons}>
       <View style={styles.viewInfo}>
         <View style={styles.contView}>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={onPress}>
             <FontAwesome6
-              name="facebook"
+              name="house-user"
               size={24}
               color="black"
               style={styles.Icon}
             />
-            <Text style={styles.buttonText}>Continua con Facebook</Text>
-            <Text style={styles.googleText}>Vincular</Text>
+            <Text style={styles.buttonText}>{title}</Text>
+            <Text style={styles.googleText}>Continuar</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -59,8 +60,7 @@ const styles = StyleSheet.create({
     width: "100%",
     minWidth: "100%",
     borderRadius: 10,
-   // marginRight: 50
-
+    //marginRight: 50,
   },
   viewInfo: {
     alignItems: "left",
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   },
   Icon: {
     marginLeft: 15,
-    marginRight: -80,
+    marginRight: -70,
   },
   viewInter: {
     marginHorizontal: 10,

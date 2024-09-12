@@ -59,13 +59,6 @@ export default function Register() {
         style={styles.formContainer}
       >
         <ScrollView contentContainerStyle={styles.scrollContainer}>
-          {userData.image && (
-            <View style={styles.inputContainer}>
-              <View style={styles.imageContainer}>
-                <Image source={{ uri: userData.image }} style={styles.image} />
-              </View>
-            </View>
-          )}
           <View style={{ marginTop: "10%" }}>
             <View style={styles.contView}>
               <Text style={styles.label}>Ingresa tu correo electrónico</Text>
@@ -127,14 +120,15 @@ export default function Register() {
                 navigation.navigate("Login");
               }}
             >
-              <Text>¿Ya tienes cuenta? Inicia sesion</Text>
+              <Text>¿Ya tienes cuenta? {"\n"}</Text>
+              <Text>Inicia sesion</Text>
             </TouchableOpacity>
           </View>
           <View
             style={{
               flexDirection: "column",
               alignItems: "center",
-              justifyContent: "flex-start",
+              justifyContent: "center",
               margin: 10,
             }}
           >
