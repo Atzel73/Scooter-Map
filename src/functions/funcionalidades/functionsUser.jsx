@@ -1,5 +1,12 @@
 import React from "react";
-import { View, TouchableOpacity, Text, StyleSheet, Alert } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  Alert,
+  Platform,
+} from "react-native";
 import app, { db } from "../../db/conection";
 import firebaseAuth from "../../db/conection";
 import { useNavigation } from "@react-navigation/native";
@@ -13,8 +20,6 @@ import {
   reauthenticateWithCredential,
   deleteUser,
   updateEmail,
-  GoogleAuthProvider,
-  reauthenticateWithPopup,
 } from "firebase/auth";
 import {
   setDoc,
@@ -43,8 +48,10 @@ export default function Funcionalidades({
   const [buttonDisabled, setButtonDisabled] = React.useState(false);
   const empty =
     "https://firebasestorage.googleapis.com/v0/b/floydapp-a1e0d.appspot.com/o/Admin%2FuserEmpty.jpg?alt=media&token=19d2651d-f14e-4ae7-8629-489f512bfc78";
+  async function HandlerBiometric() {
+    console.log("Dentro de la huella");
+  }
 
-  const handlerDisabledButton = () => {};
   async function RegisterWithPhone() {
     try {
     } catch (error) {}
@@ -283,41 +290,27 @@ export default function Funcionalidades({
     }
   }
   async function DeleteUser() {
+    const email = auth.currentUser.email;
+    const password = userDelete.password;
+    const credentials = EmailAuthProvider.credential(email, password);
+
     try {
-      const user = auth.currentUser;
+      await reauthenticateWithCredential(auth.currentUser, credentials);
 
-      if (user.providerData[0].providerId === "google.com") {
-        // Reautenticar con Google
-        const provider = new GoogleAuthProvider();
-        await reauthenticateWithPopup(user, provider);
-      } else {
-        // En caso de que no sea una cuenta de Google, usar el método tradicional
-        const email = auth.currentUser.email;
-        const password = userDelete.password; // Obtener la contraseña del estado correctamente
-        const credentials = EmailAuthProvider.credential(email, password);
-        await reauthenticateWithCredential(user, credentials);
-      }
-
-      // Preparar batch para eliminar usuario
       const batch = writeBatch(db);
       const userRef = doc(db, "users", auth.currentUser.uid);
       batch.delete(userRef);
 
-      // Eliminar el usuario
-      await deleteUser(user);
+      await deleteUser(auth.currentUser);
 
-      // Confirmar la operación en batch
       await batch.commit();
 
-      // Cerrar sesión después de eliminar la cuenta
       await signOut(auth);
-
-      // Mostrar alerta y navegar a la pantalla principal
       Alert.alert("Cuenta borrada");
       navigation.navigate("Principal");
       console.log("Cuenta borrada con éxito");
     } catch (error) {
-      console.error("Error al borrar la cuenta: ", error);
+      console.log("Error al borrar la cuenta: ", error);
     }
   }
   async function UpdateEmail() {
@@ -389,8 +382,8 @@ export default function Funcionalidades({
           if (callFunction === "SignUser") {
             SignUser();
           }
-          if (callFunction === "DeleteUser") {
-            DeleteUser();
+          if (callFunction === "HandlerBiometric") {
+            HandlerBiometric();
           }
           if (callFunction === "UpdateEmail") {
             UpdateEmail();

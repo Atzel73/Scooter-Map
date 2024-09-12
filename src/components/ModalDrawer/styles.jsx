@@ -1,5 +1,4 @@
 import { StyleSheet } from "react-native";
-import { blue } from "react-native-reanimated/lib/typescript/reanimated2/Colors";
 const styles = StyleSheet.create({
   modalOverlay: {
     flex: 1,

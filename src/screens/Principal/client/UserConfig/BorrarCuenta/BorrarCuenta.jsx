@@ -110,7 +110,7 @@ export default function BorrarCuenta({ route }) {
           <Funcionalidades
             style={[styles.button, { width: "50%" }]}
             userDelete={remotePassword}
-            callFunction="DeleteUser"
+            callFunction="HandlerBiometric"
           >
             <Text
               style={[
