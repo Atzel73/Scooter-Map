@@ -199,6 +199,7 @@ export default function Configuration({ route }) {
                   </TouchableOpacity>
                 </View>
               </View>
+              <View style={styles.viewBottom} />
             </View>
           ) : (
             <View>
@@ -212,6 +213,14 @@ export default function Configuration({ route }) {
 }
 
 const styles = StyleSheet.create({
+  viewBottom: {
+    backgroundColor: "#6BB8FF",
+    height: 100,
+    width: "50%",
+    borderTopRightRadius: 100,
+    borderTopLeftRadius: 100,
+    position: "relative",
+  },
   buttonFloat: {
     position: "absolute",
     top: -5,

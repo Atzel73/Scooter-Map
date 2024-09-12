@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   },
   Icon: {
     marginLeft: 15,
-    marginRight: 15,
+    marginRight: -80,
   },
   viewInter: {
     marginHorizontal: 10,

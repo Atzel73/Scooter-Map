@@ -28,35 +28,6 @@ export default function LoginWithPhone({ onPress, title, icon }) {
   const navigation = useNavigation();
 
   return (
-    // <View style={styles.viewButton}>
-    //   <TouchableOpacity style={styles.button} onPress={onPress}>
-    //     {icon === "AntDesign" ? (
-    //       <View style={styles.viewInter}>
-    //         <AntDesign
-    //           name="phone"
-    //           size={24}
-    //           color="black"
-    //           style={styles.Icon}
-    //         />
-    //       </View>
-    //     ) : (
-    //       <MaterialIcons
-    //         name="email"
-    //         size={24}
-    //         color="black"
-    //         style={styles.Icon}
-    //       />
-    //     )}
-
-    //     <View style={styles.viewInter}>
-    //       <Text>{title}</Text>
-    //     </View>
-    //     <View style={styles.viewInter}>
-    //       <Text style={styles.googleText}>Vincular</Text>
-    //     </View>
-    //   </TouchableOpacity>
-    // </View>
-
     <View style={styles.viewButtons}>
       <View style={styles.viewInfo}>
         <View style={styles.contView}>
@@ -127,7 +98,7 @@ const styles = StyleSheet.create({
   },
   Icon: {
     marginLeft: 15,
-    marginRight: 15,
+    marginRight: -70,
   },
   viewInter: {
     marginHorizontal: 10,

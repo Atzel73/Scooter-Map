@@ -128,8 +128,8 @@ export default function ModalLogin({ modalVisibleLogin, toggleModalLogin }) {
           <View
             style={{
               flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "flex-start",
+              alignItems: "flex-end",
+              justifyContent: "flex-end",
               margin: 10,
             }}
           >

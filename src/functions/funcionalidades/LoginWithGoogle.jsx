@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
   },
   Icon: {
     marginLeft: 15,
-    marginRight: 15,
+    marginRight: -100,
   },
   viewInter: {
     margin: 15,

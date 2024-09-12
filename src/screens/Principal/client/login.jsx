@@ -125,7 +125,7 @@ export default function Login() {
               alignItems: "flex-start",
               justifyContent: "flex-start",
               marginVertical: 10,
-              marginRight: "70%"
+              marginRight: "70%",
             }}
           >
             <Text
@@ -136,12 +136,12 @@ export default function Login() {
           </View>
           <View style={styles.passwordContainer}>
             <CustomInput
-              placeholder="Correo"
               value={userData.email}
               onChangeText={(text) => setUserData({ ...userData, email: text })}
               keyboardType="email-address"
               style={{
                 width: "100%",
+                height: 50,
                 paddingHorizontal: "45%",
                 marginHorizontal: 10,
               }}
