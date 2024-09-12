@@ -218,7 +218,7 @@ export default function HomeScreen() {
           } else {
             onSnapshot(userRef, (doc) => {
               setUserData(doc.data());
-              setModalVisibleLogin(false);
+              // setModalVisibleLogin(false);
               setDontExist(false);
             });
           }
@@ -227,7 +227,7 @@ export default function HomeScreen() {
           setIsError(true);
         }
       } else {
-        setModalVisibleLogin(true);
+        // setModalVisibleLogin(true);
       }
     });
 

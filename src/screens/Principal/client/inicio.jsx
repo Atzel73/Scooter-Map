@@ -25,6 +25,7 @@ import LoginWithGoogle from "../../../functions/funcionalidades/LoginWithGoogle"
 import LoginWithApple from "../../../functions/funcionalidades/LoginWithApple/LoginWithApple";
 import LoginWithFacebook from "../../../functions/funcionalidades/LoginWithFacebook/LoginWithFacebook";
 import LoginWithPhone from "../../../functions/funcionalidades/LoginWithPhone/LoginWithphone";
+import LoginWithGuest from "../../../functions/funcionalidades/LoginWithGuest";
 const { width, height } = Dimensions.get("window");
 
 export default function Register() {
@@ -44,16 +45,6 @@ export default function Register() {
   };
   return (
     <>
-      <View style={styles.buttonFloat}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Ionicons
-            name="arrow-back-circle"
-            size={30}
-            color="black"
-            style={styles.Icon}
-          />
-        </TouchableOpacity>
-      </View>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.formContainer}
@@ -132,6 +123,10 @@ export default function Register() {
               margin: 10,
             }}
           >
+            <LoginWithGuest
+              onPress={() => navigation.goBack()}
+              title="Continua como invitado"
+            />
             <LoginWithGoogle />
             <LoginWithApple />
             <LoginWithFacebook />
