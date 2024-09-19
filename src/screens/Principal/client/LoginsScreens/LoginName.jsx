@@ -54,7 +54,6 @@ export default function LoginName() {
       );
       console.log("User updated");
       setIsLoading(false);
-      Alert.alert("Datos registrados");
       navigation.navigate("LoginPhone");
     } catch (error) {
       console.log(error);

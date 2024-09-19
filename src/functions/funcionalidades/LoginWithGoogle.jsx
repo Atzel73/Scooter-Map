@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 10,
     backgroundColor: "white",
-    borderBottomWidth: 1,
+    borderBottomWidth: 0.2,
     borderBottomColor: "#202020",
     marginBottom: 10,
     width: "100%",

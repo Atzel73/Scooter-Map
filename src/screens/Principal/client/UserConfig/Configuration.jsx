@@ -99,9 +99,11 @@ export default function Configuration({ route }) {
     <>
       <View style={styles.container}>
         <ScrollView
+          persistentScrollbar={false}
           contentInsetAdjustmentBehavior="automatic"
-          keyboardShouldPersistTaps="handled"
+          keyboardShouldPersistTaps="always"
           contentContainerStyle={styles.scrollContainer}
+          endFillColor="#6BB8FF"
         >
           {auth && auth.currentUser && auth.currentUser.uid ? (
             <View style={styles.subContainer}>
@@ -248,7 +250,8 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: 20,
+    paddingVertical: 25,
+    paddingBottom: -50,
   },
   viewLugares: {
     alignItems: "center",

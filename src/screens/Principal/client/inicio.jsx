@@ -50,7 +50,7 @@ export default function Register() {
         style={styles.formContainer}
       >
         <ScrollView contentContainerStyle={styles.scrollContainer}>
-          <View style={{ marginTop: "10%" }}>
+          <View style={{}}>
             <View style={styles.contView}>
               <Text style={styles.label}>Ingresa tu correo electrónico</Text>
               <View style={styles.passwordContainer}>
@@ -96,14 +96,16 @@ export default function Register() {
               </View>
             </View>
           </View>
+          <View>
+            <Funcionalidades
+              style={styles.buttonSend}
+              user={userData}
+              callFunction="RegisterUser"
+            >
+              <Text style={styles.buttonText}>Continuar</Text>
+            </Funcionalidades>
+          </View>
 
-          <Funcionalidades
-            style={styles.buttonSend}
-            user={userData}
-            callFunction="RegisterUser"
-          >
-            <Text style={styles.buttonText}>Continuar</Text>
-          </Funcionalidades>
           <View style={styles.contView}>
             <TouchableOpacity
               style={{ alignItems: "center" }}
@@ -131,7 +133,7 @@ export default function Register() {
             <LoginWithApple />
             <LoginWithFacebook />
             <LoginWithPhone
-              icon="AntDesign"
+              icon="FontAwesome"
               onPress={handlerNavigation}
               title="Continua con numero de telefono"
             />

@@ -18,7 +18,7 @@ import {
 import { setDoc, doc, onSnapshot, getDoc } from "firebase/firestore";
 import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
-import { FontAwesome6, MaterialIcons, AntDesign } from "@expo/vector-icons";
+import { FontAwesome6, MaterialIcons, AntDesign, FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 const { width, height } = Dimensions.get("window");
 
@@ -32,9 +32,9 @@ export default function LoginWithPhone({ onPress, title, icon }) {
       <View style={styles.viewInfo}>
         <View style={styles.contView}>
           <TouchableOpacity style={styles.button} onPress={onPress}>
-            {icon === "AntDesign" ? (
+            {icon === "FontAwesome" ? (
               <View style={styles.viewInter}>
-                <AntDesign
+                <FontAwesome
                   name="phone"
                   size={24}
                   color="black"
@@ -59,6 +59,7 @@ export default function LoginWithPhone({ onPress, title, icon }) {
 }
 
 const styles = StyleSheet.create({
+ 
   contView: {
     alignItems: "center",
     justifyContent: "center",
@@ -91,7 +92,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 10,
     backgroundColor: "white",
-    borderBottomWidth: 1,
+    borderBottomWidth: 0.2,
     borderBottomColor: "#202020",
     width: "100%",
     minWidth: "90%",
@@ -101,8 +102,8 @@ const styles = StyleSheet.create({
     marginRight: -70,
   },
   viewInter: {
-    marginHorizontal: 10,
+    marginRight: "5%",
     alignItems: "flex-start",
-    flexWrap: "wrap",
+    //flexWrap: "wrap",
   },
 });

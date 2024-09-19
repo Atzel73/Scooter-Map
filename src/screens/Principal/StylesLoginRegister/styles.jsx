@@ -5,6 +5,7 @@ const styles = StyleSheet.create({
   passwordContainer: {
     width: "100%",
     position: "relative",
+    marginRight: "5%",
   },
   iconContainer: {
     position: "absolute",
@@ -77,7 +78,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     alignItems: "center",
     justifyContent: "center",
-    marginHorizontal: 5
+    
   },
   errorContainer: {
     marginBottom: 20,

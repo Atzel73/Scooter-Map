@@ -44,8 +44,7 @@ export default function LoginPhone() {
         userDataUpdate
       );
       setIsLoading(false);
-      Alert.alert("¡Registro con exito!");
-      navigation.navigate("Principal")
+      navigation.navigate("Principal");
     } catch (error) {
       console.log(error);
       setIsLoading(false);
