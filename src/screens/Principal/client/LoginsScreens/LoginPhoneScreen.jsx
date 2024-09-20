@@ -80,18 +80,19 @@ export default function LoginPhone() {
         <Text>Ingresa tu numero de telefono</Text>
       </View>
       <View style={[styles.contView, { marginHorizontal: 10 }]}>
-        <CustomInput
-          keyboardType="numeric"
-          value={userData.phone}
-          onChangeText={handlePhoneChange}
-          placeholderTextColor="black"
-          placeholder="618..."
-          style={{
-            width: "100%",
-            paddingHorizontal: "45%",
-            marginHorizontal: 10,
-          }}
-        />
+        <View style={styles.passwordContainer}>
+          <CustomInput
+            keyboardType="numeric"
+            value={userData.phone}
+            onChangeText={handlePhoneChange}
+            placeholderTextColor="black"
+            placeholder="618..."
+            style={{
+              width: "100%",
+              marginHorizontal: 10,
+            }}
+          />
+        </View>
       </View>
       <View style={styles.contView}>
         <TouchableOpacity
@@ -105,6 +106,11 @@ export default function LoginPhone() {
   );
 }
 const styles = StyleSheet.create({
+  passwordContainer: {
+    width: "100%",
+    position: "relative",
+    marginRight: "5%",
+  },
   subText: {
     fontSize: 18,
     color: "white",
@@ -115,7 +121,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#6BB8FF",
+    backgroundColor: "#3474B0",
     borderRadius: 10,
     margin: 10,
     padding: 20,

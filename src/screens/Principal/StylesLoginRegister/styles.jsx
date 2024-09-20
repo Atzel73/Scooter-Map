@@ -2,6 +2,32 @@ import React, { useState } from "react";
 import { StyleSheet, Dimensions } from "react-native";
 const { width, height } = Dimensions.get("window");
 const styles = StyleSheet.create({
+  passButton:{
+    color: "#A4A4A4"
+  },
+  viewPassword: {
+    marginTop: "5%",
+    alignItems: "flex-start",
+    marginLeft: "10%"
+  },
+  dividerMain: {
+    marginBottom: "10%",
+    marginHorizontal: "10%",
+    borderBottomWidth: 0.2,
+    borderBottomColor: "#A4A4A4",
+  },
+  Divider: {
+    marginTop: "10%",
+    marginHorizontal: "10%",
+    borderBottomWidth: 0.2,
+    borderBottomColor: "#A4A4A4",
+  },
+  viewLogins: {
+    width: "100%",
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+  },
   passwordContainer: {
     width: "100%",
     position: "relative",
@@ -75,10 +101,9 @@ const styles = StyleSheet.create({
   },
   contView: {
     width: "100%",
-    alignSelf: 'center',
+    alignSelf: "center",
     alignItems: "center",
     justifyContent: "center",
-    
   },
   errorContainer: {
     marginBottom: 20,
@@ -96,14 +121,24 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonSend: {
-    width: "100%",
+    width: "70%",
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#6BB8FF",
+    backgroundColor: "#3474B0",
     borderRadius: 10,
     margin: 10,
-    padding: 20,
+    //padding: 20,
+  },
+  buttonRegister: {
+    width: "70%",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#A4A4A4",
+    borderRadius: 10,
+    margin: 10,
+    //padding: 20,
   },
   buttonGoogle: {
     width: "90%",

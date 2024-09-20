@@ -42,6 +42,7 @@ export default function Funcionalidades({
   userUpdate,
   userDelete,
   disabled,
+  onPress,
 }) {
   const auth = getAuth();
   const navigation = useNavigation();
@@ -62,7 +63,6 @@ export default function Funcionalidades({
     passcodeFallback: false, // iOS - allows the device to fall back to using the passcode, if faceid/touch is not available. this does not mean that if touchid/faceid fails the first few times it will revert to passcode, rather that if the former are not enrolled, then it will use the passcode.
   };
 
- 
   const HandlerBiometric = async () => {
     console.log("Dentro de la huella", TouchID);
     try {
@@ -397,32 +397,36 @@ export default function Funcionalidades({
   return (
     <View>
       <TouchableOpacity
-        onPress={() => {
-          if (callFunction === "RegisterUser") {
-            RegisterUser();
-          }
-          if (callFunction === "RegisterUserModal") {
-            RegisterUserModal();
-          }
-          if (callFunction === "UpdateUser") {
-            UpdateUser();
-          }
-          if (callFunction === "UpdateUserName") {
-            UpdateUserName();
-          }
-          if (callFunction === "UpdateUserPhone") {
-            UpdateUserPhone();
-          }
-          if (callFunction === "SignUser") {
-            SignUser();
-          }
-          if (callFunction === "HandlerBiometric") {
-            HandlerBiometric();
-          }
-          if (callFunction === "UpdateEmail") {
-            UpdateEmail();
-          }
-        }}
+        onPress={
+          onPress
+            ? onPress
+            : () => {
+                if (callFunction === "RegisterUser") {
+                  RegisterUser();
+                }
+                if (callFunction === "RegisterUserModal") {
+                  RegisterUserModal();
+                }
+                if (callFunction === "UpdateUser") {
+                  UpdateUser();
+                }
+                if (callFunction === "UpdateUserName") {
+                  UpdateUserName();
+                }
+                if (callFunction === "UpdateUserPhone") {
+                  UpdateUserPhone();
+                }
+                if (callFunction === "SignUser") {
+                  SignUser();
+                }
+                if (callFunction === "HandlerBiometric") {
+                  HandlerBiometric();
+                }
+                if (callFunction === "UpdateEmail") {
+                  UpdateEmail();
+                }
+              }
+        }
         style={[
           styles.button,
           style,

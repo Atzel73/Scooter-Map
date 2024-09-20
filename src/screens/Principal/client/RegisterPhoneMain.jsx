@@ -25,6 +25,7 @@ import LoginWithGoogle from "../../../functions/funcionalidades/LoginWithGoogle"
 import LoginWithApple from "../../../functions/funcionalidades/LoginWithApple/LoginWithApple";
 import LoginWithFacebook from "../../../functions/funcionalidades/LoginWithFacebook/LoginWithFacebook";
 import LoginWithPhone from "../../../functions/funcionalidades/LoginWithPhone/LoginWithphone";
+import LoginWithGuest from "../../../functions/funcionalidades/LoginWithGuest";
 const { width, height } = Dimensions.get("window");
 
 export default function RegisterPhoneMain() {
@@ -70,18 +71,19 @@ export default function RegisterPhoneMain() {
           <View style={{ marginTop: "10%" }}>
             <View style={styles.contView}>
               <Text style={styles.label}>Ingresa tu numero de telefono</Text>
-              <CustomInput
-                value={userData.email}
-                onChangeText={(text) =>
-                  setUserData({ ...userData, email: text })
-                }
-                keyboardType="numeric"
-                style={{
-                  width: "100%",
-                  paddingHorizontal: "45%",
-                  marginHorizontal: 10,
-                }}
-              />
+              <View style={styles.passwordContainer}>
+                <CustomInput
+                  value={userData.email}
+                  onChangeText={(text) =>
+                    setUserData({ ...userData, email: text })
+                  }
+                  keyboardType="numeric"
+                  style={{
+                    width: "100%",
+                    marginHorizontal: 10,
+                  }}
+                />
+              </View>
             </View>
             <View style={styles.contView}>
               <Text style={styles.label}>Contraseña</Text>
@@ -94,7 +96,6 @@ export default function RegisterPhoneMain() {
                   secureTextEntry={!showPassword}
                   style={{
                     width: "100%",
-                    paddingHorizontal: "45%",
                     marginHorizontal: 10,
                   }}
                 />
@@ -137,6 +138,10 @@ export default function RegisterPhoneMain() {
               margin: 10,
             }}
           >
+            <LoginWithGuest
+              onPress={() => navigation.navigate("Principal")}
+              title="Continua como invitado"
+            />
             <LoginWithGoogle />
             <LoginWithApple />
             <LoginWithFacebook />

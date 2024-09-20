@@ -90,30 +90,33 @@ export default function LoginName() {
         <Text>¿Cual es tu nombre?</Text>
       </View>
       <View style={[styles.contView, { marginHorizontal: 10 }]}>
-        <CustomInput
-          value={userData.name}
-          onChangeText={handleNameChange}
-          placeholderTextColor="black"
-          placeholder="Nombre"
-          style={{
-            width: "100%",
-            paddingHorizontal: "45%",
-            marginHorizontal: 10,
-          }}
-        />
+        <View style={styles.passwordContainer}>
+          <CustomInput
+            value={userData.name}
+            onChangeText={handleNameChange}
+            placeholderTextColor="black"
+            placeholder="Nombre"
+            style={{
+              width: "100%",
+              //paddingHorizontal: "45%",
+              marginHorizontal: 10,
+            }}
+          />
+        </View>
       </View>
       <View style={[styles.contView, { marginHorizontal: 10 }]}>
-        <CustomInput
-          value={userData.last_name}
-          onChangeText={handleLastNameChange}
-          placeholderTextColor="black"
-          placeholder="Apellido"
-          style={{
-            width: "100%",
-            paddingHorizontal: "45%",
-            marginHorizontal: 10,
-          }}
-        />
+        <View style={styles.passwordContainer}>
+          <CustomInput
+            value={userData.last_name}
+            onChangeText={handleLastNameChange}
+            placeholderTextColor="black"
+            placeholder="Apellido"
+            style={{
+              width: "100%",
+              marginHorizontal: 10,
+            }}
+          />
+        </View>
       </View>
       <View style={styles.contView}>
         <TouchableOpacity
@@ -127,6 +130,11 @@ export default function LoginName() {
   );
 }
 const styles = StyleSheet.create({
+  passwordContainer: {
+    width: "100%",
+    position: "relative",
+    marginRight: "5%",
+  },
   subText: {
     fontSize: 18,
     color: "white",
@@ -137,7 +145,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#6BB8FF",
+    backgroundColor: "#3474B0",
     borderRadius: 10,
     margin: 10,
     padding: 20,

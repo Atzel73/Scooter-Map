@@ -24,6 +24,9 @@ import LoginPhone from "../Principal/client/LoginsScreens/LoginPhoneScreen";
 import RegisterPhoneMain from "../Principal/client/RegisterPhoneMain";
 
 import SoporteScreens from "./SoporteNavigation";
+
+import ContrasenaScreen from "../Principal/client/UserConfig/Contrasena/ContrasenaScreen";
+
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -78,6 +81,17 @@ function UserEnter() {
       <Stack.Screen
         name="RegisterPhone"
         component={RegisterPhoneMain}
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: "#6BB8FF",
+          },
+          headerTintColor: "#6BB8FF",
+        }}
+      />
+      <Stack.Screen
+        name="Cambiar Contraseña"
+        component={ContrasenaScreen}
         options={{
           headerShown: true,
           headerStyle: {

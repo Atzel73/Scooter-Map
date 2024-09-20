@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: "2%",
     backgroundColor: "white",
-    borderBottomWidth: 0.2,
+    borderBottomWidth: 1,
     borderBottomColor: "#202020",
     width: "100%",
     minWidth: "90%",

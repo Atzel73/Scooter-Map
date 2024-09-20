@@ -62,7 +62,6 @@ export default function Register() {
                   keyboardType="email-address"
                   style={{
                     width: "100%",
-                    paddingHorizontal: "45%",
                     marginHorizontal: 10,
                   }}
                 />
@@ -79,7 +78,6 @@ export default function Register() {
                   secureTextEntry={!showPassword}
                   style={{
                     width: "100%",
-                    paddingHorizontal: "45%",
                     marginHorizontal: 10,
                   }}
                 />

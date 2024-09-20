@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     borderRadius: 50,
     width: 100,
-    height: 75,
+    height: 100,
   },
   miniText: {
     color: "#4772A9",

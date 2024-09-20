@@ -20,10 +20,12 @@ import {
   DrawerItemList,
   DrawerItem,
 } from "@react-navigation/drawer";
+
 import { db } from "../../../../db/conection";
 import { getAuth, signOut } from "firebase/auth";
 import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import CustomImage from "../../../../components/Image/Image";
+
 const Drawer = createDrawerNavigator();
 const { width, height } = Dimensions.get("window");
 
@@ -260,30 +262,22 @@ const styles = StyleSheet.create({
     width: "100%",
     minWidth: "100%",
     borderRadius: 10,
-    elevation: 5,
-    shadowColor: "#202020",
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.0,
-    shadowRadius: 90,
+    backgroundColor: "white",
     marginBottom: 10,
   },
   viewPhoto: {
-    //marginHorizontal: "1%",
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 10,
     marginVertical: 5,
     marginTop: -35,
-    //padding: 20,
     height: width / 2,
     width: "100%",
     minWidth: "100%",
-    elevation: 5,
-    shadowColor: "#202020",
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.0,
-    shadowRadius: 90,
+    backgroundColor: "white",
+    marginBottom: 10,
   },
+
   viewButtons: {
     alignItems: "center",
     justifyContent: "center",
@@ -291,13 +285,10 @@ const styles = StyleSheet.create({
     width: "100%",
     minWidth: "100%",
     borderRadius: 10,
-    elevation: 5,
-    shadowColor: "#202020",
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.0,
-    shadowRadius: 90,
+    backgroundColor: "white",
     marginBottom: 10,
   },
+
   viewLogout: {
     alignItems: "center",
     justifyContent: "center",
@@ -305,11 +296,7 @@ const styles = StyleSheet.create({
     width: "100%",
     minWidth: "100%",
     borderRadius: 10,
-    elevation: 5,
-    shadowColor: "#202020",
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.0,
-    shadowRadius: 90,
+    backgroundColor: "white",
     marginBottom: -10,
   },
   viewInfo: {
@@ -329,7 +316,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "white",
+    backgroundColor: "#ddd",
   },
   subContainer: {
     flex: 1,
@@ -352,7 +339,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 10,
     backgroundColor: "white",
-    borderBottomWidth: 1,
+    borderBottomWidth: 0.2,
     borderBottomColor: "#202020",
     marginBottom: 10,
     width: "100%",

@@ -18,7 +18,12 @@ import {
 import { setDoc, doc, onSnapshot, getDoc } from "firebase/firestore";
 import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
-import { FontAwesome6, MaterialIcons, AntDesign, FontAwesome } from "@expo/vector-icons";
+import {
+  FontAwesome6,
+  MaterialIcons,
+  AntDesign,
+  FontAwesome,
+} from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 const { width, height } = Dimensions.get("window");
 
@@ -42,12 +47,14 @@ export default function LoginWithPhone({ onPress, title, icon }) {
                 />
               </View>
             ) : (
-              <MaterialIcons
-                name="email"
-                size={24}
-                color="black"
-                style={styles.Icon}
-              />
+              <View style={styles.viewInter}>
+                <MaterialIcons
+                  name="email"
+                  size={24}
+                  color="black"
+                  style={styles.Icon}
+                />
+              </View>
             )}
             <Text style={styles.buttonText}>{title}</Text>
             <Text style={styles.googleText}>Vincular</Text>
@@ -59,7 +66,6 @@ export default function LoginWithPhone({ onPress, title, icon }) {
 }
 
 const styles = StyleSheet.create({
- 
   contView: {
     alignItems: "center",
     justifyContent: "center",
@@ -72,7 +78,7 @@ const styles = StyleSheet.create({
     width: "100%",
     minWidth: "100%",
     borderRadius: 10,
-  //  marginRight: 50,
+    //  marginRight: 50,
   },
   viewInfo: {
     alignItems: "left",

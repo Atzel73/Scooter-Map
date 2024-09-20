@@ -103,6 +103,9 @@ export default function Login() {
         console.log(error);
       });
   };
+
+  const handlerNavigation = () => navigation.goBack();
+
   return (
     <>
       <View style={styles.buttonFloat}>
@@ -117,75 +120,95 @@ export default function Login() {
       </View>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={[styles.formContainer, { marginBottom: "70%" }]}
+        style={[styles.formContainer, { marginTop: width / height - 350 }]}
       >
-        <View style={styles.contView}>
-          <View
-            style={{
-              alignItems: "flex-start",
-              justifyContent: "flex-start",
-              marginVertical: 10,
-              marginRight: "70%",
-            }}
-          >
-            <Text
-              style={{ fontWeight: "bold", fontSize: 18, textAlign: "left" }}
-            >
-              Ingresar
-            </Text>
-          </View>
-          <View style={styles.passwordContainer}>
-            <CustomInput
-              value={userData.email}
-              onChangeText={(text) => setUserData({ ...userData, email: text })}
-              keyboardType="email-address"
+        <View style={{ margin: "10%" }}>
+          <View style={styles.contView}>
+            <View
               style={{
-                width: "100%",
-                height: 50,
-                paddingHorizontal: "45%",
-                marginHorizontal: 10,
+                alignItems: "flex-start",
+                justifyContent: "flex-start",
+                marginVertical: 10,
+                marginRight: "70%",
               }}
-            />
-          </View>
-        </View>
-        <View style={styles.contView}>
-          <View style={styles.passwordContainer}>
-            <CustomInput
-              placeholder="contraseña"
-              value={userData.password}
-              onChangeText={(text) =>
-                setUserData({ ...userData, password: text })
-              }
-              secureTextEntry={!showPassword}
-              style={{
-                width: "100%",
-                paddingHorizontal: "45%",
-                marginHorizontal: 10,
-              }}
-            />
-            <TouchableOpacity
-              onPress={togglePasswordVisibility}
-              style={styles.iconContainer}
             >
-              <FontAwesome5
-                name={showPassword ? "eye" : "eye-slash"}
-                size={20}
-                color="black"
+              <Text
+                style={{ fontWeight: "bold", fontSize: 18, textAlign: "left" }}
+              >
+                Ingresar
+              </Text>
+            </View>
+            <View style={styles.passwordContainer}>
+              <CustomInput
+                placeholder="Correo electronico"
+                value={userData.email}
+                onChangeText={(text) =>
+                  setUserData({ ...userData, email: text })
+                }
+                keyboardType="email-address"
+                style={{
+                  width: "100%",
+                  height: 50,
+                  //paddingHorizontal: "45%",
+                  marginHorizontal: 10,
+                }}
               />
-            </TouchableOpacity>
+            </View>
+          </View>
+          <View style={styles.contView}>
+            <View style={styles.passwordContainer}>
+              <CustomInput
+                placeholder="contraseña"
+                value={userData.password}
+                onChangeText={(text) =>
+                  setUserData({ ...userData, password: text })
+                }
+                secureTextEntry={!showPassword}
+                style={{
+                  width: "100%",
+                  //paddingHorizontal: "45%",
+                  marginHorizontal: 10,
+                }}
+              />
+              <TouchableOpacity
+                onPress={togglePasswordVisibility}
+                style={styles.iconContainer}
+              >
+                <FontAwesome5
+                  name={showPassword ? "eye" : "eye-slash"}
+                  size={20}
+                  color="black"
+                />
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
-
-        <>
+        <View style={styles.dividerMain} />
+        <View style={styles.viewLogins}>
           <Funcionalidades
             style={styles.buttonSend}
             callFunction="SignUser"
             userSign={userData}
           >
-            <Text style={styles.buttonText}>Iniciar sesion</Text>
+            <Text style={styles.buttonText}>Ingresar</Text>
           </Funcionalidades>
-        </>
+          <Funcionalidades
+            style={styles.buttonRegister}
+            onPress={handlerNavigation}
+          >
+            <Text style={styles.buttonText}>Registrarse</Text>
+          </Funcionalidades>
+        </View>
+        <View style={styles.Divider} />
+        <View style={styles.viewPassword}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Cambiar Contraseña")}
+          >
+            <Text style={styles.passButton}>¿Olvidaste tu contraseña?</Text>
+          </TouchableOpacity>
+        </View>
       </KeyboardAvoidingView>
+      <View style={styles.viewBottom} />
     </>
   );
 }
