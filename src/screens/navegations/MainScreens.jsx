@@ -22,7 +22,8 @@ import EditarCorreoScreen from "../Principal/client/UserConfig/EditarCorreo/Edit
 import LoginName from "../Principal/client/LoginsScreens/LoginName";
 import LoginPhone from "../Principal/client/LoginsScreens/LoginPhoneScreen";
 import RegisterPhoneMain from "../Principal/client/RegisterPhoneMain";
-
+import VerifyCode from "../Principal/client/VerifyCode";
+import Autenticado from "../Principal/client/Autenticado";
 import SoporteScreens from "./SoporteNavigation";
 
 import ContrasenaScreen from "../Principal/client/UserConfig/Contrasena/ContrasenaScreen";
@@ -81,6 +82,28 @@ function UserEnter() {
       <Stack.Screen
         name="RegisterPhone"
         component={RegisterPhoneMain}
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: "#6BB8FF",
+          },
+          headerTintColor: "#6BB8FF",
+        }}
+      />
+      <Stack.Screen
+        name="Verificar"
+        component={VerifyCode}
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: "#6BB8FF",
+          },
+          headerTintColor: "#6BB8FF",
+        }}
+      />
+      <Stack.Screen
+        name="Autenticar"
+        component={Autenticado}
         options={{
           headerShown: true,
           headerStyle: {

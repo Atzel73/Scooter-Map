@@ -17,7 +17,7 @@ import { FontAwesome, Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import pickImage from "../../../functions/cameraPicker/imagePicker";
 import styles from "../StylesLoginRegister/styles";
-import { getAuth } from "firebase/auth";
+import { getAuth, signInWithPhoneNumber } from "firebase/auth";
 import app, { db } from "../../../db/conection";
 import firebaseAuth from "../../../db/conection";
 import Funcionalidades from "../../../functions/funcionalidades/functionsUser";
@@ -26,6 +26,7 @@ import LoginWithApple from "../../../functions/funcionalidades/LoginWithApple/Lo
 import LoginWithFacebook from "../../../functions/funcionalidades/LoginWithFacebook/LoginWithFacebook";
 import LoginWithPhone from "../../../functions/funcionalidades/LoginWithPhone/LoginWithphone";
 import LoginWithGuest from "../../../functions/funcionalidades/LoginWithGuest";
+
 const { width, height } = Dimensions.get("window");
 
 export default function RegisterPhoneMain() {
@@ -33,6 +34,9 @@ export default function RegisterPhoneMain() {
   const navigation = useNavigation();
   const [userData, setUserData] = useState({});
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState(false);
+
+  const [confirm, setConfirm] = useState(null);
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -44,6 +48,31 @@ export default function RegisterPhoneMain() {
     navigation.goBack();
   };
 
+  const RegisterWithPhone = async () => {
+    if (!userData.phone || !userData.password) {
+      setError(true);
+      return;
+    }
+    try {
+      const confirmation = await signInWithPhoneNumber(auth, userData.phone);
+      console.log("Resultado: ", confirmation);
+      //setConfirm(confirmation);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  if (confirm) {
+    navigation.navigate("Verificar");
+  }
+  if (error) {
+    return (
+      <View style={{ alignItems: "center", marginTop: "50%" }}>
+        <TouchableOpacity onPress={() => setError(false)}>
+          <Text>Ha habido un error</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
   return (
     <>
       <View style={styles.buttonFloat}>
@@ -73,9 +102,9 @@ export default function RegisterPhoneMain() {
               <Text style={styles.label}>Ingresa tu numero de telefono</Text>
               <View style={styles.passwordContainer}>
                 <CustomInput
-                  value={userData.email}
+                  value={userData.phone}
                   onChangeText={(text) =>
-                    setUserData({ ...userData, email: text })
+                    setUserData({ ...userData, phone: text })
                   }
                   keyboardType="numeric"
                   style={{
@@ -116,7 +145,8 @@ export default function RegisterPhoneMain() {
           <Funcionalidades
             style={styles.buttonSend}
             user={userData}
-            callFunction="RegisterUser"
+            onPress={RegisterWithPhone}
+            //callFunction="RegisterUser"
           >
             <Text style={styles.buttonText}>Continuar</Text>
           </Funcionalidades>
