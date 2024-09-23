@@ -25,6 +25,8 @@ import RegisterPhoneMain from "../Principal/client/RegisterPhoneMain";
 import VerifyCode from "../Principal/client/VerifyCode";
 import Autenticado from "../Principal/client/Autenticado";
 import SoporteScreens from "./SoporteNavigation";
+import PagosScreen from "./PagosNavegacion";
+
 
 import ContrasenaScreen from "../Principal/client/UserConfig/Contrasena/ContrasenaScreen";
 
@@ -243,6 +245,11 @@ function LoginScreens() {
         component={SoporteScreens}
         name="Soporte"
         options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        component={PagosScreen}
+        name="Pagos"
+        options={{ headerShown: false, }}
       />
     </Stack.Navigator>
   );

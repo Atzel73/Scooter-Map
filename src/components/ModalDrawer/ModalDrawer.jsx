@@ -142,7 +142,12 @@ export default function ModalDrawer({ modalVisible, toggleModal }) {
 
                 <View style={styles.row}>
                   <View style={styles.column}>
-                    <TouchableOpacity style={styles.button}>
+                    <TouchableOpacity
+                      style={styles.button}
+                      onPress={() => {
+                        navigation.navigate("Pagos"), toggleModal();
+                      }}
+                    >
                       <FontAwesome6
                         name="money-check-dollar"
                         size={24}

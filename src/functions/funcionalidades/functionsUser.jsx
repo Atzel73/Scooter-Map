@@ -452,6 +452,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   buttonDisabled: {
-    opacity: 0.5, // Reduce la opacidad cuando el botón está deshabilitado
+    opacity: 0.5, 
   },
 });

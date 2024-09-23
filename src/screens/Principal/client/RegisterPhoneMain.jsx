@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   StyleSheet,
@@ -17,8 +17,8 @@ import { FontAwesome, Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import pickImage from "../../../functions/cameraPicker/imagePicker";
 import styles from "../StylesLoginRegister/styles";
-import { getAuth, signInWithPhoneNumber } from "firebase/auth";
-import app, { db } from "../../../db/conection";
+import { signInWithPhoneNumber, RecaptchaVerifier } from "firebase/auth";
+import app, { db, auth } from "../../../db/conection";
 import firebaseAuth from "../../../db/conection";
 import Funcionalidades from "../../../functions/funcionalidades/functionsUser";
 import LoginWithGoogle from "../../../functions/funcionalidades/LoginWithGoogle";
@@ -30,13 +30,14 @@ import LoginWithGuest from "../../../functions/funcionalidades/LoginWithGuest";
 const { width, height } = Dimensions.get("window");
 
 export default function RegisterPhoneMain() {
-  const auth = getAuth();
+  // const auth = getAuth();
   const navigation = useNavigation();
   const [userData, setUserData] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(false);
-
   const [confirm, setConfirm] = useState(null);
+  const recaptchaVerifierRef = useRef(null);
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -47,23 +48,41 @@ export default function RegisterPhoneMain() {
   const handlerNavigation = () => {
     navigation.goBack();
   };
-
+  // useEffect(() => {
+  //   if (auth) {
+  //     recaptchaVerifierRef.current = new RecaptchaVerifier(
+  //       recaptchaVerifierRef.current,
+  //       {
+  //         size: "invisible",
+  //         callback: (response) => {
+  //           console.log("reCAPTCHA resuelto", response);
+  //         },
+  //       },
+  //       auth
+  //     );
+  //   }
+  // }, []);
   const RegisterWithPhone = async () => {
-    if (!userData.phone || !userData.password) {
+    // if (!userData.phone || !userData.password) {
+    //   setError(true);
+    //   return;
+    // }
+    // try {
+    //   const confirmation = await signInWithPhoneNumber(
+    //     auth,
+    //     userData.phone,
+    //     recaptchaVerifierRef.current
+    //   );
+    //   //setConfirm(confirmation);
+    //   console.log("Código enviado, confirmación: ", confirmation);
+    // } catch (error) {
+    //   console.log("Error durante la autenticación:", error);
       setError(true);
-      return;
-    }
-    try {
-      const confirmation = await signInWithPhoneNumber(auth, userData.phone);
-      console.log("Resultado: ", confirmation);
-      //setConfirm(confirmation);
-    } catch (error) {
-      console.log(error);
-    }
+    // }
   };
-  if (confirm) {
-    navigation.navigate("Verificar");
-  }
+  // if (confirm) {
+  //   navigation.navigate("Verificar");
+  // }
   if (error) {
     return (
       <View style={{ alignItems: "center", marginTop: "50%" }}>
@@ -191,6 +210,7 @@ export default function RegisterPhoneMain() {
         </ScrollView>
         <View style={styles.viewBottom} />
       </KeyboardAvoidingView>
+      <View style={{ display: "none" }} ref={recaptchaVerifierRef} />
     </>
   );
 }

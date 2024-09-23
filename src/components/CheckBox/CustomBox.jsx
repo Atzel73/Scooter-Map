@@ -1,13 +1,20 @@
 import { useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Ionicons, FontAwesome6 } from "@expo/vector-icons";
-export default function CustomBox({ isChecked, toggleBox }) {
+export default function CustomBox({ isChecked, toggleBox, style, onPress }) {
   return (
     <Pressable
-      style={[styles.checkboxBase, isChecked && styles.checkboxChecked]}
-      onPress={() => toggleBox(!isChecked)}
+      style={[styles.checkboxBase, isChecked && styles.checkboxChecked, style]}
+      onPress={onPress ? onPress : () => toggleBox(!isChecked)}
     >
-      {isChecked && <FontAwesome6 name="check" size={15} color="black" style={{margin: 1}} />}
+      {isChecked && (
+        <FontAwesome6
+          name="check"
+          size={15}
+          color="black"
+          style={{ margin: 1 }}
+        />
+      )}
     </Pressable>
   );
 }
