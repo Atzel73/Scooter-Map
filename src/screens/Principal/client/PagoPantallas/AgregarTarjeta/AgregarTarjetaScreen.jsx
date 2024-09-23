@@ -3,32 +3,41 @@ import {
   Text,
   View,
   TouchableOpacity,
-  TextInput,
   KeyboardAvoidingView,
   Platform,
   Dimensions,
+  StyleSheet,
 } from "react-native";
 import { getAuth } from "firebase/auth";
 import { useNavigation } from "@react-navigation/native";
-import {
-  FontAwesome6,
-  MaterialIcons,
-  Ionicons,
-  MaterialCommunity,
-} from "@expo/vector-icons";
-import styles from "./styles";
-import Funcionalidades from "../../../../../functions/funcionalidades/functionsUser";
+import { Ionicons } from "@expo/vector-icons";
+import RNPickerSelect from "react-native-picker-select";
+import paisesDelmundo from "../../../../../../assets/JSON/paisesDelmundo.json";
 import CustomInput from "../../../../../components/TextInput/textInput";
 import CustomTouchable from "../../../../../components/TouchableOpacity/touchableOpacity";
+import styles from "./styles";
 
 const { width, height } = Dimensions.get("window");
+
 export default function AgregarTarjetaScreen() {
   const auth = getAuth();
   const navigation = useNavigation();
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
+  const [paises, setPaises] = useState([]);
 
+  useEffect(() => {
+    setPaises(
+      paisesDelmundo.map((pais) => ({
+        label: pais.shortName,
+        value: pais.ISO3,
+        key: pais.ISO3,
+      }))
+    );
+  }, []);
+  const selectedItem = {
+    title: "Selected item title",
+    description: "Secondary long descriptive text ...",
+  };
   return (
     <>
       <KeyboardAvoidingView
@@ -86,12 +95,38 @@ export default function AgregarTarjetaScreen() {
             <View style={{ marginRight: "90%" }}>
               <Text>Pais</Text>
             </View>
-            <View style={styles.passwordContainer}>
+            <View style={[styles.passwordContainer, stylesPicker.inputAndroid]}>
+              <RNPickerSelect
+                onValueChange={(value) => setSelectedOption(value)}
+                items={paises}
+                style={{
+                  inputAndroid: {
+                    backgroundColor: "transparent",
+                    width: "50%",
+                    height: 50,
+                    padding: 10,
+                  },
+                  iconContainer: {
+                    top: 5,
+                    right: 15,
+                  },
+                }}
+                useNativeAndroidPickerStyle={false}
+                Icon={() => {
+                  return (
+                    <Ionicons
+                      name="chevron-down-outline"
+                      size={24}
+                      color="black"
+                      style={{ marginTop: 10 }}
+                    />
+                  );
+                }}
+              />
             </View>
           </View>
         </View>
-
-        <View>
+        <View style={{ backgroundColor: "#fff", width: "100%" }}>
           <CustomTouchable style={styles.buttonSend}>
             <Text style={styles.buttonText}>Guardar</Text>
           </CustomTouchable>
@@ -100,3 +135,24 @@ export default function AgregarTarjetaScreen() {
     </>
   );
 }
+
+const stylesPicker = StyleSheet.create({
+  inputIOS: {
+    fontSize: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: "gray",
+    borderRadius: 4,
+    color: "black",
+    paddingRight: 30,
+    backgroundColor: "#fff",
+    marginLeft: "5%",
+    marginRight: "5%",
+  },
+  inputAndroid: {
+    borderRadius: 5,
+    borderWidth: 0.1,
+    padding: 10,
+  },
+});

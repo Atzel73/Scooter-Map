@@ -68,7 +68,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#3474B0",
     borderRadius: 20,
     margin: 10,
-    //padding: 20,
   },
   textTitle: {
     marginBottom: 10,
@@ -80,7 +79,7 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#E9E9E9",
+    backgroundColor: "#E4E4E4",
     width: "100%",
     borderRadius: 5,
     elevation: 25,
