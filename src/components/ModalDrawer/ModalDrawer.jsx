@@ -162,23 +162,15 @@ export default function ModalDrawer({ modalVisible, toggleModal }) {
                         navigation.navigate("Viajes"), toggleModal();
                       }}
                     >
-                      <Ionicons
-                        name="bag-remove-sharp"
-                        size={24}
-                        color="black"
-                        style={styles.Icon}
+                      <Image
+                        source={require("../../../assets/Icons/travels.png")}
+                        style={[styles.Icon, { height: 20, width: 20 }]}
                       />
                       <Text style={styles.buttonText}>Viajes</Text>
                     </TouchableOpacity>
                   </View>
                   <View style={styles.column}>
                     <TouchableOpacity style={styles.button}>
-                      {/* <MaterialIcons
-                        name="warning-amber"
-                        size={24}
-                        color="black"
-                        style={styles.Icon}
-                      /> */}
                       <Image
                         source={require("../../../assets/Icons/reports.png")}
                         style={[styles.Icon, { height: 30, width: 20 }]}
