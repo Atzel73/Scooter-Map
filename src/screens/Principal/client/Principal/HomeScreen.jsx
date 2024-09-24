@@ -39,155 +39,22 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Drawer = createDrawerNavigator();
 
-function DrawerScreen(props) {
-  const auth = getAuth();
-  const [userData, setUserData] = useState(null);
-  const [onLoad, setOnLoad] = useState(false);
-  const [dontExist, setDontExist] = useState(false);
-  const navigation = useNavigation();
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async (user) => {
-      if (user) {
-        try {
-          const userRef = doc(db, "users", user.uid);
-
-          let docSnap = await getDoc(userRef);
-
-          if (!docSnap.exists()) {
-            await new Promise((resolve) => setTimeout(resolve, 500));
-            docSnap = await getDoc(userRef);
-          }
-
-          if (!docSnap.exists()) {
-            console.log("El usuario no existe");
-            setDontExist(true);
-          } else {
-            onSnapshot(userRef, (doc) => {
-              setUserData(doc.data());
-              setDontExist(false);
-            });
-          }
-        } catch (error) {
-          console.log("Error al obtener los datos del usuario: ", error);
-        }
-      } else {
-        console.log("No hay usuario");
-      }
-    });
-
-    return () => unsubscribe();
-  }, [auth]);
+const ButtonsFloats = ({ setModalVisible, modalVisible }) => {
   return (
-    <DrawerContentScrollView {...props}>
-      <DrawerItemList {...props} />
-      <DrawerItem
-        label="Tutorial"
-        onPress={() => Linking.openURL("https://mywebsite.com/help")}
-      />
-
-      {auth && auth.currentUser && auth.currentUser.uid ? (
-        <View style={{ margin: "5%" }}>
-          {auth && auth.currentUser && userData && userData.name ? (
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate("Configurar Perfil", {
-                  screen: "Config",
-                  params: { user: userData },
-                })
-              }
-              style={styles.viewUser}
-            >
-              {/* <Image
-                source={{
-                  uri: userData.photo,
-                }}
-                style={styles.image}
-              /> */}
-              <Text>{userData.name}</Text>
-            </TouchableOpacity>
-          ) : (
-            <View style={{ alignItems: "center" }}>
-              <ActivityIndicator size="large" color="black" />
-            </View>
-          )}
-
-          <View style={styles.contView}>
-            <TouchableOpacity style={styles.button}>
-              <FontAwesome6
-                name="money-check-dollar"
-                size={24}
-                color="black"
-                style={styles.Icon}
-              />
-              <Text style={styles.buttonText}>Pago</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.contView}>
-            <TouchableOpacity style={styles.button}>
-              <FontAwesome6
-                name="person-running"
-                size={24}
-                color="black"
-                style={styles.Icon}
-              />
-              <Text style={styles.buttonText}>Viajes</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.contView}>
-            <TouchableOpacity style={styles.button}>
-              <MaterialIcons
-                name="warning-amber"
-                size={24}
-                color="black"
-                style={styles.Icon}
-              />
-              <Text style={styles.buttonText}>Reportes</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.contView}>
-            <TouchableOpacity style={styles.button}>
-              <MaterialIcons
-                name="support-agent"
-                size={24}
-                color="black"
-                style={styles.Icon}
-              />
-              <Text style={styles.buttonText}>Soporte</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.contView}>
-            <TouchableOpacity style={styles.button}>
-              <MaterialIcons
-                name="warning-amber"
-                size={24}
-                color="black"
-                style={styles.Icon}
-              />
-              <Text style={styles.buttonText}>Acerca de</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      ) : (
-        <View style={styles.contView}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate("Iniciar Sesion")}
-          >
-            <FontAwesome6
-              name="money-check-dollar"
-              size={24}
-              color="black"
-              style={styles.Icon}
-            />
-            <Text style={styles.buttonText}>
-              No tienes la sesion iniciada. Inicia sesion.{" "}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      )}
-    </DrawerContentScrollView>
+    <>
+      <View style={styles.drawerButton}>
+        <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+          <FontAwesome6 name="grip-lines" size={30} color="white" />
+        </TouchableOpacity>
+      </View>
+      <View style={styles.drawerButtonLoc}>
+        <TouchableOpacity>
+          <FontAwesome6 name="location-arrow" size={30} color="white" />
+        </TouchableOpacity>
+      </View>
+    </>
   );
-}
+};
 
 export default function HomeScreen() {
   const auth = getAuth();
@@ -264,41 +131,11 @@ export default function HomeScreen() {
       )}
 
       <ModalDrawer modalVisible={modalVisible} toggleModal={toggleModal} />
-
-      <TouchableOpacity
-        style={styles.drawerButton}
-        onPress={() => setModalVisible(!modalVisible)}
-      >
-        <FontAwesome6 name="grip-lines" size={30} color="black" />
-      </TouchableOpacity>
-
+      <ButtonsFloats
+        setModalVisible={setModalVisible}
+        modalVisible={modalVisible}
+      />
       <View>{/* <PantallaMapa /> */}</View>
     </View>
   );
 }
-
-// export default function HomeScreen() {
-//   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-//   const toggleDrawer = () => {
-//     setIsDrawerOpen(!isDrawerOpen);
-//   };
-
-//   return (
-//     <Drawer.Navigator
-//       drawerContent={(props) => <DrawerScreen {...props} />}
-//       initialRouteName="Perfil"
-//       screenOptions={{
-//         drawerStyle: {
-//           //backgroundColor: "#c6cbef",
-//           //width: 240,
-//         },
-//         drawerType: "back",
-//         drawerActiveTintColor: "#4772A9",
-//         overlayColor: "grey",
-//       }}
-//     >
-//       <Drawer.Screen name="Inicio" component={HomeScreenSecond} />
-//     </Drawer.Navigator>
-//   );
-// }

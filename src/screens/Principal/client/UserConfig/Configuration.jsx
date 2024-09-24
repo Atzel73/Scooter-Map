@@ -152,9 +152,12 @@ export default function Configuration({ route }) {
                       <Text style={styles.buttonText}>
                         Información personal
                       </Text>
-                      <Text style={{ color: "#6BB8FF", fontSize: 16 }}>
-                        Editar
-                      </Text>
+                      <Ionicons
+                        name="chevron-forward"
+                        size={30}
+                        color="black"
+                        style={styles.Icon}
+                      />
                     </TouchableOpacity>
                   </View>
                   <View style={styles.contView}>
@@ -166,6 +169,12 @@ export default function Configuration({ route }) {
                         style={styles.Icon}
                       />
                       <Text style={styles.buttonText}>Seguridad</Text>
+                      <Ionicons
+                        name="chevron-forward"
+                        size={30}
+                        color="black"
+                        style={styles.Icon}
+                      />
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -176,34 +185,36 @@ export default function Configuration({ route }) {
               <View style={styles.viewLogout}>
                 <View style={styles.contView}>
                   <TouchableOpacity
-                    style={styles.button}
+                    style={styles.buttonLogout}
                     onPress={handleLogOut}
                   >
                     <MaterialIcons
                       name="logout"
                       size={34}
                       color="black"
-                      style={styles.Icon}
+                      style={styles.IconLogout}
                     />
-                    <Text style={styles.buttonText}>Cerrar sesión</Text>
+                    <Text style={styles.buttonTextLogout}>Cerrar sesión</Text>
                   </TouchableOpacity>
                 </View>
                 <View style={styles.contView}>
                   <TouchableOpacity
-                    style={styles.button}
+                    style={styles.buttonLogout}
                     onPress={() => navigation.navigate("Borrar Cuenta")}
                   >
                     <MaterialIcons
                       name="delete-forever"
                       size={34}
                       color="black"
-                      style={styles.Icon}
+                      style={styles.IconLogout}
                     />
-                    <Text style={styles.buttonText}>Eliminar cuenta </Text>
+                    <Text style={styles.buttonTextLogout}>
+                      Eliminar cuenta{" "}
+                    </Text>
                   </TouchableOpacity>
                 </View>
               </View>
-              <View style={styles.viewBottom} />
+              {/* <View style={styles.viewBottom} /> */}
             </View>
           ) : (
             <View>
@@ -307,6 +318,10 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
   },
+  IconLogout: {
+     marginLeft: 100,
+     marginRight: -100,
+  },
   contView: {
     alignItems: "center",
     justifyContent: "center",
@@ -345,7 +360,22 @@ const styles = StyleSheet.create({
     width: "100%",
     minWidth: "90%",
   },
+  buttonLogout: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 10,
+    backgroundColor: "white",
+    marginBottom: 10,
+    width: "100%",
+    minWidth: "90%",
+  },
   buttonText: {
+    fontSize: 16,
+    flex: 1,
+    textAlign: "left",
+  },
+  buttonTextLogout: {
     fontSize: 16,
     flex: 1,
     textAlign: "center",

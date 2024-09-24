@@ -42,7 +42,7 @@ const PagosPrincipal = () => {
           </View>
           <View>
             <Text style={styles.textSubtitle}>
-              Elige el metodo de pagp que prefieres para realizar los viajes
+              Elige el metodo de pago que prefieres para realizar los viajes
             </Text>
           </View>
         </View>

@@ -26,7 +26,7 @@ import VerifyCode from "../Principal/client/VerifyCode";
 import Autenticado from "../Principal/client/Autenticado";
 import SoporteScreens from "./SoporteNavigation";
 import PagosScreen from "./PagosNavegacion";
-
+import ViajesScreen from "../Principal/client/ViajesPantallas/ViajesScreen";
 
 import ContrasenaScreen from "../Principal/client/UserConfig/Contrasena/ContrasenaScreen";
 
@@ -249,7 +249,12 @@ function LoginScreens() {
       <Stack.Screen
         component={PagosScreen}
         name="Pagos"
-        options={{ headerShown: false, }}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        component={ViajesScreen}
+        name="Viajes"
+        options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );

@@ -156,7 +156,12 @@ export default function ModalDrawer({ modalVisible, toggleModal }) {
                       />
                       <Text style={styles.buttonText}>Pago</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.button}>
+                    <TouchableOpacity
+                      style={styles.button}
+                      onPress={() => {
+                        navigation.navigate("Viajes"), toggleModal();
+                      }}
+                    >
                       <Ionicons
                         name="bag-remove-sharp"
                         size={24}
