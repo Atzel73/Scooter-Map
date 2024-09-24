@@ -173,11 +173,15 @@ export default function ModalDrawer({ modalVisible, toggleModal }) {
                   </View>
                   <View style={styles.column}>
                     <TouchableOpacity style={styles.button}>
-                      <MaterialIcons
+                      {/* <MaterialIcons
                         name="warning-amber"
                         size={24}
                         color="black"
                         style={styles.Icon}
+                      /> */}
+                      <Image
+                        source={require("../../../assets/Icons/reports.png")}
+                        style={[styles.Icon, { height: 30, width: 20 }]}
                       />
                       <Text style={styles.buttonText}>Reportes</Text>
                     </TouchableOpacity>
