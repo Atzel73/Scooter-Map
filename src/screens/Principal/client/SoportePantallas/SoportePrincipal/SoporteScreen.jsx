@@ -41,15 +41,7 @@ export default function SoporteScreen() {
           />
         </TouchableOpacity>
       </View>
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          marginBottom: "100%",
-          backgroundColor: "#fff",
-        }}
-      >
+      <View style={styles.container}>
         <View>
           <Text style={styles.textTitle}>Preferencias de comunicacion</Text>
         </View>

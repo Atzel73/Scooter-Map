@@ -1,9 +1,16 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
-  textTitle:{
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: "100%",
+    backgroundColor: "#fff",
+  },
+  textTitle: {
     fontSize: 20,
-    fontWeight: 'bold'
+    fontWeight: "bold",
   },
   buttonFloat: {
     position: "absolute",
@@ -76,11 +83,6 @@ const styles = StyleSheet.create({
     textAlign: "left",
     flex: 1,
   },
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
   containerHide: {
     flex: 1,
     justifyContent: "center",
@@ -94,7 +96,7 @@ const styles = StyleSheet.create({
     margin: 5,
     justifyContent: "space-around",
     padding: 10,
-    borderBottomWidth: 1,
+    borderBottomWidth:0.2,
     borderBottomColor: "#202020",
     marginBottom: 10,
   },

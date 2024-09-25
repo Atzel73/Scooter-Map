@@ -194,11 +194,15 @@ export default function ModalDrawer({ modalVisible, toggleModal }) {
                   </View>
                 </View>
                 <TouchableOpacity style={styles.extraButton}>
-                  <MaterialIcons
+                  {/* <MaterialIcons
                     name="warning-amber"
                     size={24}
                     color="black"
                     style={styles.Icon}
+                  /> */}
+                  <Image
+                    source={require("../../../assets/Icons/About.png")}
+                    style={[styles.Icon, { height: 30, width: 30 }]}
                   />
                   <Text style={styles.buttonText}>Acerca de</Text>
                 </TouchableOpacity>

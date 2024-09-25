@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 20,
+    // marginBottom: 20,
   },
   column: {
     flex: 1,
@@ -127,7 +127,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 5,
     borderColor: "#202020",
-    marginBottom: 10,
+    //marginBottom: 10,
+    //width: "100%",
+    height: 90
   },
   extraButton: {
     flexDirection: "row",
@@ -138,7 +140,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 5,
     borderColor: "#202020",
-    marginTop: 50,
+   // marginTop: 10,
   },
   contView: {
     flexDirection: "row",

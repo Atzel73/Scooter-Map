@@ -1,6 +1,22 @@
 import { StyleSheet, Dimensions } from "react-native";
 
 const styles = StyleSheet.create({
+  box: {
+    backgroundColor: "#fff",
+  },
+  image: {
+    height: "60%",
+    width: "50%",
+    marginLeft: 10,
+    marginRight: 10,
+  },
+  viewHead: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    padding: 30,
+    marginVertical: 10,
+  },
   container: {
     flex: 1,
     backgroundColor: "white",
@@ -9,7 +25,7 @@ const styles = StyleSheet.create({
   },
   buttonFloat: {
     position: "absolute",
-    top: "5%",
+    top: "3%",
     left: 0,
     zIndex: 1,
     backgroundColor: "white",
@@ -22,15 +38,15 @@ const styles = StyleSheet.create({
   },
   header: {
     // marginBottom: "100%",
-    marginTop: -600,
-    marginRight: "30%",
+    marginTop: 55,
+    //marginRight: "50%",
   },
   textTitle: {
-    fontSize: 20,
+    fontSize: 26,
     fontWeight: "bold",
-    marginBottom: 10,
-    marginTop: 10,
-    marginLeft: 10,
+    // marginBottom: 10,
+    // marginTop: 10,
+    // marginLeft: 10,
     marginRight: 10,
   },
   textSubtitle: {
