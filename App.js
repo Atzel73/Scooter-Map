@@ -2,10 +2,8 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, Dimensions } from 'react-native';
 import Screens from './src/screens/navegations/MainScreens';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SplashScreen from 'react-native-splash-screen';
-const Stack = createNativeStackNavigator();
+import FastImage from 'react-native-fast-image'
 
 
 const { width, height } = Dimensions.get("window");
@@ -19,7 +17,7 @@ export default function App() {
 
     setTimeout(() => {
       setLoading(false);
-    }, 5000)
+    }, 3000)
   }, [])
 
 
