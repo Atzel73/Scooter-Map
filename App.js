@@ -1,37 +1,51 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Image, Dimensions } from 'react-native';
 import Screens from './src/screens/navegations/MainScreens';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
+import SplashScreen from 'react-native-splash-screen';
 const Stack = createNativeStackNavigator();
-function HomeScreen() {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
-    </View>
-  );
-}
+
+
+const { width, height } = Dimensions.get("window");
 export default function App() {
 
-  const [user, setUser] = useState(null);
-  return (
+  const [loading, setLoading] = useState(true);
 
-    <Screens />
 
-    // <View style={styles.container}>
-    //   {/* <Screens /> */}
-    //   <Text>Hola</Text>
-    //   <StatusBar style="auto" />
-    // </View>
-  )
+  useEffect(() => {
+    SplashScreen.hide();
+
+    setTimeout(() => {
+      setLoading(false);
+    }, 5000)
+  }, [])
+
+
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <Image
+          style={styles.gif}
+          source={require('./assets/GIF_FLOYD.gif')}
+        />
+      </View>
+    )
+  }
+
+  return <Screens />
+
 }
 
 const styles = StyleSheet.create({
+  gif: {
+    width: width,
+    height: "100%"
+  },
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#6BB8FF',
     alignItems: 'center',
     justifyContent: 'center',
   },

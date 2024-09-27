@@ -2,6 +2,7 @@ package com.vanitas73.scootermap
 
 import android.os.Build
 import android.os.Bundle
+import org.devio.rn.splashscreen.SplashScreen
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
@@ -11,23 +12,27 @@ import com.facebook.react.defaults.DefaultReactActivityDelegate
 import expo.modules.ReactActivityDelegateWrapper
 
 class MainActivity : ReactActivity() {
+
   override fun onCreate(savedInstanceState: Bundle?) {
-    // Set the theme to AppTheme BEFORE onCreate to support
-    // coloring the background, status bar, and navigation bar.
-    // This is required for expo-splash-screen.
-    setTheme(R.style.AppTheme);
-    super.onCreate(null)
+    // Mostrar el splash screen
+    SplashScreen.show(this)
+
+    // Establecer el tema antes de la creación de la actividad
+    setTheme(R.style.AppTheme)
+
+    // Llamar al método onCreate de la superclase con el parámetro adecuado
+    super.onCreate(savedInstanceState)
   }
 
   /**
-   * Returns the name of the main component registered from JavaScript. This is used to schedule
-   * rendering of the component.
+   * Devuelve el nombre del componente principal registrado desde JavaScript. 
+   * Esto se usa para programar la renderización del componente.
    */
   override fun getMainComponentName(): String = "main"
 
   /**
-   * Returns the instance of the [ReactActivityDelegate]. We use [DefaultReactActivityDelegate]
-   * which allows you to enable New Architecture with a single boolean flags [fabricEnabled]
+   * Devuelve la instancia de [ReactActivityDelegate]. 
+   * Usamos [DefaultReactActivityDelegate] para permitir habilitar la nueva arquitectura.
    */
   override fun createReactActivityDelegate(): ReactActivityDelegate {
     return ReactActivityDelegateWrapper(
@@ -41,21 +46,19 @@ class MainActivity : ReactActivity() {
   }
 
   /**
-    * Align the back button behavior with Android S
-    * where moving root activities to background instead of finishing activities.
-    * @see <a href="https://developer.android.com/reference/android/app/Activity#onBackPressed()">onBackPressed</a>
+    * Alinea el comportamiento del botón de retroceso con Android S, 
+    * donde se mueven las actividades raíz al fondo en lugar de finalizarlas.
     */
   override fun invokeDefaultOnBackPressed() {
       if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.R) {
           if (!moveTaskToBack(false)) {
-              // For non-root activities, use the default implementation to finish them.
+              // Para actividades no raíz, usa la implementación predeterminada para finalizarlas.
               super.invokeDefaultOnBackPressed()
           }
           return
       }
 
-      // Use the default back button implementation on Android S
-      // because it's doing more than [Activity.moveTaskToBack] in fact.
+      // Usa la implementación predeterminada en Android S
       super.invokeDefaultOnBackPressed()
   }
 }
