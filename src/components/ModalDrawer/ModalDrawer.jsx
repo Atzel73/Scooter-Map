@@ -13,6 +13,7 @@ import {
   MaterialIcons,
   Ionicons,
   AntDesign,
+  Entypo,
 } from "@expo/vector-icons";
 import { db } from "../../db/conection";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -25,7 +26,7 @@ export default function ModalDrawer({ modalVisible, toggleModal }) {
   const auth = getAuth();
 
   const [userData, setUserData] = useState(null);
-  const [onLoad, setOnLoad] = useState(false);
+  const [loading, isLoading] = useState(false);
   const [dontExist, setDontExist] = useState(false);
   const [error, setIsError] = useState(false);
 
@@ -34,6 +35,7 @@ export default function ModalDrawer({ modalVisible, toggleModal }) {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
         try {
+          isLoading(true);
           const userRef = doc(db, "users", user.uid);
 
           let docSnap = await getDoc(userRef);
@@ -46,15 +48,19 @@ export default function ModalDrawer({ modalVisible, toggleModal }) {
           if (!docSnap.exists()) {
             console.log("El usuario no existe");
             setDontExist(true);
-            setIsError(true);
+            //setIsError(true);
+            isLoading(false);
           } else {
             onSnapshot(userRef, (doc) => {
               setUserData(doc.data());
               setDontExist(false);
+              setIsError(false);
+              isLoading(false);
             });
           }
         } catch (error) {
           console.log("Error al obtener los datos del usuario: ", error);
+          setIsError(true);
         }
       } else {
         console.log("No hay usuario");
@@ -63,10 +69,21 @@ export default function ModalDrawer({ modalVisible, toggleModal }) {
 
     return () => unsubscribe();
   }, [auth]);
+  if (loading) {
+    return (
+      <View style={{ marginTop: "50%", justifyContent: "center" }}>
+        <ActivityIndicator size="large" color="#6BB8FF" />
+        <Text>Cargando, por favor espere</Text>
+      </View>
+    );
+  }
   if (error) {
     return (
-      <View>
-        <Text>Error al traer los datos de usuario</Text>
+      <View style={{ marginTop: "50%", alignItems: "center" }}>
+        <Text>
+          Ha habido un error al traer los datos del usuario. Por favor reinicia
+          la aplicacion, si el problema persiste, contacta a los desarrolladores
+        </Text>
       </View>
     );
   }
@@ -127,9 +144,9 @@ export default function ModalDrawer({ modalVisible, toggleModal }) {
                       </TouchableOpacity>
                       <TouchableOpacity>
                         <View style={styles.viewStars}>
-                          <AntDesign name="star" size={24} color="#4772A9" />
-                          <AntDesign name="star" size={24} color="#4772A9" />
-                          <AntDesign name="star" size={24} color="#4772A9" />
+                          <Entypo name="star" size={24} color="#4772A9" />
+                          <Entypo name="star" size={24} color="#4772A9" />
+                          <Entypo name="star" size={24} color="#4772A9" />
                         </View>
                       </TouchableOpacity>
                     </View>
@@ -193,7 +210,12 @@ export default function ModalDrawer({ modalVisible, toggleModal }) {
                     </TouchableOpacity>
                   </View>
                 </View>
-                <TouchableOpacity style={styles.extraButton}>
+                <TouchableOpacity
+                  style={styles.extraButton}
+                  onPress={() => {
+                    navigation.navigate("AcercaDe"), toggleModal();
+                  }}
+                >
                   {/* <MaterialIcons
                     name="warning-amber"
                     size={24}

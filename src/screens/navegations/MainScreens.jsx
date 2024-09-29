@@ -19,141 +19,15 @@ import EditarNombreScreen from "../Principal/client/UserConfig/EditarNombre/Edit
 import EditarNumeroScreen from "../Principal/client/UserConfig/EditarNumero/EditarNumeroScreen";
 import EditarCorreoScreen from "../Principal/client/UserConfig/EditarCorreo/EditarCorreoScreen";
 
-import LoginName from "../Principal/client/LoginsScreens/LoginName";
-import LoginPhone from "../Principal/client/LoginsScreens/LoginPhoneScreen";
-import RegisterPhoneMain from "../Principal/client/RegisterPhoneMain";
-import VerifyCode from "../Principal/client/VerifyCode";
-import Autenticado from "../Principal/client/Autenticado";
 import SoporteScreens from "./SoporteNavigation";
 import PagosScreen from "./PagosNavegacion";
 import ViajesScreen from "../Principal/client/ViajesPantallas/ViajesScreen";
 
-import ContrasenaScreen from "../Principal/client/UserConfig/Contrasena/ContrasenaScreen";
-import NameScreen from "../Principal/client/LoginPhoneScreens/NameScreen/NameScreen";
-import EmailScreen from "../Principal/client/LoginPhoneScreens/EmailScreen";
-
 import UserEnter from "./UserOptions";
-
+import AcercaScreens from "../Principal/client/AcercaDe/AcercaScreens";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
-
-// function UserEnter() {
-//   return (
-//     <Stack.Navigator>
-//       <Stack.Screen
-//         name="Register"
-//         component={Register}
-//         options={{
-//           headerShown: true,
-//           headerStyle: {
-//             backgroundColor: "#6BB8FF",
-//           },
-//           headerTintColor: "#6BB8FF",
-//         }}
-//       />
-//       <Stack.Screen
-//         name="Login"
-//         component={Login}
-//         options={{
-//           headerShown: true,
-//           headerStyle: {
-//             backgroundColor: "#6BB8FF",
-//           },
-//           headerTintColor: "#6BB8FF",
-//         }}
-//       />
-//       <Stack.Screen
-//         name="LoginName"
-//         component={LoginName}
-//         options={{
-//           headerShown: true,
-//           headerStyle: {
-//             backgroundColor: "#6BB8FF",
-//           },
-//           headerTintColor: "#6BB8FF",
-//         }}
-//       />
-//       <Stack.Screen
-//         name="LoginPhone"
-//         component={LoginPhone}
-//         options={{
-//           headerShown: true,
-//           headerStyle: {
-//             backgroundColor: "#6BB8FF",
-//           },
-//           headerTintColor: "#6BB8FF",
-//         }}
-//       />
-//       <Stack.Screen
-//         name="RegisterPhone"
-//         component={RegisterPhoneMain}
-//         options={{
-//           headerShown: true,
-//           headerStyle: {
-//             backgroundColor: "#6BB8FF",
-//           },
-//           headerTintColor: "#6BB8FF",
-//         }}
-//       />
-//       <Stack.Screen
-//         name="Email"
-//         component={EmailScreen}
-//         options={{
-//           headerShown: true,
-//           headerStyle: {
-//             backgroundColor: "#6BB8FF",
-//           },
-//           headerTintColor: "#6BB8FF",
-//         }}
-//       />
-//       <Stack.Screen
-//         name="Nombre"
-//         component={NameScreen}
-//         options={{
-//           headerShown: true,
-//           headerStyle: {
-//             backgroundColor: "#6BB8FF",
-//           },
-//           headerTintColor: "#6BB8FF",
-//         }}
-//       />
-//       <Stack.Screen
-//         name="Verificar"
-//         component={VerifyCode}
-//         options={{
-//           headerShown: true,
-//           headerStyle: {
-//             backgroundColor: "#6BB8FF",
-//           },
-//           headerTintColor: "#6BB8FF",
-//         }}
-//       />
-//       <Stack.Screen
-//         name="Autenticar"
-//         component={Autenticado}
-//         options={{
-//           headerShown: true,
-//           headerStyle: {
-//             backgroundColor: "#6BB8FF",
-//           },
-//           headerTintColor: "#6BB8FF",
-//         }}
-//       />
-//       <Stack.Screen
-//         name="Cambiar Contraseña"
-//         component={ContrasenaScreen}
-//         options={{
-//           headerShown: true,
-//           headerStyle: {
-//             backgroundColor: "#6BB8FF",
-//           },
-//           headerTintColor: "#6BB8FF",
-//         }}
-//       />
-//     </Stack.Navigator>
-//   );
-// }
 
 function UserConfig() {
   return (
@@ -280,6 +154,11 @@ function LoginScreens() {
       <Stack.Screen
         component={ViajesScreen}
         name="Viajes"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        component={AcercaScreens}
+        name="AcercaDe"
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

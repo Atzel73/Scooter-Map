@@ -110,8 +110,11 @@ export default function HomeScreen() {
 
   if (error) {
     return (
-      <View>
-        <Text>{error}</Text>
+      <View style={{ marginTop: "50%", alignItems: "center" }}>
+        <Text>
+          Ha habido un error al traer los datos del usuario. Por favor reinicia
+          la aplicacion, si el problema persiste, contacta a los desarrolladores
+        </Text>
       </View>
     );
   }
