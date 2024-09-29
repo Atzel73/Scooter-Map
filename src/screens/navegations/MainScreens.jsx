@@ -29,105 +29,131 @@ import PagosScreen from "./PagosNavegacion";
 import ViajesScreen from "../Principal/client/ViajesPantallas/ViajesScreen";
 
 import ContrasenaScreen from "../Principal/client/UserConfig/Contrasena/ContrasenaScreen";
+import NameScreen from "../Principal/client/LoginPhoneScreens/NameScreen/NameScreen";
+import EmailScreen from "../Principal/client/LoginPhoneScreens/EmailScreen";
+
+import UserEnter from "./UserOptions";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 
-function UserEnter() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Register"
-        component={Register}
-        options={{
-          headerShown: true,
-          headerStyle: {
-            backgroundColor: "#6BB8FF",
-          },
-          headerTintColor: "#6BB8FF",
-        }}
-      />
-      <Stack.Screen
-        name="Login"
-        component={Login}
-        options={{
-          headerShown: true,
-          headerStyle: {
-            backgroundColor: "#6BB8FF",
-          },
-          headerTintColor: "#6BB8FF",
-        }}
-      />
-      <Stack.Screen
-        name="LoginName"
-        component={LoginName}
-        options={{
-          headerShown: true,
-          headerStyle: {
-            backgroundColor: "#6BB8FF",
-          },
-          headerTintColor: "#6BB8FF",
-        }}
-      />
-      <Stack.Screen
-        name="LoginPhone"
-        component={LoginPhone}
-        options={{
-          headerShown: true,
-          headerStyle: {
-            backgroundColor: "#6BB8FF",
-          },
-          headerTintColor: "#6BB8FF",
-        }}
-      />
-      <Stack.Screen
-        name="RegisterPhone"
-        component={RegisterPhoneMain}
-        options={{
-          headerShown: true,
-          headerStyle: {
-            backgroundColor: "#6BB8FF",
-          },
-          headerTintColor: "#6BB8FF",
-        }}
-      />
-      <Stack.Screen
-        name="Verificar"
-        component={VerifyCode}
-        options={{
-          headerShown: true,
-          headerStyle: {
-            backgroundColor: "#6BB8FF",
-          },
-          headerTintColor: "#6BB8FF",
-        }}
-      />
-      <Stack.Screen
-        name="Autenticar"
-        component={Autenticado}
-        options={{
-          headerShown: true,
-          headerStyle: {
-            backgroundColor: "#6BB8FF",
-          },
-          headerTintColor: "#6BB8FF",
-        }}
-      />
-      <Stack.Screen
-        name="Cambiar Contraseña"
-        component={ContrasenaScreen}
-        options={{
-          headerShown: true,
-          headerStyle: {
-            backgroundColor: "#6BB8FF",
-          },
-          headerTintColor: "#6BB8FF",
-        }}
-      />
-    </Stack.Navigator>
-  );
-}
+// function UserEnter() {
+//   return (
+//     <Stack.Navigator>
+//       <Stack.Screen
+//         name="Register"
+//         component={Register}
+//         options={{
+//           headerShown: true,
+//           headerStyle: {
+//             backgroundColor: "#6BB8FF",
+//           },
+//           headerTintColor: "#6BB8FF",
+//         }}
+//       />
+//       <Stack.Screen
+//         name="Login"
+//         component={Login}
+//         options={{
+//           headerShown: true,
+//           headerStyle: {
+//             backgroundColor: "#6BB8FF",
+//           },
+//           headerTintColor: "#6BB8FF",
+//         }}
+//       />
+//       <Stack.Screen
+//         name="LoginName"
+//         component={LoginName}
+//         options={{
+//           headerShown: true,
+//           headerStyle: {
+//             backgroundColor: "#6BB8FF",
+//           },
+//           headerTintColor: "#6BB8FF",
+//         }}
+//       />
+//       <Stack.Screen
+//         name="LoginPhone"
+//         component={LoginPhone}
+//         options={{
+//           headerShown: true,
+//           headerStyle: {
+//             backgroundColor: "#6BB8FF",
+//           },
+//           headerTintColor: "#6BB8FF",
+//         }}
+//       />
+//       <Stack.Screen
+//         name="RegisterPhone"
+//         component={RegisterPhoneMain}
+//         options={{
+//           headerShown: true,
+//           headerStyle: {
+//             backgroundColor: "#6BB8FF",
+//           },
+//           headerTintColor: "#6BB8FF",
+//         }}
+//       />
+//       <Stack.Screen
+//         name="Email"
+//         component={EmailScreen}
+//         options={{
+//           headerShown: true,
+//           headerStyle: {
+//             backgroundColor: "#6BB8FF",
+//           },
+//           headerTintColor: "#6BB8FF",
+//         }}
+//       />
+//       <Stack.Screen
+//         name="Nombre"
+//         component={NameScreen}
+//         options={{
+//           headerShown: true,
+//           headerStyle: {
+//             backgroundColor: "#6BB8FF",
+//           },
+//           headerTintColor: "#6BB8FF",
+//         }}
+//       />
+//       <Stack.Screen
+//         name="Verificar"
+//         component={VerifyCode}
+//         options={{
+//           headerShown: true,
+//           headerStyle: {
+//             backgroundColor: "#6BB8FF",
+//           },
+//           headerTintColor: "#6BB8FF",
+//         }}
+//       />
+//       <Stack.Screen
+//         name="Autenticar"
+//         component={Autenticado}
+//         options={{
+//           headerShown: true,
+//           headerStyle: {
+//             backgroundColor: "#6BB8FF",
+//           },
+//           headerTintColor: "#6BB8FF",
+//         }}
+//       />
+//       <Stack.Screen
+//         name="Cambiar Contraseña"
+//         component={ContrasenaScreen}
+//         options={{
+//           headerShown: true,
+//           headerStyle: {
+//             backgroundColor: "#6BB8FF",
+//           },
+//           headerTintColor: "#6BB8FF",
+//         }}
+//       />
+//     </Stack.Navigator>
+//   );
+// }
 
 function UserConfig() {
   return (
@@ -259,6 +285,7 @@ function LoginScreens() {
     </Stack.Navigator>
   );
 }
+
 export default function Screens() {
   const [isLogged, setIsLogged] = useState(true);
   const auth = getAuth();

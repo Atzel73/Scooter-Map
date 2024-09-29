@@ -32,54 +32,70 @@ const { width, height } = Dimensions.get("window");
 export default function RegisterPhoneMain() {
   // const auth = getAuth();
   const navigation = useNavigation();
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState({ phone: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(false);
   const [confirm, setConfirm] = useState(null);
   const recaptchaVerifierRef = useRef(null);
 
+  function validarPassword(input) {
+    var p = input,
+      errors = [];
+
+    if (p.length < 8) {
+      errors.push("Tu contraseña debe tener al menos 8 caracteres. ");
+    }
+
+    if (!/[A-Z]/.test(p)) {
+      errors.push("Tu contraseña debe tener al menos una letra mayuscula. ");
+    }
+
+    if (errors.length > 0) {
+      alert(errors.join("n"));
+      return false;
+    }
+
+    return true;
+  }
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-  const getImage = async () => {
-    const image = await pickImage();
-    setUserData({ ...userData, image });
+  const handlePhoneChange = (text) => {
+    setUserData((prevUserData) => ({
+      ...prevUserData,
+      phone: text,
+    }));
   };
+  const handlePassChange = (text) => {
+    setUserData((prevUserData) => ({
+      ...prevUserData,
+      password: text,
+    }));
+  };
+  const handlerRegisterPhone = () => {
+    console.log("Phone: ", userData);
+
+    if (!userData.password || !userData.password) {
+      alert("Por favor, no deje campos vacios");
+      return;
+    }
+    if (!validarPassword(userData.password)) {
+      return;
+    }
+    if (
+      validarPassword(userData.password) &&
+      userData.phone &&
+      userData.password
+    ) {
+      navigation.navigate("Nombre", { data: userData });
+    }
+  };
+
   const handlerNavigation = () => {
     navigation.goBack();
   };
-  // useEffect(() => {
-  //   if (auth) {
-  //     recaptchaVerifierRef.current = new RecaptchaVerifier(
-  //       recaptchaVerifierRef.current,
-  //       {
-  //         size: "invisible",
-  //         callback: (response) => {
-  //           console.log("reCAPTCHA resuelto", response);
-  //         },
-  //       },
-  //       auth
-  //     );
-  //   }
-  // }, []);
-  const RegisterWithPhone = async () => {
-    // if (!userData.phone || !userData.password) {
-    //   setError(true);
-    //   return;
-    // }
-    // try {
-    //   const confirmation = await signInWithPhoneNumber(
-    //     auth,
-    //     userData.phone,
-    //     recaptchaVerifierRef.current
-    //   );
-    //   //setConfirm(confirmation);
-    //   console.log("Código enviado, confirmación: ", confirmation);
-    // } catch (error) {
-    //   console.log("Error durante la autenticación:", error);
-      setError(true);
-    // }
-  };
+
   // if (confirm) {
   //   navigation.navigate("Verificar");
   // }
@@ -109,22 +125,13 @@ export default function RegisterPhoneMain() {
         style={styles.formContainer}
       >
         <ScrollView contentContainerStyle={styles.scrollContainer}>
-          {userData.image && (
-            <View style={styles.inputContainer}>
-              <View style={styles.imageContainer}>
-                <Image source={{ uri: userData.image }} style={styles.image} />
-              </View>
-            </View>
-          )}
           <View style={{ marginTop: "10%" }}>
             <View style={styles.contView}>
               <Text style={styles.label}>Ingresa tu numero de telefono</Text>
               <View style={styles.passwordContainer}>
                 <CustomInput
                   value={userData.phone}
-                  onChangeText={(text) =>
-                    setUserData({ ...userData, phone: text })
-                  }
+                  onChangeText={handlePhoneChange}
                   keyboardType="numeric"
                   style={{
                     width: "100%",
@@ -138,9 +145,7 @@ export default function RegisterPhoneMain() {
               <View style={styles.passwordContainer}>
                 <CustomInput
                   value={userData.password}
-                  onChangeText={(text) =>
-                    setUserData({ ...userData, password: text })
-                  }
+                  onChangeText={handlePassChange}
                   secureTextEntry={!showPassword}
                   style={{
                     width: "100%",
@@ -164,7 +169,7 @@ export default function RegisterPhoneMain() {
           <Funcionalidades
             style={styles.buttonSend}
             user={userData}
-            onPress={RegisterWithPhone}
+            onPress={handlerRegisterPhone}
             //callFunction="RegisterUser"
           >
             <Text style={styles.buttonText}>Continuar</Text>
