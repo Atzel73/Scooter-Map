@@ -16,7 +16,7 @@ import Funcionalidades from "../../../../../functions/funcionalidades/functionsU
 import styles from "./styles";
 
 export default function NameScreen({ route }) {
-  console.log("Datos entrantes: ", route.params.data);
+  //console.log("Datos entrantes: ", route.params.data);
   const navigation = useNavigation();
   const auth = getAuth();
   const [error, setError] = useState(false);

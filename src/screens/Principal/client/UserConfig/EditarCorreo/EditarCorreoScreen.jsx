@@ -45,7 +45,7 @@ export default function EditarCorreoScreen() {
       try {
         const userRef = doc(db, "users", auth.currentUser.uid);
         onSnapshot(userRef, (doc) => {
-          console.log("User: ", doc.data().password);
+          //console.log("User: ", doc.data().password);
           const data = doc.data();
           setUserData({
             email: data?.email || "",

@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Alert,
   Platform,
+  ActivityIndicator
 } from "react-native";
 import app, { db } from "../../db/conection";
 import firebaseAuth from "../../db/conection";
@@ -48,9 +49,24 @@ export default function Funcionalidades({
   const navigation = useNavigation();
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [isAuthBio, setIsAuthBio] = useState(false);
+  const [loading, isLoading] = useState(false);
+
   const empty =
     "https://firebasestorage.googleapis.com/v0/b/floydapp-a1e0d.appspot.com/o/Admin%2FuserEmpty.jpg?alt=media&token=19d2651d-f14e-4ae7-8629-489f512bfc78";
-
+  if (loading) {
+    return (
+      <View
+        style={{
+          marginTop: "50%",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <ActivityIndicator size="large" color="#6BB8FF" />
+        <Text>Cargando, por favor espere</Text>
+      </View>
+    );
+  }
   const optionalConfigObject = {
     title: "Se requiere verificacion", // Android
     imageColor: "#6BB8FF", // Android
@@ -74,6 +90,7 @@ export default function Funcionalidades({
         TouchID.authenticate("", optionalConfigObject).then(
           (success) => {
             console.log("Autenticación exitosa:", success);
+            //setButtonDisabled(true)
             DeleteUser();
           },
           (error) => {
@@ -324,11 +341,14 @@ export default function Funcionalidades({
     }
   }
   async function DeleteUser() {
+    console.log("Dentro");
     const email = auth.currentUser.email;
     const password = userDelete.password;
     const credentials = EmailAuthProvider.credential(email, password);
 
     try {
+      setButtonDisabled(true);
+      isLoading(true)
       await reauthenticateWithCredential(auth.currentUser, credentials);
 
       const batch = writeBatch(db);
@@ -341,10 +361,12 @@ export default function Funcionalidades({
 
       await signOut(auth);
       Alert.alert("Cuenta borrada");
-      navigation.navigate("Principal");
+       navigation.navigate("Eliminar");
       console.log("Cuenta borrada con éxito");
     } catch (error) {
       console.log("Error al borrar la cuenta: ", error);
+    } finally {
+      setButtonDisabled(false);
     }
   }
   async function UpdateEmail() {
@@ -358,7 +380,7 @@ export default function Funcionalidades({
     console.log(userUpdate.password);
 
     try {
-      setButtonDisabled(true); // Desactivar el botón
+      setButtonDisabled(true);
       const credential = EmailAuthProvider.credential(
         user.email,
         userUpdate.password
@@ -452,6 +474,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   buttonDisabled: {
-    opacity: 0.5, 
+    opacity: 0.5,
   },
 });

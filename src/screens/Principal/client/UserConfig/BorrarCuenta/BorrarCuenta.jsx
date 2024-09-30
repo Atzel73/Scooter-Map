@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, TouchableOpacity, TextInput } from "react-native";
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  TextInput,
+  ActivityIndicator,
+} from "react-native";
 import Checkbox from "expo-checkbox";
 import styles from "./styles";
 import { getAuth } from "firebase/auth";
@@ -22,7 +28,7 @@ export default function BorrarCuenta({ route }) {
   const [selectedOption, setSelectedOption] = useState(null);
   const [remotePassword, setRemotePassword] = useState("");
   const [userPassword, setUserPassword] = useState("");
-
+  const [loading, isLoading] = useState(false);
   useEffect(() => {
     async function getUser() {
       try {
@@ -42,7 +48,25 @@ export default function BorrarCuenta({ route }) {
     }
     getUser();
   }, []);
-
+  const handlerLoading = () => {
+    setTimeout(() => {
+      isLoading(true);
+    }, 2000);
+  };
+  if (loading) {
+    return (
+      <View
+        style={{
+          marginTop: "50%",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <ActivityIndicator size="large" color="#6BB8FF" />
+        <Text>Cargando, por favor espere</Text>
+      </View>
+    );
+  }
   return (
     <>
       <View style={styles.buttonFloat}>
@@ -108,6 +132,8 @@ export default function BorrarCuenta({ route }) {
         </View>
         {selectedOption && (
           <Funcionalidades
+            //onPress={handlerLoading}
+            disabled={false}
             style={[styles.button, { width: "50%" }]}
             userDelete={remotePassword}
             callFunction="HandlerBiometric"
