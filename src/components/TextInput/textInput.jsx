@@ -11,10 +11,12 @@ export default function CustomInput({
   placeholderTextColor,
   autoFocus,
   secureTextEntry,
+  maxLength,
 }) {
   return (
     <View>
       <TextInput
+        maxLength={maxLength}
         autoFocus={autoFocus}
         placeholderTextColor={placeholderTextColor}
         keyboardType={keyboardType}

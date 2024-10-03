@@ -16,7 +16,7 @@ import paisesDelmundo from "../../../../../../assets/JSON/paisesDelmundo.json";
 import CustomInput from "../../../../../components/TextInput/textInput";
 import CustomTouchable from "../../../../../components/TouchableOpacity/touchableOpacity";
 import styles from "./styles";
-
+import { CreateCard } from "../../../../../functions/Tarjetas/crearTarjeta";
 const { width, height } = Dimensions.get("window");
 
 export default function AgregarTarjetaScreen() {
@@ -24,7 +24,103 @@ export default function AgregarTarjetaScreen() {
   const navigation = useNavigation();
   const [selectedOption, setSelectedOption] = useState(null);
   const [paises, setPaises] = useState([]);
+  const [isLoadButton, setIsLoadButton] = useState(false);
+  const [cardNumber, setCardNumber] = useState("");
+  const [cvv, setCVV] = useState("");
+  const [cardType, setCardType] = useState("");
+  const [expirationDate, setExpirationDate] = useState("");
 
+  const [errorMessage, setErrorMessage] = useState("");
+  const [cvvErrorMessage, setCvvErrorMessage] = useState("");
+  const [expirationErrorMessage, setExpirationErrorMessage] = useState("");
+
+  const validateExpirationDate = (expirationDate) => {
+    if (!/^\d{2}\/\d{2}$/.test(expirationDate)) {
+      return false;
+    }
+
+    const [month, year] = expirationDate
+      .split("/")
+      .map((str) => parseInt(str, 10));
+
+    if (month < 1 || month > 12) {
+      return false;
+    }
+
+    // Obtenemos el año actual en formato de dos dígitos
+    const currentYear = new Date().getFullYear() % 100;
+    const currentMonth = new Date().getMonth() + 1; // Los meses van de 0 a 11, por eso se suma 1
+
+    // Verifica que la tarjeta no esté vencida
+    if (year < currentYear || (year === currentYear && month < currentMonth)) {
+      return false;
+    }
+
+    return true;
+  };
+
+  const validateCVV = (cvv, cardType) => {
+    const sanitizedCVV = cvv.trim();
+
+    if (!/^\d+$/.test(sanitizedCVV)) {
+      return false;
+    }
+
+    if (cardType === "Amex") {
+      return sanitizedCVV.length === 4;
+    } else {
+      return sanitizedCVV.length === 3;
+    }
+  };
+
+  const validateCreditCardNumber = (cardNumber) => {
+    const sanitizedCardNumber = cardNumber.replace(/\D/g, "");
+
+    let sum = 0;
+    let shouldDouble = false;
+
+    for (let i = sanitizedCardNumber.length - 1; i >= 0; i--) {
+      let digit = parseInt(sanitizedCardNumber[i], 10);
+
+      if (shouldDouble) {
+        digit *= 2;
+        if (digit > 9) {
+          digit -= 9;
+        }
+      }
+
+      sum += digit;
+      shouldDouble = !shouldDouble;
+    }
+
+    return sum % 10 === 0;
+  };
+  const handleSave = async () => {
+    if (!validateCreditCardNumber(cardNumber)) {
+      setErrorMessage("Número de tarjeta inválido");
+    } else if (!validateCVV(cvv, cardType)) {
+      setCvvErrorMessage("CVV inválido");
+    } else if (!validateExpirationDate(expirationDate)) {
+      setExpirationErrorMessage("Fecha de vencimiento inválida");
+    } else if (!selectedOption) {
+      setErrorMessage("Por favor seleccione un país");
+    } else {
+      setIsLoadButton(true);
+      setErrorMessage("");
+      setCvvErrorMessage("");
+      setExpirationErrorMessage("");
+      const CardData = {
+        number: cardNumber,
+        cvv: cvv,
+        type: cardType,
+        expiration_date: expirationDate,
+        country: selectedOption,
+      };
+      CreateCard(CardData);
+      setIsLoadButton(false);
+      navigation.goBack();
+    }
+  };
   useEffect(() => {
     setPaises(
       paisesDelmundo.map((pais) => ({
@@ -62,19 +158,27 @@ export default function AgregarTarjetaScreen() {
             <View style={styles.passwordContainer}>
               <Text style={{ marginLeft: "5%" }}>Numero de tarjeta</Text>
               <CustomInput
+                maxLength={19}
                 placeholder="xx-xxx--xx-xx-xx-xx-"
                 keyboardType="numeric"
+                value={cardNumber}
+                onChangeText={(text) => setCardNumber(text)}
                 style={[styles.input, { backgroundColor: "#D9D9D9" }]}
               />
+
               <View style={styles.Divider} />
             </View>
           </View>
           <View style={styles.viewInput}>
             <View style={styles.viewInput1}>
               <CustomInput
+                maxLength={5}
+                // keyboardType="numeric"
                 style={styles.input}
                 placeholderTextColor="#fff"
                 placeholder="MM/AA"
+                value={expirationDate}
+                onChangeText={(text) => setExpirationDate(text)}
               />
               <View style={styles.textFloat}>
                 <Text>Fecha de vencimiento</Text>
@@ -82,9 +186,13 @@ export default function AgregarTarjetaScreen() {
             </View>
             <View style={styles.viewInput2}>
               <CustomInput
+                maxLength={3}
                 style={styles.input}
                 placeholderTextColor="#fff"
                 placeholder="123"
+                keyboardType="numeric"
+                value={cvv}
+                onChangeText={(text) => setCVV(text)}
               />
               <View style={styles.textFloat}>
                 <Text>Codigo de verificacion</Text>
@@ -127,7 +235,21 @@ export default function AgregarTarjetaScreen() {
           </View>
         </View>
         <View style={{ backgroundColor: "#fff", width: "100%" }}>
-          <CustomTouchable style={styles.buttonSend}>
+          {errorMessage ? (
+            <Text style={{ color: "red" }}>{errorMessage}</Text>
+          ) : null}
+          {cvvErrorMessage ? (
+            <Text style={{ color: "red" }}>{cvvErrorMessage}</Text>
+          ) : null}
+          {expirationErrorMessage ? (
+            <Text style={{ color: "red" }}>{expirationErrorMessage}</Text>
+          ) : null}
+
+          <CustomTouchable
+            style={[isLoadButton ? styles.loadButton : styles.buttonSend]}
+            onPress={handleSave}
+            disabled={isLoadButton}
+          >
             <Text style={styles.buttonText}>Guardar</Text>
           </CustomTouchable>
         </View>

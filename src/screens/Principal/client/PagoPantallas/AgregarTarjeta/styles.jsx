@@ -3,6 +3,9 @@ import { StyleSheet, Dimensions, Platform } from "react-native";
 const { width, height } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
+  loadButton: {
+    opacity: 0.5,
+  },
   viewInput2: {
     width: "45%",
     marginHorizontal: 50,

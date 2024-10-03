@@ -39,6 +39,7 @@
     "react-native-animated-circular-progress": "^1.0.6",
     "react-native-biometrics": "^3.0.1",
     "react-native-circular-progress": "^1.4.0",
+    "react-native-credit-card-input-plus": "^0.4.8",
     "react-native-fast-image": "^8.6.3",
     "react-native-gesture-handler": "~2.16.1",
     "react-native-pager-view": "6.3.0",
