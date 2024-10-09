@@ -2,4 +2,10 @@
   <string name="app_name">ScooterMap</string>
   <string name="expo_splash_screen_resize_mode" translatable="false">contain</string>
   <string name="expo_splash_screen_status_bar_translucent" translatable="false">false</string>
+  
+  <string name="facebook_app_id">1078205300634107</string>
+  <string name="fb_login_protocol_scheme">fb1078205300634107</string>
+  <string name="facebook_client_token">c6fa7bc42cff7ab04a4fb91f2c9205f6</string>
+
+
 </resources>
