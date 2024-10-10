@@ -31,9 +31,8 @@ export default function LoginWithFacebook() {
   const auth = getAuth();
   const [userData, setUserData] = useState({});
   const navigation = useNavigation();
-  const [request, response, promptAsync] = Facebook.useAuthRequest({
-    clientId: "1078205300634107",
-  });
+  const empty =
+    "https://firebasestorage.googleapis.com/v0/b/floydapp-a1e0d.appspot.com/o/Admin%2FuserEmpty.jpg?alt=media&token=19d2651d-f14e-4ae7-8629-489f512bfc78";
   const provider = new FacebookAuthProvider();
   async function onFacebookButtonPress() {
     try {
@@ -53,94 +52,51 @@ export default function LoginWithFacebook() {
       if (!data) {
         throw "Something went wrong obtaining access token";
       }
-
+      const userInfoResponse = await fetch(
+        `https://graph.facebook.com/me?access_token=${data.accessToken}&fields=id,name,picture.type(large)`
+      );
+      const userInfo = await userInfoResponse.json();
       // Create a Firebase credential with the AccessToken
       const facebookCredential = FacebookAuthProvider.credential(
         data.accessToken
       );
 
-      // Sign-in the user with the credential
-      //auth().signInWithCredential(facebookCredential);
-      console.log("Login: ", facebookCredential);
-      console.log("Data: ", data);
-      console.log("Result: ", result);
-
-
+      //console.log("Login: ", facebookCredential);
+      console.log("Data edit: ", data.accessToken);
+      console.log("userInfo: ", userInfo);
+      signInWithCredential(auth, facebookCredential)
+        .then(() => {
+          //Alert.alert("Iniciando Sesion", "Accediendo");
+          const docRef = doc(db, "users", `${auth.currentUser.uid}`);
+          onSnapshot(docRef, (document) => {
+            if (!document.exists()) {
+              setDoc(doc(db, "users", `${auth.currentUser.uid}`), {
+                name: userInfo.name,
+                last_name: "",
+                rol: "usuario",
+                url_photo:
+                  userInfo.picture.data.url === null
+                    ? empty
+                    : userInfo.picture.data.url,
+                status: "Activo",
+                created_at: new Date(),
+                scooter_id: "",
+                verify_by_facebook: true,
+              });
+              console.log("Usuario creado");
+              navigation.navigate("Principal");
+            } else {
+              navigation.navigate("Principal");
+              alert("Bienvenido");
+            }
+          });
+        })
+        .catch((error) => {
+          Alert.alert("Error", "Usuario o contraseña incorrectos");
+          console.log(error);
+        });
     } catch (error) {
       console.log("Error en facebook: ", error);
-    }
-  }
-  async function loginFaceBook() {
-    try {
-      // Attempt login with permissions
-      const result = await LoginManager.logInWithPermissions([
-        "public_profile",
-        "email",
-      ]);
-
-      if (result.isCancelled) {
-        throw new Error("User cancelled the login process");
-      }
-
-      // Get the access token
-      const data = await AccessToken.getCurrentAccessToken();
-      if (!data) {
-        throw new Error("Something went wrong obtaining access token");
-      }
-
-      // Create a Firebase credential with the AccessToken
-      const facebookCredential = FacebookAuthProvider.credential(
-        data.accessToken
-      );
-
-      // Sign-in the user with the credential
-      //await signInWithCredential(auth, facebookCredential);
-
-      console.log("User signed in successfully!");
-    } catch (error) {
-      console.error("Error during Facebook login: ", error);
-    }
-  }
-
-  useEffect(() => {
-    if (response && response.type === "success" && response.authentication) {
-      (async () => {
-        const userInfoResponse = await fetch(
-          `https://graph.facebook.com/me?access_token=${response.authentication.accessToken}&fields=id,name,picture.type(large)`
-        );
-        const userInfo = await userInfoResponse.json();
-        const credential = FacebookAuthProvider.credential(
-          response.authentication.accessToken
-        );
-        signInWithCredential(auth, credential)
-          .then(() => {
-            const docRef = doc(db, "users", `${auth.currentUser.uid}`);
-            onSnapshot(docRef, (document) => {
-              if (!document.exists()) {
-                setDoc(doc(db, "users", `${auth.currentUser.uid}`), {
-                  name: userInfo.name,
-                  rol: "usuario",
-                  url_photo: userInfo.picture.data.url,
-                  estatus: "Activo",
-                  created_at: new Date(),
-                  update_at: new Date(),
-                });
-              }
-            });
-          })
-          .catch((error) => {
-            Alert.alert("Error", "Usuario o contraseña incorrectos");
-            console.log(error);
-          });
-      })();
-    }
-  }, [response]);
-
-  async function handlePressAsync() {
-    const result = await promptAsync();
-    if (result.type !== "success") {
-      alert("algo salio mal");
-      return;
     }
   }
 
