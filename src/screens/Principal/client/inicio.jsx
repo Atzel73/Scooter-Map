@@ -33,6 +33,7 @@ export default function Register() {
   const navigation = useNavigation();
   const [userData, setUserData] = useState({});
   const [showPassword, setShowPassword] = useState(false);
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -43,6 +44,7 @@ export default function Register() {
   const handlerNavigation = () => {
     navigation.navigate("RegisterPhone");
   };
+
   return (
     <>
       <KeyboardAvoidingView

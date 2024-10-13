@@ -1,6 +1,6 @@
 import React from "react";
 import * as ImagePicker from "expo-image-picker";
-
+import { imageToBlob } from "../imageBlob/imageBlob";
 const pickImage = async () => {
   // No permissions request is necessary for launching the image library
   let result = await ImagePicker.launchImageLibraryAsync({
@@ -11,6 +11,7 @@ const pickImage = async () => {
   });
 
   if (!result.canceled) {
+    const image = await imageToBlob(result.assets[0].uri);
     return result.assets[0].uri;
   }
 };

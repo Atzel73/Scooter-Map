@@ -25,7 +25,7 @@ import { db } from "../../../../db/conection";
 import { getAuth, signOut } from "firebase/auth";
 import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import CustomImage from "../../../../components/Image/Image";
-
+import CustomAwesome from "../../../../components/AwesomeAlert";
 const Drawer = createDrawerNavigator();
 const { width, height } = Dimensions.get("window");
 
@@ -76,6 +76,9 @@ export default function Configuration({ route }) {
   const auth = getAuth();
   const [isLogged, setIsLogged] = useState(true);
   const [userData, setUserData] = useState({});
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertTitle, setAlertTitle] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
 
   useEffect(() => {
     async function getUser() {
@@ -86,20 +89,41 @@ export default function Configuration({ route }) {
     }
     getUser();
   }, []);
+  const handleAwesome = (title, message) => {
+    setAlertTitle(title);
+    setAlertMessage(message);
+    setShowAlert(true);
+  };
   const handleLogOut = () => {
     signOut(auth)
       .then(() => {
         console.log("Sesion cerrada.");
-        alert("¡Sesion cerrada!");
-        navigation.navigate("Principal");
+        //alert("¡Sesion cerrada!");
+        handleAwesome("Sesion cerrada", "¡Sesion cerrada!");
+        setTimeout(() => {
+          navigation.navigate("Principal");
+        }, 2000);
       })
       .catch((error) => {
         console.log(error);
       });
   };
+  function userInfo(){
+    const user = auth.currentUser;
+    if(!user !==null){
+      console.log("User: ", user.providerData);
+    }
+  }
   return (
     <>
       <View style={styles.container}>
+        {showAlert && (
+          <CustomAwesome
+            title={alertTitle}
+            message={alertMessage}
+            onClose={() => setShowAlert(false)}
+          />
+        )}
         <ScrollView
           persistentScrollbar={false}
           contentInsetAdjustmentBehavior="automatic"
@@ -217,8 +241,17 @@ export default function Configuration({ route }) {
               {/* <View style={styles.viewBottom} /> */}
             </View>
           ) : (
-            <View>
-              <Text>Por favor, inicia sesión</Text>
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: "50%",
+              }}
+            >
+              <Text style={{ color: "#6BB8FF", fontSize: 18 }}>
+                Has cerrado sesion
+              </Text>
             </View>
           )}
         </ScrollView>
@@ -319,8 +352,8 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   IconLogout: {
-     marginLeft: 100,
-     marginRight: -100,
+    marginLeft: 100,
+    marginRight: -100,
   },
   contView: {
     alignItems: "center",

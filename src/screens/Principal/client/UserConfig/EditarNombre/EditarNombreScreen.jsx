@@ -14,6 +14,7 @@ import Funcionalidades from "../../../../../functions/funcionalidades/functionsU
 import CustomInput from "../../../../../components/TextInput/textInput";
 import styles from "./styles";
 import { db } from "../../../../../db/conection";
+import AwesomeAlert from "react-native-awesome-alerts";
 
 export default function EditarNombreScreen() {
   const auth = getAuth();
@@ -21,9 +22,8 @@ export default function EditarNombreScreen() {
   const [userData, setUserData] = useState({ name: "", last_name: "" });
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-
-
-
+  const [showAlert, setShowAlert] = useState(false);
+  const [success, setIsSuccess] = useState(false);
   useEffect(() => {
     async function getUser() {
       try {
@@ -64,9 +64,46 @@ export default function EditarNombreScreen() {
   }
 
   if (error) {
-    return <Text>Error!</Text>;
+    return (
+      <View>
+        <AwesomeAlert
+          show={showAlert}
+          showProgress={false}
+          title="Error"
+          titleStyle={styles.title}
+          message="Ha habido un error al actualizar tus datos. Si el problema persiste, contacte con el administrador."
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showCancelButton={false}
+          cancelButtonTextColor="red"
+          showConfirmButton={true}
+          confirmText="OK"
+          onConfirmPressed={() => {
+            setShowAlert(false);
+          }}
+        />
+      </View>
+    );
   }
-
+  if (showAlert) {
+    return (
+      <AwesomeAlert
+        show={showAlert}
+        showProgress={false}
+        title="¡Éxito!"
+        message="Se ha actualizado tu nombre correctamente."
+        closeOnTouchOutside={true}
+        closeOnHardwareBackPress={false}
+        showCancelButton={false}
+        cancelButtonTextColor="red"
+        showConfirmButton={true}
+        confirmText="OK"
+        onConfirmPressed={() => {
+          setShowAlert(false);
+        }}
+      />
+    );
+  }
   return (
     <>
       <View style={styles.buttonFloat}>

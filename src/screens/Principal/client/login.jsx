@@ -26,6 +26,7 @@ import {
 import { setDoc, doc, onSnapshot, getDoc } from "firebase/firestore";
 import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
+import AwesomeAlert from "react-native-awesome-alerts";
 
 const { width, height } = Dimensions.get("window");
 WebBrowser.maybeCompleteAuthSession();
@@ -37,6 +38,8 @@ export default function Login() {
   const [credential, setCredential] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
+  const [success, setIsSuccess] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -95,9 +98,11 @@ export default function Login() {
         });
       })
       .then(() => {
-        Alert.alert("¡Bienvenido!");
+        //Alert.alert("¡Bienvenido!");
+        setIsSuccess(true);
         navigation.navigate("Principal");
         console.log("Registrado");
+        setIsSuccess(false);
       })
       .catch((error) => {
         console.log(error);
@@ -106,6 +111,29 @@ export default function Login() {
 
   const handlerNavigation = () => navigation.goBack();
 
+  if (success) {
+    return (
+      <View>
+        <AwesomeAlert
+          show={showAlert}
+          showProgress={true}
+          title="Cargando"
+          message="Por favor espere..."
+          closeOnTouchOutside={false}
+          closeOnHardwareBackPress={false}
+          showCancelButton={false}
+          showConfirmButton={false}
+          progressColor="#6BB8FF"
+          progressSize="large"
+          //cancelText="No, cancel"
+          //confirmText="Yes, delete it"
+          //confirmButtonColor="#DD6B55"
+          //onCancelPressed={handleAlert}
+          //onConfirmPressed={handleAlert}
+        />
+      </View>
+    );
+  }
   return (
     <>
       <View style={styles.buttonFloat}>

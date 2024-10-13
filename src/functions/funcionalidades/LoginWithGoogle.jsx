@@ -21,13 +21,19 @@ import * as WebBrowser from "expo-web-browser";
 import { FontAwesome6, MaterialIcons, AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { db } from "../../db/conection";
-export default function LoginWithGoogle() {
+import AwesomeAlert from "react-native-awesome-alerts";
+
+export default function LoginWithGoogle({ onPress }) {
   const auth = getAuth();
   const [userData, setUserData] = useState({});
   const navigation = useNavigation();
   const [user, setUser] = useState(null);
   const [credential, setCredential] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
+  const [loading, setIsLoading] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const handleLoading = () => setIsLoading(true);
+  const handleAlert = () => setShowAlert(!showAlert);
   const empty =
     "https://firebasestorage.googleapis.com/v0/b/floydapp-a1e0d.appspot.com/o/Admin%2FuserEmpty.jpg?alt=media&token=19d2651d-f14e-4ae7-8629-489f512bfc78";
   const [request, response, promptAsync] = Google.useAuthRequest({
@@ -63,6 +69,7 @@ export default function LoginWithGoogle() {
     registerWithGoogle(userInfo);
   }
   const registerWithGoogle = async (user) => {
+    setIsLoading(true);
     await signInWithCredential(auth, credential)
       .then(() => {
         const docRef = doc(db, "users", auth.currentUser.uid);
@@ -86,21 +93,48 @@ export default function LoginWithGoogle() {
         });
       })
       .then(() => {
-        Alert.alert("¡Bienvenido!");
+        //Alert.alert("¡Bienvenido!");
         navigation.navigate("Principal");
         console.log("Registrado");
+        setIsLoading(false);
       })
       .catch((error) => {
         console.log(error);
       });
   };
-
+  if (loading) {
+    return (
+      <View>
+        <AwesomeAlert
+          show={showAlert}
+          showProgress={true}
+          title="Cargando"
+          message="Por favor espere..."
+          closeOnTouchOutside={false}
+          closeOnHardwareBackPress={false}
+          showCancelButton={false}
+          showConfirmButton={false}
+          progressColor="#6BB8FF"
+          progressSize="large"
+          //cancelText="No, cancel"
+          //confirmText="Yes, delete it"
+          //confirmButtonColor="#DD6B55"
+          //onCancelPressed={handleAlert}
+          //onConfirmPressed={handleAlert}
+        />
+      </View>
+    );
+  }
   return (
-
     <View style={styles.viewButtons}>
       <View style={styles.viewInfo}>
         <View style={styles.contView}>
-          <TouchableOpacity style={styles.button} onPress={() => promptAsync()}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              promptAsync();
+            }}
+          >
             <AntDesign
               name="google"
               size={24}
@@ -129,7 +163,7 @@ const styles = StyleSheet.create({
     width: "100%",
     minWidth: "100%",
     borderRadius: 10,
-   // marginRight: 50,
+    // marginRight: 50,
   },
   viewInfo: {
     alignItems: "center",

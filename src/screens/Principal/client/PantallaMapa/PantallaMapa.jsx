@@ -11,6 +11,7 @@ import {
 } from "firebase/auth";
 import { setDoc, doc, onSnapshot, getDoc } from "firebase/firestore";
 import { db } from "../../../../db/conection";
+import AwesomeAlert from "react-native-awesome-alerts";
 //webID = 857598140703-mhi55jmtd7blc2je2innkmil8607lqmt.apps.googleusercontent.com
 //ios = 857598140703-jgmo8bar5psptnnqhb5uv4lc1skas1hl.apps.googleusercontent.com
 //android = 857598140703-cjer1r18grdqhrsln0g1fkcu6tjitntc.apps.googleusercontent.com
@@ -30,7 +31,6 @@ export default function PantallaMapa() {
     androidClientId:
       "857598140703-cjer1r18grdqhrsln0g1fkcu6tjitntc.apps.googleusercontent.com",
   });
-
 
   useEffect(() => {
     if (response?.type === "success") {
@@ -77,9 +77,29 @@ export default function PantallaMapa() {
         console.log(error);
       });
   };
+  const [showAlert, setShowAlert] = useState(false);
+  const handleAlert = () => setShowAlert(!showAlert);
   return (
     <View style={styles.container}>
       <Text>Pantalla Mapa</Text>
+      <TouchableOpacity onPress={handleAlert}>
+        <Text>Activar alerta</Text>
+      </TouchableOpacity>
+      <AwesomeAlert
+        show={showAlert}
+        showProgress={false}
+        title="AwesomeAlert"
+        message="I have a message for you!"
+        closeOnTouchOutside={true}
+        closeOnHardwareBackPress={false}
+        showCancelButton={true}
+        showConfirmButton={true}
+        cancelText="No, cancel"
+        confirmText="Yes, delete it"
+        confirmButtonColor="#DD6B55"
+        onCancelPressed={handleAlert}
+        onConfirmPressed={handleAlert}
+      />
       {/* {!user ? (
         <TouchableOpacity
           style={{ borderWidth: 1, borderRadius: 10 }}

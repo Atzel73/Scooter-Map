@@ -26,6 +26,7 @@ const { width, height } = Dimensions.get("window");
 import { LoginManager, AccessToken } from "react-native-fbsdk-next";
 import * as Facebook from "expo-auth-session/providers/facebook";
 import { db } from "../../../db/conection";
+import AwesomeAlert from "react-native-awesome-alerts";
 WebBrowser.maybeCompleteAuthSession();
 export default function LoginWithFacebook() {
   const auth = getAuth();
@@ -33,8 +34,17 @@ export default function LoginWithFacebook() {
   const navigation = useNavigation();
   const empty =
     "https://firebasestorage.googleapis.com/v0/b/floydapp-a1e0d.appspot.com/o/Admin%2FuserEmpty.jpg?alt=media&token=19d2651d-f14e-4ae7-8629-489f512bfc78";
+  const [loading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  // const handleAlert = () => {
+  //   //setIsError(true);
+  //   setIsLoading(true);
+  //   setShowAlert(true); // Mostrar la alerta de error
+  // };
   const provider = new FacebookAuthProvider();
   async function onFacebookButtonPress() {
+    setIsLoading(true);
     try {
       // Attempt login with permissions
       const result = await LoginManager.logInWithPermissions([
@@ -85,28 +95,74 @@ export default function LoginWithFacebook() {
               });
               console.log("Usuario creado");
               navigation.navigate("Principal");
+              setIsLoading(false);
             } else {
               navigation.navigate("Principal");
-              alert("Bienvenido");
+              //alert("Bienvenido");
             }
           });
         })
         .catch((error) => {
-          Alert.alert("Error", "Usuario o contraseña incorrectos");
+          //Alert.alert("Error", "Usuario o contraseña incorrectos");
           console.log(error);
+          setIsLoading(false);
+          setIsError(true);
         });
     } catch (error) {
       console.log("Error en facebook: ", error);
+      setIsLoading(false);
+      setIsError(true);
+      setShowAlert(true);
     }
   }
-
+  if (isError) {
+    return (
+      <View>
+        <AwesomeAlert
+          show={showAlert}
+          showProgress={false}
+          title="Error"
+          titleStyle={styles.title}
+          message="Ha habido un error al iniciar sesión. Si el problema persiste, contacte con el administrador."
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showCancelButton={false}
+          cancelButtonTextColor="red"
+          showConfirmButton={true}
+          confirmText="OK"
+          onConfirmPressed={() => {
+            setShowAlert(false);
+          }}
+        />
+      </View>
+    );
+  }
+  if (loading) {
+    return (
+      <View>
+        <AwesomeAlert
+          show={showAlert}
+          showProgress={true}
+          title="Cargando..."
+          message="Espere por favor"
+          closeOnTouchOutside={false}
+          closeOnHardwareBackPress={false}
+          showCancelButton={false}
+          showConfirmButton={false}
+        />
+      </View>
+    );
+  }
   return (
     <View style={styles.viewButtons}>
       <View style={styles.viewInfo}>
         <View style={styles.contView}>
           <TouchableOpacity
             style={styles.button}
-            onPress={onFacebookButtonPress}
+            onPress={() => {
+              onFacebookButtonPress();
+              //handleAlert();
+            }}
           >
             <FontAwesome6
               name="facebook"
@@ -124,6 +180,13 @@ export default function LoginWithFacebook() {
 }
 
 const styles = StyleSheet.create({
+  title: {
+    color: "red",
+    fontSize: 20,
+    marginBottom: 20,
+    marginTop: 20,
+    marginLeft: 10,
+  },
   contView: {
     alignItems: "center",
     justifyContent: "center",

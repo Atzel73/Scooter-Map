@@ -6,7 +6,7 @@ import {
   StyleSheet,
   Alert,
   Platform,
-  ActivityIndicator
+  ActivityIndicator,
 } from "react-native";
 import app, { db } from "../../db/conection";
 import firebaseAuth from "../../db/conection";
@@ -32,6 +32,10 @@ import {
   writeBatch,
 } from "firebase/firestore";
 import TouchID from "react-native-touch-id";
+import AwesomeAlert from "react-native-awesome-alerts";
+
+import CustomAwesome from "../../components/AwesomeAlert";
+import CustomAwesomeError from "../../components/AwesomeAlertError";
 export default function Funcionalidades({
   title,
   callFunction,
@@ -50,6 +54,19 @@ export default function Funcionalidades({
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [isAuthBio, setIsAuthBio] = useState(false);
   const [loading, isLoading] = useState(false);
+  const [success, setIsSuccess] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [awesomeData, setAwesomeData] = useState({ title: "", message: "" });
+  const [errorData, setErrorData] = useState({ title: "", message: "" });
+  const [showErrorAlert, setShowErrorAlert] = useState(false);
+  const handleError = (title, message) => {
+    setShowErrorAlert(true); // Estado para mostrar error
+    setErrorData({ title, message }); // Pasar los datos del error
+  };
+  const handleAwesome = (title, message) => {
+    setShowAlert(true);
+    setAwesomeData({ title, message });
+  };
 
   const empty =
     "https://firebasestorage.googleapis.com/v0/b/floydapp-a1e0d.appspot.com/o/Admin%2FuserEmpty.jpg?alt=media&token=19d2651d-f14e-4ae7-8629-489f512bfc78";
@@ -67,6 +84,7 @@ export default function Funcionalidades({
       </View>
     );
   }
+
   const optionalConfigObject = {
     title: "Se requiere verificacion", // Android
     imageColor: "#6BB8FF", // Android
@@ -173,70 +191,70 @@ export default function Funcionalidades({
     }
   }
   async function RegisterUser() {
-    console.log("Dentro", user.password);
     try {
+      // Verificar si se ha proporcionado el correo electrónico
       if (!user.email) {
-        alert("Por favor, introduzca el correo electronico");
+        handleAwesome("Error", "Por favor, introduzca el correo electrónico");
         return;
       }
-      const userData = {
-        photo: user.image === undefined ? "empty" : user.image,
-        name: user.name,
-        last_name: user.lastName,
-        email: user.email,
-        password: user.password,
-        phone: user.phone,
-        status: "Activo",
-        rol: "usuario",
-        scooter_id: "",
-        created_at: new Date(),
-      };
+
+      // Verificar si se ha proporcionado la contraseña
+      if (!user.password) {
+        handleAwesome("Error", "Por favor, introduzca la contraseña");
+        return;
+      }
+
+      // Registrar al usuario con el correo y contraseña
       await createUserWithEmailAndPassword(auth, user.email, user.password)
         .then((userCredentials) => {
           setDoc(doc(db, "users", userCredentials.user.uid), {
-            photo: user.image === undefined ? empty : user.image,
-            name: "usuario",
-            last_name: "usuario",
-            email: userCredentials.user.email,
-            phone: "",
-            password: user.password,
-            status: "Activo",
-            rol: "usuario",
-            scooter_id: "",
-            created_at: new Date(),
-            users_blocked: [],
-            blocked_by: [],
-            verifyByEmail: true,
+            // Aquí se agregan los campos del usuario a guardar en Firestore
+            // Ejemplo:
+            email: user.email,
+            createdAt: new Date(),
+            // Otros datos que quieras almacenar
           });
-          Alert.alert("¡Bienvenido!");
-          //navigation.navigate("Principal");
+
+          // Mostrar mensaje de éxito en el registro
+          handleAwesome("¡Bienvenido!", "Registro exitoso");
           navigation.navigate("LoginName");
-          console.log("Registrado");
         })
         .catch((error) => {
+          // Manejo de errores comunes al registrar
           if (error.code === "auth/weak-password") {
-            Alert.alert("La contraseña debe contener al menos 6 caracteres.");
-          } else if (error.code === "auth/invalid-email") {
-            Alert.alert("El email es inválido");
-          } else if (error.code === "auth/missing-email") {
-            Alert.alert("El email es obligatorio");
-          } else if (error.code === "auth/missing-password") {
-            Alert.alert("Por favor, ingrese la contraseña");
+            handleAwesome(
+              "Error",
+              "La contraseña debe contener al menos 6 caracteres."
+            );
           } else if (error.code === "auth/email-already-in-use") {
-            Alert.alert("El email ya está en uso");
+            handleAwesome(
+              "Error",
+              "El correo electrónico ya está en uso por otra cuenta."
+            );
+          } else if (error.code === "auth/invalid-email") {
+            handleAwesome("Error", "El correo electrónico es inválido.");
+          } else if (error.code === "auth/operation-not-allowed") {
+            handleAwesome(
+              "Error",
+              "El registro de cuentas con correo y contraseña está deshabilitado."
+            );
+          } else if (error.code === "auth/network-request-failed") {
+            handleAwesome(
+              "Error",
+              "Error de red. Por favor, inténtelo de nuevo."
+            );
+          } else {
+            // Manejo genérico de otros errores
+            handleAwesome("Error", "Error al registrar. Intente de nuevo.");
           }
         });
     } catch (error) {
+      // Manejo de errores inesperados en el bloque try
       console.log("Error: ", error);
-      if (error.code === "auth/weak-password") {
-        alert("La contraseña debe contener al menos 6 caracteres.");
-      } else if (error.code === "auth/invalid-email") {
-        alert("El email es inválido");
-      } else if (error.code === "auth/missing-email") {
-        alert("El email es obligatorio");
-      }
+      handleAwesome("Error", "Ha ocurrido un error en el registro");
     }
   }
+
   async function UpdateUser() {
     try {
       setButtonDisabled(true);
@@ -268,46 +286,53 @@ export default function Funcionalidades({
         updated_at: new Date(),
         name: userUpdate.name,
         last_name: userUpdate.last_name,
-        //email: userUpdate.data.email,
-        //phone: userUpdate.data.phone,
       };
-      const userRef = await updateDoc(
-        doc(db, "users", auth.currentUser.uid),
-        userData
-      );
+
+      await updateDoc(doc(db, "users", auth.currentUser.uid), userData);
+
       console.log("User updated");
-      Alert.alert("¡Nombre actualizados");
-      navigation.goBack();
+
+      // Llamamos a `handleAwesome` para mostrar la alerta con título y mensaje.
+      handleAwesome("¡Éxito!", "Nombre y/o apellido actualizados");
     } catch (error) {
       console.log("Error: ", error);
     } finally {
-      setButtonDisabled(true);
+      setButtonDisabled(false); // Asegurarse de habilitar el botón de nuevo
     }
   }
+
   async function UpdateUserPhone() {
     try {
       setButtonDisabled(true);
 
+      // Verificar si el campo de teléfono está vacío o indefinido
+      if (!userUpdate.phone) {
+        handleAwesome("Error", "El número de teléfono no puede estar vacío");
+        setButtonDisabled(false); // Asegurar que el botón no quede deshabilitado
+        return;
+      }
+
       const userData = {
         updated_at: new Date(),
-        //name: userUpdate.name,
-        //last_name: userUpdate.last_name,
-        //email: userUpdate.data.email,
         phone: userUpdate.phone,
       };
-      const userRef = await updateDoc(
-        doc(db, "users", auth.currentUser.uid),
-        userData
-      );
+
+      await updateDoc(doc(db, "users", auth.currentUser.uid), userData);
       console.log("User updated");
-      Alert.alert("¡Numero actualizados");
-      navigation.goBack();
+
+      // Llamar a handleAwesome para mostrar la alerta de éxito
+      handleAwesome("¡Éxito!", "Número de teléfono actualizado");
+      // navigation.goBack();
     } catch (error) {
       console.log("Error: ", error);
+
+      // Mostrar una alerta de error usando handleAwesome
+      handleAwesome("Error", "No se pudo actualizar el número de teléfono");
     } finally {
       setButtonDisabled(false);
     }
   }
+
   async function SignUser() {
     try {
       signInWithEmailAndPassword(auth, userSign.email, userSign.password)
@@ -348,7 +373,7 @@ export default function Funcionalidades({
 
     try {
       setButtonDisabled(true);
-      isLoading(true)
+      isLoading(true);
       await reauthenticateWithCredential(auth.currentUser, credentials);
 
       const batch = writeBatch(db);
@@ -361,7 +386,7 @@ export default function Funcionalidades({
 
       await signOut(auth);
       Alert.alert("Cuenta borrada");
-       navigation.navigate("Eliminar");
+      navigation.navigate("Eliminar");
       console.log("Cuenta borrada con éxito");
     } catch (error) {
       console.log("Error al borrar la cuenta: ", error);
@@ -396,10 +421,16 @@ export default function Funcionalidades({
         email: userUpdate.email,
       });
       console.log("actualizado");
-      Alert.alert("Correo actualizado");
-      navigation.goBack();
+
+      // Llamamos a `handleAwesome` para mostrar la alerta con éxito.
+      handleAwesome("¡Éxito!", "Correo electrónico actualizado correctamente");
+
+      // navigation.goBack();
     } catch (error) {
       console.error("Error al actualizar el correo electrónico:", error);
+
+      // Llamamos a `handleAwesome` para mostrar la alerta con el error.
+      handleAwesome("Error", "No se pudo actualizar el correo electrónico");
     } finally {
       setButtonDisabled(false);
     }
@@ -416,8 +447,25 @@ export default function Funcionalidades({
         console.log(error);
       });
   }
+
   return (
     <View>
+      {showAlert && (
+        <CustomAwesome
+          title={awesomeData.title}
+          message={awesomeData.message}
+          setShowAlert={setShowAlert}
+          showAlert={showAlert}
+        />
+      )}
+      {showErrorAlert && (
+        <CustomAwesomeError
+          title={errorData.title}
+          message={errorData.message}
+          setShowAlert={setShowErrorAlert}
+          showAlert={showErrorAlert}
+        />
+      )}
       <TouchableOpacity
         onPress={
           onPress
