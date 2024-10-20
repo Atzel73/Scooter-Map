@@ -138,7 +138,7 @@ export default function HomeScreen() {
         setModalVisible={setModalVisible}
         modalVisible={modalVisible}
       />
-      <View>{/* <PantallaMapa /> */}</View>
+      <View><PantallaMapa /></View>
     </View>
   );
 }

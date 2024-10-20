@@ -83,19 +83,19 @@ export default function PantallaMapa() {
     <View style={styles.container}>
       <Text>Pantalla Mapa</Text>
       <TouchableOpacity onPress={handleAlert}>
-        <Text>Activar alerta</Text>
+        <Text>¡Aviso!</Text>
       </TouchableOpacity>
       <AwesomeAlert
         show={showAlert}
         showProgress={false}
-        title="AwesomeAlert"
-        message="I have a message for you!"
+        title="Mapa"
+        message="Estamos trabajando en el mapa. Por favor espera hasta que sea integrado"
         closeOnTouchOutside={true}
         closeOnHardwareBackPress={false}
         showCancelButton={true}
         showConfirmButton={true}
-        cancelText="No, cancel"
-        confirmText="Yes, delete it"
+        cancelText="ok"
+        confirmText="ok"
         confirmButtonColor="#DD6B55"
         onCancelPressed={handleAlert}
         onConfirmPressed={handleAlert}
