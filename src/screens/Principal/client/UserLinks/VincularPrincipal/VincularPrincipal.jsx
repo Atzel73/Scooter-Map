@@ -31,11 +31,19 @@ import {
   signInWithCredential,
   updateProfile,
   updateEmail,
+  FacebookAuthProvider,
+  reauthenticateWithCredential,
 } from "firebase/auth";
 import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import * as Google from "expo-auth-session/providers/google";
 const { width, height } = Dimensions.get("window");
 import CustomAwesome from "../../../../../components/AwesomeAlert";
+
+import { LoginManager, AccessToken } from "react-native-fbsdk-next";
+import * as WebBrowser from "expo-web-browser";
+
+WebBrowser.maybeCompleteAuthSession();
+import AwesomeAlert from "react-native-awesome-alerts";
 export default function VincularPrincipal() {
   const navigation = useNavigation();
   const auth = getAuth();
@@ -54,6 +62,8 @@ export default function VincularPrincipal() {
 
   const [user, setUser] = useState(null);
   const [errorSign, setErrorSign] = useState(false);
+  const [loading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
   useEffect(() => {
     if (response?.type === "success") {
       const { authentication } = response;
@@ -145,7 +155,123 @@ export default function VincularPrincipal() {
     setAlertMessage(message);
     setShowAlert(true);
   }
+  async function onFacebookButtonPress() {
+    setIsLoading(true);
+    try {
+      // Intentar iniciar sesión con los permisos solicitados
+      const result = await LoginManager.logInWithPermissions([
+        "public_profile",
+        "email",
+      ]);
 
+      if (result.isCancelled) {
+        throw new Error("El usuario canceló el proceso de inicio de sesión");
+      }
+
+      // Obtener el AccessToken del usuario
+      const data = await AccessToken.getCurrentAccessToken();
+      if (!data) {
+        throw new Error("Hubo un error obteniendo el token de acceso");
+      }
+
+      // Crear una credencial de Firebase con el AccessToken de Facebook
+      const facebookCredential = FacebookAuthProvider.credential(
+        data.accessToken
+      );
+
+      // Obtener el usuario actual de Firebase
+      const user = auth.currentUser;
+      if (!user) {
+        throw new Error("No hay ningún usuario autenticado actualmente");
+      }
+
+      try {
+        // Intentar vincular la cuenta de Facebook con la cuenta actual de Firebase
+        const linkedUser = await linkWithCredential(user, facebookCredential);
+        console.log("Cuenta de Facebook vinculada con éxito:", linkedUser);
+
+        // ... (actualizar correo, foto de perfil, etc.)
+
+        showCustomAlert("Éxito", "Tu cuenta ha sido vinculada exitosamente.");
+        navigation.navigate("Principal");
+      } catch (error) {
+        if (error.code === "auth/requires-recent-login") {
+          console.log("Re-autenticación requerida, volviendo a autenticar...");
+
+          // Re-autenticar al usuario con Facebook
+          try {
+            const reauthUser = await reauthenticateWithCredential(
+              user,
+              facebookCredential
+            );
+            console.log("Re-autenticación exitosa:", reauthUser);
+
+            // Intentar vincular nuevamente la cuenta de Facebook
+            const linkedUser = await linkWithCredential(
+              user,
+              facebookCredential
+            );
+            console.log(
+              "Cuenta de Facebook vinculada después de re-autenticación:",
+              linkedUser
+            );
+
+            // ... (actualizar correo, foto de perfil, etc.)
+
+            showCustomAlert(
+              "Éxito",
+              "Tu cuenta ha sido vinculada exitosamente."
+            );
+            navigation.navigate("Principal");
+          } catch (reauthError) {
+            console.error("Error en la re-autenticación:", reauthError);
+            showCustomAlert("Error", "No se pudo re-autenticar al usuario.");
+          }
+        } else if (error.code === "auth/credential-already-in-use") {
+          // Manejo de la cuenta ya vinculada
+          console.log("La cuenta de Facebook ya está en uso.");
+          showCustomAlert("Error", "La cuenta de Facebook ya está en uso.");
+        } else if (error.code === "auth/provider-already-linked") {
+          console.error("El proveedor ya está vinculado con tu cuenta.");
+          showCustomAlert(
+            "Error",
+            "proveedor ya está vinculado con tu cuenta."
+          );
+        } else {
+          console.error("Error inesperado:", error);
+          showCustomAlert(
+            "Error",
+            "Ocurrió un error inesperado. Si el problema persiste, contacta con los desarrolladores."
+          );
+        }
+      }
+    } catch (error) {
+      console.log("Error en el inicio de sesión con Facebook:", error);
+      showCustomAlert(
+        "Error",
+        "Ocurrió un error durante el inicio de sesión con Facebook."
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  if (loading) {
+    return (
+      <View>
+        <AwesomeAlert
+          show={showAlert}
+          showProgress={true}
+          title="Cargando..."
+          message="Espere por favor"
+          closeOnTouchOutside={false}
+          closeOnHardwareBackPress={false}
+          showCancelButton={false}
+          showConfirmButton={false}
+        />
+      </View>
+    );
+  }
   return (
     <>
       <View style={styles.buttonFloat}>
@@ -175,8 +301,8 @@ export default function VincularPrincipal() {
           />
         )}
         <View>
-          <View style={{ alignItems: "flex-start", marginTop: 10 }}>
-            <Text>LLaves de acceso</Text>
+          <View style={{ alignItems: "flex-start", marginTop: 20 }}>
+            <Text>Llaves de acceso</Text>
             <TouchableOpacity>
               <Text style={{ color: "#6BB8FF" }}>
                 Configuracion de llave de acceso
@@ -228,7 +354,10 @@ export default function VincularPrincipal() {
               </TouchableOpacity>
             </View>
             <View style={styles.contView}>
-              <TouchableOpacity style={styles.button}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => onFacebookButtonPress()}
+              >
                 <FontAwesome6
                   name="facebook"
                   size={24}
