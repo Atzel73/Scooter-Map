@@ -41,7 +41,7 @@ import CustomAwesome from "../../../../../components/AwesomeAlert";
 
 import { LoginManager, AccessToken } from "react-native-fbsdk-next";
 import * as WebBrowser from "expo-web-browser";
-
+import InstructionsModal from "../../../../../components/ModalInstructions";
 WebBrowser.maybeCompleteAuthSession();
 import AwesomeAlert from "react-native-awesome-alerts";
 export default function VincularPrincipal() {
@@ -64,6 +64,14 @@ export default function VincularPrincipal() {
   const [errorSign, setErrorSign] = useState(false);
   const [loading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const openModal = () => {
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+  };
   useEffect(() => {
     if (response?.type === "success") {
       const { authentication } = response;
@@ -235,7 +243,7 @@ export default function VincularPrincipal() {
           console.error("El proveedor ya está vinculado con tu cuenta.");
           showCustomAlert(
             "Error",
-            "proveedor ya está vinculado con tu cuenta."
+            "Este proveedor ya está vinculado con tu cuenta."
           );
         } else {
           console.error("Error inesperado:", error);
@@ -301,7 +309,7 @@ export default function VincularPrincipal() {
           />
         )}
         <View>
-          <View style={{ alignItems: "flex-start", marginTop: 20 }}>
+          <View style={{ alignItems: "flex-start", marginTop: "30%" }}>
             <Text>Llaves de acceso</Text>
             <TouchableOpacity>
               <Text style={{ color: "#6BB8FF" }}>
@@ -315,8 +323,20 @@ export default function VincularPrincipal() {
               </Text>
             </View>
           </View>
+          <View style={{ alignItems: "center" }}>
+            <Text style={{ textAlign: "center", fontSize: 22, margin: 10 }}>
+              Otras opciones de acceso
+            </Text>
+          </View>
         </View>
         <View style={styles.viewButtons}>
+          {modalVisible && (
+            <InstructionsModal
+              modalVisible={modalVisible}
+              openModal={openModal}
+              closeModal={closeModal}
+            />
+          )}
           <View style={styles.viewInfo}>
             <View style={styles.contView}>
               <TouchableOpacity
@@ -375,7 +395,7 @@ export default function VincularPrincipal() {
             Vincular una cuenta de redes sociales te permitira iniciar sesion
             sin el telefono. No usaremos nada sin tu consentimiento
           </Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={openModal}>
             <Text style={{ color: "#6BB8FF" }}>
               Presiona para ver mas informacion sobre las vinculaciones de
               cuentas
