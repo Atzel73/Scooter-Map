@@ -278,7 +278,8 @@ export default function Configuration({ route }) {
                   <View style={styles.contView}>
                     <TouchableOpacity
                       style={styles.button}
-                      onPress={() => promptAsync()}
+                      onPress={() => navigation.navigate("VincularPrincipal")}
+                      //onPress={() => promptAsync()}
                     >
                       <MaterialIcons
                         name="security"

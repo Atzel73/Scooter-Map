@@ -26,6 +26,7 @@ import ViajesScreen from "../Principal/client/ViajesPantallas/ViajesScreen";
 import UserEnter from "./UserOptions";
 import AcercaScreens from "../Principal/client/AcercaDe/AcercaScreens";
 import EliminadaScreen from "../../components/CuentaEliminada/EliminadaScreen";
+import VincularPrincipal from "../Principal/client/UserLinks/VincularPrincipal/VincularPrincipal";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -115,6 +116,17 @@ function UserConfig() {
         component={EliminadaScreen}
         options={{
           headerShown: false,
+          headerStyle: {
+            backgroundColor: "#6BB8FF",
+          },
+          headerTintColor: "#6BB8FF",
+        }}
+      />
+      <Stack.Screen
+        name="VincularPrincipal"
+        component={VincularPrincipal}
+        options={{
+          headerShown: true,
           headerStyle: {
             backgroundColor: "#6BB8FF",
           },
