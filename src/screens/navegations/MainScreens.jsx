@@ -27,6 +27,7 @@ import UserEnter from "./UserOptions";
 import AcercaScreens from "../Principal/client/AcercaDe/AcercaScreens";
 import EliminadaScreen from "../../components/CuentaEliminada/EliminadaScreen";
 import VincularPrincipal from "../Principal/client/UserLinks/VincularPrincipal/VincularPrincipal";
+import VincularSecundaria from "../Principal/client/UserLinks/VincularSecundaria/VincularSecundaria";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -125,6 +126,17 @@ function UserConfig() {
       <Stack.Screen
         name="VincularPrincipal"
         component={VincularPrincipal}
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: "#6BB8FF",
+          },
+          headerTintColor: "#6BB8FF",
+        }}
+      />
+      <Stack.Screen
+        name="VincularSecundaria"
+        component={VincularSecundaria}
         options={{
           headerShown: true,
           headerStyle: {

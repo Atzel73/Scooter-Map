@@ -311,7 +311,7 @@ export default function VincularPrincipal() {
         <View>
           <View style={{ alignItems: "flex-start", marginTop: "30%" }}>
             <Text>Llaves de acceso</Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("VincularSecundaria")}>
               <Text style={{ color: "#6BB8FF" }}>
                 Configuracion de llave de acceso
               </Text>
