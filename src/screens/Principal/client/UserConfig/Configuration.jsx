@@ -11,6 +11,7 @@ import {
   Dimensions,
   Image,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 import { FontAwesome6, MaterialIcons, Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -22,53 +23,21 @@ import {
 } from "@react-navigation/drawer";
 
 import { db } from "../../../../db/conection";
-import { getAuth, signOut } from "firebase/auth";
+import {
+  getAuth,
+  signOut,
+  linkWithPopup,
+  GoogleAuthProvider,
+  linkWithCredential,
+  signInWithCredential,
+  updateProfile,
+  updateEmail,
+} from "firebase/auth";
 import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import CustomImage from "../../../../components/Image/Image";
 import CustomAwesome from "../../../../components/AwesomeAlert";
-const Drawer = createDrawerNavigator();
+import * as Google from "expo-auth-session/providers/google";
 const { width, height } = Dimensions.get("window");
-
-function DrawerScreen(props) {
-  const [isLogged, setIsLogged] = useState(false);
-  const navigation = useNavigation();
-
-  return (
-    <DrawerContentScrollView {...props}>
-      <DrawerItemList {...props} />
-      <DrawerItem
-        label="Help"
-        onPress={() => Linking.openURL("https://mywebsite.com/help")}
-      />
-      {!isLogged && (
-        <>
-          <View style={styles.contView}>
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>En espera 1</Text>
-              <FontAwesome6
-                name="hospital-user"
-                size={24}
-                color="black"
-                style={styles.Icon}
-              />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.contView}>
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>En espera 2</Text>
-              <FontAwesome6
-                name="hospital-user"
-                size={24}
-                color="black"
-                style={styles.Icon}
-              />
-            </TouchableOpacity>
-          </View>
-        </>
-      )}
-    </DrawerContentScrollView>
-  );
-}
 
 export default function Configuration({ route }) {
   const userName = route.params.user.name;
@@ -79,7 +48,129 @@ export default function Configuration({ route }) {
   const [showAlert, setShowAlert] = useState(false);
   const [alertTitle, setAlertTitle] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    selectAccount: true,
+    clientId:
+      "857598140703-mhi55jmtd7blc2je2innkmil8607lqmt.apps.googleusercontent.com",
+    iosClientId:
+      "857598140703-jgmo8bar5psptnnqhb5uv4lc1skas1hl.apps.googleusercontent.com",
+    androidClientId:
+      "857598140703-cjer1r18grdqhrsln0g1fkcu6tjitntc.apps.googleusercontent.com",
+  });
 
+  const [user, setUser] = useState(null);
+  const [errorSign, setErrorSign] = useState(false);
+  useEffect(() => {
+    if (response?.type === "success") {
+      const { authentication } = response;
+      const { accessToken } = authentication;
+
+      fetchUserInfo(accessToken);
+
+      const credentials = GoogleAuthProvider.credential(
+        response.params.id_token
+      );
+      linkUserWithGoogle(credentials);
+    }
+  }, [response]);
+
+  async function fetchUserInfo(accessToken) {
+    console.log("Fetching user info...");
+    const res = await fetch("https://www.googleapis.com/userinfo/v2/me", {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    const userInfo = await res.json();
+    setUser(userInfo);
+    console.log("User: ", userInfo);
+    // Aquí puedes agregar el registro con Google si es necesario
+    // registerWithGoogle(userInfo);
+  }
+
+  async function linkUserWithGoogle(credentials) {
+    const user = auth.currentUser;
+
+    if (!user) {
+      console.log("No user is currently logged in.");
+      return;
+    }
+
+    try {
+      // Vincula la cuenta actual con la cuenta de Google
+      const linkedUser = await linkWithCredential(user, credentials);
+      console.log("User successfully linked:", linkedUser);
+
+      // Actualiza el correo electrónico y la foto de perfil del usuario con los datos de la cuenta de Google
+      const googleUser = linkedUser.user;
+
+      // Actualiza el correo del usuario actual al correo de Google
+      if (user.email !== googleUser.email) {
+        await updateEmail(user, googleUser.email);
+        console.log("Email updated to Google email:", googleUser.email);
+      }
+
+      // Actualiza la foto de perfil
+      await updateProfile(user, {
+        photoURL: googleUser.photoURL,
+      });
+      console.log(
+        "Profile photo updated to Google profile picture:",
+        user.photoURL
+      );
+    } catch (error) {
+      if (error.code === "auth/credential-already-in-use") {
+        console.log(
+          "La cuenta de Google ya está en uso. Iniciando sesión con la cuenta existente..."
+        );
+        Alert.alert("Error. Ya existe esa cuenta de Google.");
+
+        // Si ya existe la cuenta, puedes actualizar los datos si es necesario.
+        const existingUser = await signInWithCredential(auth, credentials);
+        console.log("Iniciado sesión con el usuario existente:", existingUser);
+
+        // Actualiza el correo del usuario existente
+        if (existingUser.user.email !== user.email) {
+          await updateEmail(user, existingUser.user.email);
+          console.log(
+            "Email updated to Google email:",
+            existingUser.user.email
+          );
+        }
+
+        // Actualiza la foto de perfil del usuario existente
+        await updateProfile(existingUser.user, {
+          photoURL: existingUser.user.photoURL,
+        });
+        console.log(
+          "Profile photo updated to Google profile picture:",
+          existingUser.user.photoURL
+        );
+      } else {
+        console.error("Error linking accounts:", error);
+        setErrorSign(true);
+      }
+    }
+  }
+
+  const provider = new GoogleAuthProvider();
+
+  function reLinkingUser() {
+    linkWithPopup(auth.currentUser, provider)
+      .then((result) => {
+        // Accounts successfully linked.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const user = result.user;
+        console.log("User: ", user);
+      })
+      .catch((error) => {
+        console.log("Error: ");
+      });
+  }
+  if (errorSign) {
+    alert("Error. Ya existe esa cuenta de Google. ");
+  }
   useEffect(() => {
     async function getUser() {
       const userRef = doc(db, "users", auth.currentUser.uid);
@@ -108,9 +199,9 @@ export default function Configuration({ route }) {
         console.log(error);
       });
   };
-  function userInfo(){
+  function userInfo() {
     const user = auth.currentUser;
-    if(!user !==null){
+    if (!user !== null) {
       console.log("User: ", user.providerData);
     }
   }
@@ -185,7 +276,10 @@ export default function Configuration({ route }) {
                     </TouchableOpacity>
                   </View>
                   <View style={styles.contView}>
-                    <TouchableOpacity style={styles.button}>
+                    <TouchableOpacity
+                      style={styles.button}
+                      onPress={() => promptAsync()}
+                    >
                       <MaterialIcons
                         name="security"
                         size={24}
