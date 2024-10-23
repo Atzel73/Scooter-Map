@@ -22,7 +22,7 @@ export default function CustomAwesomeError({
       onConfirmPressed={() => {
         setShowAlert(false);
       }}
-      contentStyle={{ backgroundColor: "#ffe5e5" }}
+      //contentStyle={{ backgroundColor: "#ffe5e5" }}
       titleStyle={{ color: "red", fontWeight: "bold" }}
       messageStyle={{ color: "#333" }}
     />

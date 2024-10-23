@@ -14,7 +14,8 @@ import { useNavigation } from "@react-navigation/native";
 import CustomInput from "../../../../../components/TextInput/textInput";
 import Funcionalidades from "../../../../../functions/funcionalidades/functionsUser";
 import styles from "./styles";
-
+import CustomAwesome from "../../../../../components/AwesomeAlert";
+import CustomAwesomeError from "../../../../../components/AwesomeAlertError";
 export default function NameScreen({ route }) {
   //console.log("Datos entrantes: ", route.params.data);
   const navigation = useNavigation();
@@ -22,7 +23,18 @@ export default function NameScreen({ route }) {
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [userData, setUserData] = useState({ name: "", last_name: "" });
-
+  const [showAlert, setShowAlert] = useState(false);
+  const [awesomeData, setAwesomeData] = useState({ title: "", message: "" });
+  const [errorData, setErrorData] = useState({ title: "", message: "" });
+  const [showErrorAlert, setShowErrorAlert] = useState(false);
+  const handleError = (title, message) => {
+    setShowErrorAlert(true); // Estado para mostrar error
+    setErrorData({ title, message }); // Pasar los datos del error
+  };
+  const handleAwesome = (title, message) => {
+    setShowAlert(true);
+    setAwesomeData({ title, message });
+  };
   const handleNameChange = (text) => {
     setUserData((prevUserData) => ({
       ...prevUserData,
@@ -39,14 +51,14 @@ export default function NameScreen({ route }) {
 
   const handlerRegisterPhone = () => {
     if (!userData.name || !userData.last_name) {
-      alert("Por favor, no deje campos vacios");
+      handleError("Error", "Por favor, no deje campos vacios");
       return;
     }
     if (userData.name || userData.last_name) {
       navigation.navigate("Email", {
         data: {
           userData,
-          route
+          route,
         },
       });
     }
@@ -76,6 +88,14 @@ export default function NameScreen({ route }) {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
+      {showErrorAlert && (
+        <CustomAwesomeError
+          title={errorData.title}
+          message={errorData.message}
+          setShowAlert={setShowErrorAlert}
+          showAlert={showErrorAlert}
+        />
+      )}
       <View>
         <Text>Agrega tu nombre</Text>
       </View>

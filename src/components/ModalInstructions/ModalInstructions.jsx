@@ -1,5 +1,12 @@
 import React from "react";
-import { Modal, View, Text, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
+import {
+  Modal,
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+} from "react-native";
 
 const InstructionsModal = ({ modalVisible, openModal, closeModal }) => {
   return (
@@ -21,40 +28,76 @@ const InstructionsModal = ({ modalVisible, openModal, closeModal }) => {
             <Text style={styles.modalTitle}>Instrucciones</Text>
             <ScrollView>
               <Text style={styles.modalText}>
-                <Text style={styles.boldText}>Si has iniciado sesión con Google:</Text>
+                <Text style={styles.boldText}>
+                  Si has iniciado sesión con Google:
+                </Text>
               </Text>
               <Text style={styles.listItem}>
-                - No es necesario que ingreses tu correo electrónico manualmente, ya que la cuenta de Google automáticamente lo proporciona.
+                - No es necesario que ingreses tu correo electrónico
+                manualmente, ya que la cuenta de Google automáticamente lo
+                proporciona.
               </Text>
               <Text style={styles.listItem}>
-                - Al usar Google para iniciar sesión, tus datos como el nombre y la foto de perfil serán sincronizados con los de tu cuenta de Google.
+                - Al usar Google para iniciar sesión, tus datos como el nombre y
+                la foto de perfil serán sincronizados con los de tu cuenta de
+                Google.
               </Text>
 
               <Text style={styles.modalText}>
-                <Text style={styles.boldText}>Si creaste primero una cuenta con Google:</Text>
+                <Text style={styles.boldText}>
+                  Si creaste primero una cuenta con Google:
+                </Text>
               </Text>
               <Text style={styles.listItem}>
-                - Si intentas vincular esta cuenta con otra que creaste manualmente (usando correo electrónico y contraseña), no será posible vincularlas. Solo puedes tener una cuenta vinculada por correo electrónico.
+                - Si intentas vincular esta cuenta con otra que creaste
+                manualmente (usando correo electrónico y contraseña), no será
+                posible vincularlas. Solo puedes tener una cuenta vinculada por
+                correo electrónico.
               </Text>
 
               <Text style={styles.modalText}>
-                <Text style={styles.boldText}>Si creaste una cuenta manualmente (con correo y contraseña) primero:</Text>
+                <Text style={styles.boldText}>
+                  Si creaste una cuenta manualmente (con correo y contraseña)
+                  primero:
+                </Text>
               </Text>
               <Text style={styles.listItem}>
-                - Puedes vincular tu cuenta manual con tu cuenta de Google para facilitar el inicio de sesión en el futuro.
+                - Puedes vincular tu cuenta manual con tu cuenta de Google para
+                facilitar el inicio de sesión en el futuro.
               </Text>
               <Text style={styles.listItem}>
-                - Una vez vinculadas, podrás iniciar sesión con cualquiera de los métodos (Google o correo/contraseña), y ambas estarán sincronizadas.
+                - Una vez vinculadas, podrás iniciar sesión con cualquiera de
+                los métodos (Google o correo/contraseña), y ambas estarán
+                sincronizadas.
               </Text>
 
               <Text style={styles.modalText}>
-                <Text style={styles.boldText}>Advertencia sobre la vinculación de cuentas:</Text>
+                <Text style={styles.boldText}>
+                  Advertencia sobre la vinculación de cuentas:
+                </Text>
               </Text>
               <Text style={styles.listItem}>
-                - Una cuenta de correo electrónico solo puede estar vinculada a un único usuario. Si ya existe una cuenta asociada a ese correo, no podrás crear una nueva o vincular otra a ese correo.
+                - Una cuenta de correo electrónico solo puede estar vinculada a
+                un único usuario. Si ya existe una cuenta asociada a ese correo,
+                no podrás crear una nueva o vincular otra a ese correo.
               </Text>
               <Text style={styles.listItem}>
-                - Si ya has vinculado tu cuenta de Google, no podrás vincular una cuenta normal con el mismo correo.
+                - Si ya has vinculado tu cuenta de Google, no podrás vincular
+                una cuenta normal con el mismo correo.
+              </Text>
+
+              {/* Nueva regla sobre eliminación de cuentas */}
+              <Text style={styles.modalText}>
+                <Text style={styles.boldText}>Eliminar tu cuenta:</Text>
+              </Text>
+              <Text style={styles.listItem}>
+                - Si has vinculado tu cuenta con Google, Facebook o Apple,
+                podrás eliminar tu cuenta en cualquier momento.
+              </Text>
+              <Text style={styles.listItem}>
+                - Sin embargo, si tu cuenta fue creada inicialmente usando
+                Google, Facebook o Apple, no podrás eliminarla directamente.
+                Deberás contactar con soporte para realizar este proceso.
               </Text>
             </ScrollView>
 

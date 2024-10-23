@@ -26,8 +26,9 @@ import LoginWithApple from "../../../functions/funcionalidades/LoginWithApple/Lo
 import LoginWithFacebook from "../../../functions/funcionalidades/LoginWithFacebook/LoginWithFacebook";
 import LoginWithPhone from "../../../functions/funcionalidades/LoginWithPhone/LoginWithphone";
 import LoginWithGuest from "../../../functions/funcionalidades/LoginWithGuest";
-
+import InstructionsModal from "../../../components/ModalInstructions";
 const { width, height } = Dimensions.get("window");
+import CustomAwesomeError from "../../../components/AwesomeAlertError";
 
 export default function RegisterPhoneMain() {
   // const auth = getAuth();
@@ -37,7 +38,26 @@ export default function RegisterPhoneMain() {
   const [error, setError] = useState(false);
   const [confirm, setConfirm] = useState(null);
   const recaptchaVerifierRef = useRef(null);
+  const [showAlert, setShowAlert] = useState(false);
+  const [awesomeData, setAwesomeData] = useState({ title: "", message: "" });
+  const [errorData, setErrorData] = useState({ title: "", message: "" });
+  const [showErrorAlert, setShowErrorAlert] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const openModal = () => {
+    setModalVisible(true);
+  };
 
+  const closeModal = () => {
+    setModalVisible(false);
+  };
+  const handleError = (title, message) => {
+    setShowErrorAlert(true); // Estado para mostrar error
+    setErrorData({ title, message }); // Pasar los datos del error
+  };
+  const handleAwesome = (title, message) => {
+    setShowAlert(true);
+    setAwesomeData({ title, message });
+  };
   function validarPassword(input) {
     var p = input,
       errors = [];
@@ -51,7 +71,7 @@ export default function RegisterPhoneMain() {
     }
 
     if (errors.length > 0) {
-      alert(errors.join("n"));
+      handleError(errors.join(""));
       return false;
     }
 
@@ -77,7 +97,7 @@ export default function RegisterPhoneMain() {
     console.log("Phone: ", userData);
 
     if (!userData.password || !userData.password) {
-      alert("Por favor, no deje campos vacios");
+      handleError("Error", "Por favor, no deje campos vacios");
       return;
     }
     if (!validarPassword(userData.password)) {
@@ -103,7 +123,7 @@ export default function RegisterPhoneMain() {
     return (
       <View style={{ alignItems: "center", marginTop: "50%" }}>
         <TouchableOpacity onPress={() => setError(false)}>
-          <Text>Ha habido un error</Text>
+          <Text>Ha habido un error. Presiona para ocultar. </Text>
         </TouchableOpacity>
       </View>
     );
@@ -126,6 +146,14 @@ export default function RegisterPhoneMain() {
       >
         <ScrollView contentContainerStyle={styles.scrollContainer}>
           <View style={{ marginTop: "10%" }}>
+            {showErrorAlert && (
+              <CustomAwesomeError
+                title={errorData.title}
+                message={errorData.message}
+                setShowAlert={setShowErrorAlert}
+                showAlert={showErrorAlert}
+              />
+            )}
             <View style={styles.contView}>
               <Text style={styles.label}>Ingresa tu numero de telefono</Text>
               <View style={styles.passwordContainer}>
@@ -192,6 +220,19 @@ export default function RegisterPhoneMain() {
               margin: 10,
             }}
           >
+            {modalVisible && (
+              <InstructionsModal
+                modalVisible={modalVisible}
+                openModal={openModal}
+                closeModal={closeModal}
+              />
+            )}
+            <TouchableOpacity onPress={openModal}>
+              <Text style={{ color: "#6BB8FF" }}>
+                Presiona para ver mas informacion sobre las vinculaciones de
+                cuentas
+              </Text>
+            </TouchableOpacity>
             <LoginWithGuest
               onPress={() => navigation.navigate("Principal")}
               title="Continua como invitado"

@@ -87,7 +87,7 @@ export default function LoginWithGoogle({ onPress }) {
               created_at: new Date(),
               users_blocked: [],
               blocked_by: [],
-              verifyByFacebook: true,
+              verifyByGoogle: true,
             });
           }
         });

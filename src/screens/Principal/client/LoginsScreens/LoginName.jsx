@@ -15,13 +15,25 @@ import { db } from "../../../../db/conection";
 import { doc, onSnapshot, updateDoc } from "firebase/firestore";
 import CustomInput from "../../../../components/TextInput/textInput";
 import Funcionalidades from "../../../../functions/funcionalidades/functionsUser";
+import CustomAwesomeError from "../../../../components/AwesomeAlertError";
 export default function LoginName() {
   const navigation = useNavigation();
   const auth = getAuth();
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [userData, setUserData] = useState({ name: "", last_name: "" });
-
+  const [showAlert, setShowAlert] = useState(false);
+  const [awesomeData, setAwesomeData] = useState({ title: "", message: "" });
+  const [errorData, setErrorData] = useState({ title: "", message: "" });
+  const [showErrorAlert, setShowErrorAlert] = useState(false);
+  const handleError = (title, message) => {
+    setShowErrorAlert(true); // Estado para mostrar error
+    setErrorData({ title, message }); // Pasar los datos del error
+  };
+  const handleAwesome = (title, message) => {
+    setShowAlert(true);
+    setAwesomeData({ title, message });
+  };
   const handleNameChange = (text) => {
     setUserData((prevUserData) => ({
       ...prevUserData,
@@ -38,7 +50,7 @@ export default function LoginName() {
   async function updateUser() {
     console.log("Dentro de login name", userData);
     if (!userData.name || !userData.last_name) {
-      alert("Por favor, no deje campos vacios");
+      handleError("Error", "Por favor, no deje campos vacios");
       return;
     }
     try {
@@ -89,6 +101,14 @@ export default function LoginName() {
       <View>
         <Text>Agrega tu nombre</Text>
       </View>
+      {showErrorAlert && (
+        <CustomAwesomeError
+          title={errorData.title}
+          message={errorData.message}
+          setShowAlert={setShowErrorAlert}
+          showAlert={showErrorAlert}
+        />
+      )}
       <View style={[styles.contView, { marginHorizontal: 10 }]}>
         <View style={styles.passwordContainer}>
           <CustomInput

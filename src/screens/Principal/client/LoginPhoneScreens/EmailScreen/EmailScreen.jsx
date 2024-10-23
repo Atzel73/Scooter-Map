@@ -34,6 +34,7 @@ import {
   writeBatch,
 } from "firebase/firestore";
 import { db } from "../../../../../db/conection";
+import CustomAwesomeError from "../../../../../components/AwesomeAlertError";
 export default function EmailScreen({ route }) {
   //console.log("Datos entrantes: ", route.params.data.route.params.data);
   const auth = getAuth();
@@ -45,6 +46,18 @@ export default function EmailScreen({ route }) {
   const [userData, setUserData] = useState({ email: "" });
   const empty =
     "https://firebasestorage.googleapis.com/v0/b/floydapp-a1e0d.appspot.com/o/Admin%2FuserEmpty.jpg?alt=media&token=19d2651d-f14e-4ae7-8629-489f512bfc78";
+  const [showAlert, setShowAlert] = useState(false);
+  const [awesomeData, setAwesomeData] = useState({ title: "", message: "" });
+  const [errorData, setErrorData] = useState({ title: "", message: "" });
+  const [showErrorAlert, setShowErrorAlert] = useState(false);
+  const handleError = (title, message) => {
+    setShowErrorAlert(true); // Estado para mostrar error
+    setErrorData({ title, message }); // Pasar los datos del error
+  };
+  const handleAwesome = (title, message) => {
+    setShowAlert(true);
+    setAwesomeData({ title, message });
+  };
   const handleEmailChange = (text) => {
     setUserData((prevUserData) => ({
       ...prevUserData,
@@ -55,7 +68,7 @@ export default function EmailScreen({ route }) {
     try {
       isLoading(true);
       if (!userData.email) {
-        alert("Por favor, introduzca el correo electronico");
+        handleError("Error", "Por favor, introduzca el correo electronico");
         isLoading(false);
         return;
       }
@@ -74,7 +87,7 @@ export default function EmailScreen({ route }) {
             created_at: new Date(),
             verifyByEmail: true,
           });
-          Alert.alert("¡Bienvenido!");
+          //Alert.alert("¡Bienvenido!");
           //navigation.navigate("Principal");
           isLoading(false);
           navigation.navigate("Principal");
@@ -83,11 +96,11 @@ export default function EmailScreen({ route }) {
         .catch((error) => {
           isLoading(false);
           if (error.code === "auth/invalid-email") {
-            Alert.alert("El email es inválido");
+            handleError("Error", "El email es inválido");
           } else if (error.code === "auth/missing-email") {
-            Alert.alert("El email es obligatorio");
+            handleError("Error", "El email es obligatorio");
           } else if (error.code === "auth/email-already-in-use") {
-            Alert.alert("El email ya está en uso");
+            handleError("Error", "El email ya está en uso");
           }
         });
     } catch (error) {
@@ -120,6 +133,14 @@ export default function EmailScreen({ route }) {
       <View>
         <Text>Ingresar correo electronico</Text>
       </View>
+      {showErrorAlert && (
+        <CustomAwesomeError
+          title={errorData.title}
+          message={errorData.message}
+          setShowAlert={setShowErrorAlert}
+          showAlert={showErrorAlert}
+        />
+      )}
       <View style={[styles.contView, { marginHorizontal: 10 }]}>
         <View style={styles.passwordContainer}>
           <CustomInput

@@ -14,13 +14,25 @@ import { useNavigation } from "@react-navigation/native";
 import { db } from "../../../../db/conection";
 import { doc, onSnapshot, updateDoc } from "firebase/firestore";
 import CustomInput from "../../../../components/TextInput/textInput";
+import CustomAwesomeError from "../../../../components/AwesomeAlertError";
 export default function LoginPhone() {
   const navigation = useNavigation();
   const auth = getAuth();
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [userData, setUserData] = useState({ phone: "" });
-
+  const [showAlert, setShowAlert] = useState(false);
+  const [awesomeData, setAwesomeData] = useState({ title: "", message: "" });
+  const [errorData, setErrorData] = useState({ title: "", message: "" });
+  const [showErrorAlert, setShowErrorAlert] = useState(false);
+  const handleError = (title, message) => {
+    setShowErrorAlert(true); // Estado para mostrar error
+    setErrorData({ title, message }); // Pasar los datos del error
+  };
+  const handleAwesome = (title, message) => {
+    setShowAlert(true);
+    setAwesomeData({ title, message });
+  };
   const handlePhoneChange = (text) => {
     setUserData((prevUserData) => ({
       ...prevUserData,
@@ -30,7 +42,7 @@ export default function LoginPhone() {
 
   async function updateUser() {
     if (!userData.phone) {
-      Alert.alert("Por favor, no deje campos vacios");
+      handleError("Error", "Por favor, no deje campos vacios");
       return;
     }
     try {
@@ -76,6 +88,14 @@ export default function LoginPhone() {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
+      {showErrorAlert && (
+        <CustomAwesomeError
+          title={errorData.title}
+          message={errorData.message}
+          setShowAlert={setShowErrorAlert}
+          showAlert={showErrorAlert}
+        />
+      )}
       <View>
         <Text>Ingresa tu numero de telefono</Text>
       </View>

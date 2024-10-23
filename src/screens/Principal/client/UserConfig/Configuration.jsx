@@ -114,6 +114,7 @@ export default function Configuration({ route }) {
       // Actualiza la foto de perfil
       await updateProfile(user, {
         photoURL: googleUser.photoURL,
+        verifyByGoogle: true,
       });
       console.log(
         "Profile photo updated to Google profile picture:",
@@ -316,22 +317,32 @@ export default function Configuration({ route }) {
                     <Text style={styles.buttonTextLogout}>Cerrar sesión</Text>
                   </TouchableOpacity>
                 </View>
-                <View style={styles.contView}>
-                  <TouchableOpacity
-                    style={styles.buttonLogout}
-                    onPress={() => navigation.navigate("Borrar Cuenta")}
-                  >
-                    <MaterialIcons
-                      name="delete-forever"
-                      size={34}
-                      color="black"
-                      style={styles.IconLogout}
-                    />
-                    <Text style={styles.buttonTextLogout}>
-                      Eliminar cuenta{" "}
+                {userData?.verifyByGoogle === true ||
+                userData?.verifyByFacebook ? (
+                  <View style={{ margin: 10 }}>
+                    <Text style={{ color: "#6BB8FF" }}>
+                      Para los usuarios que se registraron usando Google,
+                      Facebook, Apple no sera posible eliminar su cuenta.
                     </Text>
-                  </TouchableOpacity>
-                </View>
+                  </View>
+                ) : (
+                  <View style={styles.contView}>
+                    <TouchableOpacity
+                      style={styles.buttonLogout}
+                      onPress={() => navigation.navigate("Borrar Cuenta")}
+                    >
+                      <MaterialIcons
+                        name="delete-forever"
+                        size={34}
+                        color="black"
+                        style={styles.IconLogout}
+                      />
+                      <Text style={styles.buttonTextLogout}>
+                        Eliminar cuenta{" "}
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
               </View>
               {/* <View style={styles.viewBottom} /> */}
             </View>

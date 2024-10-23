@@ -210,8 +210,10 @@ export default function Funcionalidades({
           setDoc(doc(db, "users", userCredentials.user.uid), {
             // Aquí se agregan los campos del usuario a guardar en Firestore
             // Ejemplo:
+            password: user.password,
             email: user.email,
             createdAt: new Date(),
+            verifyByEmail: true,
             // Otros datos que quieras almacenar
           });
 
@@ -338,27 +340,38 @@ export default function Funcionalidades({
       signInWithEmailAndPassword(auth, userSign.email, userSign.password)
         .then(async () => {
           console.log("Usuario iniciado. ");
-          Alert.alert("¡Bienvenido!");
+          //Alert.alert("¡Bienvenido!");
+          handleAwesome("¡Bienvenido!", "Registro exitoso");
           navigation.navigate("Principal");
         })
         .catch((error) => {
           console.log(error.message);
           if (error.code === "auth/weak-password") {
-            Alert.alert("La contraseña debe contener al menos 6 caracteres.");
+            handleError(
+              "Error",
+              "La contraseña debe contener al menos 6 caracteres."
+            );
           } else if (error.code === "auth/invalid-email") {
-            Alert.alert("El email es inválido");
+            handleError("Error", "El email es inválido");
           } else if (error.code === "auth/missing-email") {
-            Alert.alert("El email es obligatorio");
+            handleError("Error", "El email es obligatorio");
           } else if (error.code === "auth/missing-password") {
-            Alert.alert("Por favor, ingrese la contraseña");
+            handleError("Error", "Por favor, ingrese la contraseña");
           } else if (error.code === "auth/user-not-found") {
-            Alert.alert("Usuario no encontrado");
+            handleError("Error", "Usuario no encontrado");
           } else if (error.code === "auth/invalid-credential") {
-            Alert.alert("El email o contraseña son incorrectos");
+            handleError("Error", "El email o contraseña son incorrectos");
           } else if (error.code === "auth/invalid-email-verified") {
-            Alert.alert("El email es incorrecto");
-          } else if (error.message === "auth/invalid-credential)") {
-            Alert.alert("Contraseña incorrecta");
+            handleError("Error", "El email es incorrecto");
+          } else if (error.message === "auth/invalid-credential") {
+            handleError("Error", "Contraseña incorrecta");
+          } else if (error.message === "auth/wrong-password") {
+            handleError("Error", "Contraseña incorrecta");
+          } else if (error.message === "auth/too-many-requests") {
+            handleError(
+              "Error",
+              "El acceso a esta cuenta ha sido desactivado temporalmente. Puedes recuperar el acceso restaurando tu contraseña"
+            );
           }
         });
     } catch (error) {
@@ -366,33 +379,37 @@ export default function Funcionalidades({
     }
   }
   async function DeleteUser() {
-    console.log("Dentro");
+    console.log("Dentro", userDelete);
     const email = auth.currentUser.email;
     const password = userDelete.password;
     const credentials = EmailAuthProvider.credential(email, password);
 
-    try {
-      setButtonDisabled(true);
-      isLoading(true);
-      await reauthenticateWithCredential(auth.currentUser, credentials);
+    // try {
+    //   setButtonDisabled(true);
+    //   isLoading(true);
+    //   await reauthenticateWithCredential(auth.currentUser, credentials);
 
-      const batch = writeBatch(db);
-      const userRef = doc(db, "users", auth.currentUser.uid);
-      batch.delete(userRef);
+    //   const batch = writeBatch(db);
+    //   const userRef = doc(db, "users", auth.currentUser.uid);
+    //   batch.delete(userRef);
 
-      await deleteUser(auth.currentUser);
+    //   await deleteUser(auth.currentUser);
 
-      await batch.commit();
+    //   await batch.commit();
 
-      await signOut(auth);
-      Alert.alert("Cuenta borrada");
-      navigation.navigate("Eliminar");
-      console.log("Cuenta borrada con éxito");
-    } catch (error) {
-      console.log("Error al borrar la cuenta: ", error);
-    } finally {
-      setButtonDisabled(false);
-    }
+    //   await signOut(auth);
+    //   handleError("Error", "Cuenta borrada");
+    //   navigation.navigate("Eliminar");
+    //   console.log("Cuenta borrada con éxito");
+    // } catch (error) {
+    //   console.log("Error al borrar la cuenta: ", error);
+    //   handleAwesome(
+    //     "¡Lo sentimos!",
+    //     "Para aquellos que crearon su cuenta con facebook, apple o Google, no es posible eliminar su cuenta. "
+    //   );
+    // } finally {
+    //   setButtonDisabled(false);
+    // }
   }
   async function UpdateEmail() {
     const user = auth.currentUser;

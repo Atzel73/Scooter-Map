@@ -27,13 +27,20 @@ import LoginWithFacebook from "../../../functions/funcionalidades/LoginWithFaceb
 import LoginWithPhone from "../../../functions/funcionalidades/LoginWithPhone/LoginWithphone";
 import LoginWithGuest from "../../../functions/funcionalidades/LoginWithGuest";
 const { width, height } = Dimensions.get("window");
-
+import InstructionsModal from "../../../components/ModalInstructions";
 export default function Register() {
   const auth = getAuth();
   const navigation = useNavigation();
   const [userData, setUserData] = useState({});
   const [showPassword, setShowPassword] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const openModal = () => {
+    setModalVisible(true);
+  };
 
+  const closeModal = () => {
+    setModalVisible(false);
+  };
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -125,6 +132,19 @@ export default function Register() {
               margin: 10,
             }}
           >
+            {modalVisible && (
+              <InstructionsModal
+                modalVisible={modalVisible}
+                openModal={openModal}
+                closeModal={closeModal}
+              />
+            )}
+            <TouchableOpacity onPress={openModal}>
+              <Text style={{ color: "#6BB8FF" }}>
+                Presiona para ver mas informacion sobre las vinculaciones de
+                cuentas
+              </Text>
+            </TouchableOpacity>
             <LoginWithGuest
               onPress={() => navigation.goBack()}
               title="Continua como invitado"

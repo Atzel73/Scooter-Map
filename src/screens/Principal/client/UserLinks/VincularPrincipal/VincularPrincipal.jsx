@@ -129,6 +129,7 @@ export default function VincularPrincipal() {
       // Actualiza la foto de perfil
       await updateProfile(user, {
         photoURL: googleUser.photoURL,
+        verifyByGoogle: true,
       });
       console.log(
         "Profile photo updated to Google profile picture:",
@@ -310,12 +311,12 @@ export default function VincularPrincipal() {
         )}
         <View>
           <View style={{ alignItems: "flex-start", marginTop: "30%" }}>
-            <Text>Llaves de acceso</Text>
-            <TouchableOpacity onPress={() => navigation.navigate("VincularSecundaria")}>
+            {/*<Text>Llaves de acceso</Text>
+             <TouchableOpacity onPress={() => navigation.navigate("VincularSecundaria")}>
               <Text style={{ color: "#6BB8FF" }}>
                 Configuracion de llave de acceso
               </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <View style={{ marginVertical: 15 }}>
               <Text>
                 Las llaves de acceso, o llaves de seguridad son una forma muy

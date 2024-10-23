@@ -91,7 +91,7 @@ export default function LoginWithFacebook() {
                 status: "Activo",
                 created_at: new Date(),
                 scooter_id: "",
-                verify_by_facebook: true,
+                verifyByFacebook: true,
               });
               console.log("Usuario creado");
               navigation.navigate("Principal");
