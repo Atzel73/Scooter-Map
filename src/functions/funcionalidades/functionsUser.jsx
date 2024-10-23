@@ -384,32 +384,32 @@ export default function Funcionalidades({
     const password = userDelete.password;
     const credentials = EmailAuthProvider.credential(email, password);
 
-    // try {
-    //   setButtonDisabled(true);
-    //   isLoading(true);
-    //   await reauthenticateWithCredential(auth.currentUser, credentials);
+    try {
+      setButtonDisabled(true);
+      isLoading(true);
+      await reauthenticateWithCredential(auth.currentUser, credentials);
 
-    //   const batch = writeBatch(db);
-    //   const userRef = doc(db, "users", auth.currentUser.uid);
-    //   batch.delete(userRef);
+      const batch = writeBatch(db);
+      const userRef = doc(db, "users", auth.currentUser.uid);
+      batch.delete(userRef);
 
-    //   await deleteUser(auth.currentUser);
+      await deleteUser(auth.currentUser);
 
-    //   await batch.commit();
+      await batch.commit();
 
-    //   await signOut(auth);
-    //   handleError("Error", "Cuenta borrada");
-    //   navigation.navigate("Eliminar");
-    //   console.log("Cuenta borrada con éxito");
-    // } catch (error) {
-    //   console.log("Error al borrar la cuenta: ", error);
-    //   handleAwesome(
-    //     "¡Lo sentimos!",
-    //     "Para aquellos que crearon su cuenta con facebook, apple o Google, no es posible eliminar su cuenta. "
-    //   );
-    // } finally {
-    //   setButtonDisabled(false);
-    // }
+      await signOut(auth);
+      handleError("Error", "Cuenta borrada");
+      navigation.navigate("Eliminar");
+      console.log("Cuenta borrada con éxito");
+    } catch (error) {
+      console.log("Error al borrar la cuenta: ", error);
+      handleAwesome(
+        "¡Lo sentimos!",
+        "Para aquellos que crearon su cuenta con facebook, apple o Google, no es posible eliminar su cuenta. "
+      );
+    } finally {
+      setButtonDisabled(false);
+    }
   }
   async function UpdateEmail() {
     const user = auth.currentUser;
