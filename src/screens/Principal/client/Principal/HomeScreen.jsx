@@ -121,7 +121,7 @@ export default function HomeScreen() {
 
   const toggleModal = () => setModalVisible(!modalVisible);
   const toggleModalLogin = () => setModalVisibleLogin(!modalVisibleLogin);
-
+ 
   return (
     <View style={styles.container}>
       {modalVisibleLogin && (
